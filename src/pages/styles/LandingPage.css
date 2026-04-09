@@ -1,0 +1,20 @@
+.ellipse {
+    position: fixed;
+    bottom: -150px;
+    right: -150px;
+    width: 135vw;
+    height: 52vh;
+    border-top-left-radius: 79%;
+    z-index: -1;
+}
+
+.ellipse::before {
+    content: "";
+    position: absolute;
+    background-color: #ffffff;
+    bottom: -150px;
+    right: -150px;
+    width: 173vw;
+    height: 65vh;
+    border-top-left-radius: 64%;
+}
