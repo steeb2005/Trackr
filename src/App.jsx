@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Signin from './pages/signin';
 import Dashboard from './pages/dashboard';
+import Calendar from './pages/calendar';
+import TaskList from './pages/tasklist';
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/calendar" element={<Calendar/>} />
+        <Route path="/tasklist" element={<TaskList/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Sidebar from '../components/sidebar';
 import Burger from './styles/assets/burger-menu-svgrepo-com.svg';
-
+import Check from './styles/assets/circle-check-filled-svgrepo-com.svg';
+import Target from './styles/assets/target-svgrepo-com.svg';
+import Header from '../components/header';
+import { useSidebar } from '../hooks/useSidebar';
 
 const quotes = [
         "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
@@ -18,7 +22,10 @@ const quotes = [
         "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law. - Galatians 5:22-23",
         "Come to me, all who labor and are heavy laden, and I will give you rest. Take my yoke upon you, and learn from me, for I am gentle and lowly in heart, and you will find rest for your souls. - Matthew 11:28-29",
         "And we know that in all things God works for the good of those who love him, who have been called according to his purpose. - Romans 8:28"
-    ];
+];
+
+
+
 
 
 function useQuote(){
@@ -33,6 +40,9 @@ function useQuote(){
 }
 
 
+
+
+
 function useFormattedDate(){
     const today = new Date();
     const formattedDate = today.toLocaleDateString('en-US', {
@@ -41,13 +51,18 @@ function useFormattedDate(){
         day: 'numeric',
         year: 'numeric'
     });
-
     return formattedDate;
 }
 
 
-function useProgressBar(initialProgress = 0){
-    
+
+
+
+
+
+
+
+function useProgressBar(initialProgress = 0){    
     const [progress, setProgress] = useState(0);
 
     const increaseProgress = () => {
@@ -69,30 +84,27 @@ function useProgressBar(initialProgress = 0){
 
 
 
-function navBar(){
-
-}
 
 
 
-function App(){
-    
+
+
+function Dashboard(){    
     const quote = useQuote();
     const formattedDate = useFormattedDate();
 
-    const {progress, increaseProgress, resetProgress} = useProgressBar(0); // For progress bar (test)
-    
+    const {progress, increaseProgress, resetProgress} = useProgressBar(0);
+    const { isOpen, openSidebar, closeSidebar } = useSidebar(); // This gets the hooks from useSidebar.jsx
 
     return (
         <div className="bg-white h-screen m-0 p-0">
 
-            <div className="t-0 r-0 header bg-[#097204] fixed w-full py-4 px-5 border-b-4 border-amber-500">
-                <div className="burger-icon flex "> 
-                    
-                    <img src={Burger} alt="" className='w-10 h-10'/>
-                    
-                </div>
-            </div>
+            {/* Sidebar Section */}
+            <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 
+
+            {/* Header Section*/}
+            <Header onOpenSidebar={openSidebar}/> 
+            
 
             <div className="main-container px-8 pt-25 grid grid-cols-1 gap-4">
 
@@ -135,9 +147,18 @@ function App(){
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>
                     
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <div className='w-full h-10 bg-green-500'></div>
-                    <div className='w-full h-10 bg-red-600'></div>
+                <div className='grid grid-cols-2 gap-6 mb-10'>
+                    <div className='w-full bg-green-300 p-5 rounded-xl'>
+                        <img src={Check} alt="Check_img" className='h-10 w-10'/>
+                        <h1 className='mt-2 mb-2 font-bold text-5xl'>0</h1>
+                        <p>Completed</p>
+                    </div>
+
+                    <div className='w-full bg-red-300 p-5 rounded-xl'>
+                        <img src={Target} alt="Target_img" className='h-10 w-10 '/>
+                        <h1 className='mt-2 mb-2 font-bold text-5xl'>0</h1>
+                        <p>Remaining</p>
+                    </div>
                 </div>
 
 
@@ -152,4 +173,4 @@ function App(){
     )
 }
 
-export default App
+export default Dashboard

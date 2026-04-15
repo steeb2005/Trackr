@@ -1,7 +1,7 @@
 import './styles/LandingPage.css';
 import { Link } from 'react-router-dom'; // Links to 'SignIn.jsx'
 
-function App() {
+function LandingPage() {
 
 
   return (
@@ -35,4 +35,4 @@ function App() {
   )
 }
 
-export default App
+export default LandingPage
