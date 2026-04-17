@@ -3,15 +3,6 @@ import Header from "../components/header";
 import { useSidebar } from "../hooks/useSidebar";
 import { useState } from "react";
 
-/*
-function ShowAllTasks(){
-    return(
-        <div>
-            
-        </div>
-    )
-}
-*/
 
 function TaskEntry({ title, description, dueDate, onDelete }){    
     return(
@@ -20,7 +11,9 @@ function TaskEntry({ title, description, dueDate, onDelete }){
             <div className={`bg-gray-100 w-full ml-3 rounded-xl`}>
                 
                 <div class="flex items-start gap-3 mb-1 p-6">
-                    <div class="mt-1 bg-gray-700 text-white rounded px-1 text-xs">✓</div>
+                    <div class="mt-1 items-center bg-gray-700 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs">
+                        <input type="checkbox" />
+                    </div>
                     <div>
                         <h2 class="text-3xl font-bold text-gray-900 ">{title}</h2>
                         <p class="text-gray-600 text-xl">{description}</p>
@@ -42,6 +35,12 @@ function TaskEntry({ title, description, dueDate, onDelete }){
 }
 
 
+/* TODOS:
+    - Work on the checkbox and make function to set the status to complete
+    - Add the different colors for tasks
+    - create the create task page
+    - integrate the tasks to calendar
+*/
 
 function TaskList(){
     
