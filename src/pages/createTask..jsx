@@ -5,7 +5,6 @@ import { useState } from "react";
 import Back from './styles/assets/back-svgrepo-com.svg';
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import Low from './styles/assets/lowflag-svgrepo-com.svg';
 import Medium from './styles/assets/mediumflag-svgrepo-com.svg';
 import High from './styles/assets/highflag-svgrepo-com.svg';

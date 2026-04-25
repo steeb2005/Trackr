@@ -91,11 +91,40 @@ function useProgressBar(initialProgress = 0){
 
 
 function Dashboard(){    
+
     const quote = useQuote();
     const formattedDate = useFormattedDate();
 
+
     const {progress, increaseProgress, resetProgress} = useProgressBar(0);
     const { isOpen, openSidebar, closeSidebar } = useSidebar(); // This gets the hooks from useSidebar.jsx
+
+    
+    const [tasks, setTasks] = useState(() => {
+        const savedTasks = localStorage.getItem('tasks');
+        return savedTasks ? JSON.parse(savedTasks) : [];
+    });
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // gets todays tasks
+    const todayTasks = tasks.filter(task => {
+        const dueDate = new Date(task.dueDate);
+        dueDate.setHours(0, 0, 0, 0);
+        return dueDate.getTime() === today.getTime() && !tasks.isComplete;
+    });
+
+
+    const completedToday = tasks.filter(task => {
+        if(!task.isComplete) return false;
+        const completedDate = new Date(task.createdAt);
+        completedDate.setHours(0, 0, 0, 0);
+        return completedDate.getTime() === today.getTime();
+    });
+
+
+    const totalCompleted = tasks.filter(task => task.isComplete).length;
 
     return (
         <div className="bg-white h-screen m-0 p-0">
