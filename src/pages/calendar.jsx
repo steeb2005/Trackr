@@ -6,6 +6,7 @@ import Next from './styles/assets/next-svgrepo-com.svg'
 import Prev from './styles/assets/previous-svgrepo-com.svg'
 import DateComponent from '../components/dateComp';
 import { isOverdue } from '../hooks/checkOverdue'; // checks if task is overdue
+import { useTasks } from '../context/TaskContext';
 
 function Calendar(){
 
@@ -27,15 +28,10 @@ function Calendar(){
     const [showDateModal, setShowDateModal] = useState(false);
     const [selectedDayData, setSelectedDayData] = useState({year:null, month:null, day:null});
     
+
+    const { tasks, toggleTaskComplete } = useTasks();
+
     
-    const [tasks, setTasks] = useState([]);
-
-    // used to get the tasks stored in localstorage 
-    useEffect(() => {
-        const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-        setTasks(savedTasks);
-    }, []);
-
     // Function to get the tasks for that day
     const getTasksDate = (day, month, year) => {
         const dateStr = `${month + 1}/${day}/${year}`;
@@ -110,14 +106,6 @@ function Calendar(){
         return notes[datekey] || [];
     }
 
-    // Toggles the isComplete 
-    const toggleTaskComplete = (taskId) => {
-        setTasks(prevTask =>
-            prevTask.map(task => 
-                task.id === taskId ? {...task, isComplete: !task.isComplete} : task
-            )
-        );
-    };
 
     // Color for category
     const categoryColor = {

@@ -51,10 +51,11 @@ function TaskEntryCalendar({ task, onToggleComplete}){
 function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = [], tasks = [], toggleTaskComplete} ) {
     
     // When tasks are changed, it will save in localstorage
+    /*
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
-
+    */
 
     const [notes, setNotes] = useState(existingNotes);
     const [newNote, setNewNote] = useState('');

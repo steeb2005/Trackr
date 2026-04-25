@@ -5,7 +5,7 @@ import Check from './styles/assets/circle-check-filled-svgrepo-com.svg';
 import Target from './styles/assets/target-svgrepo-com.svg';
 import Header from '../components/header';
 import { useSidebar } from '../hooks/useSidebar';
-
+import { useTasks } from '../context/TaskContext';
 
 const quotes = [
         "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
@@ -99,12 +99,9 @@ function Dashboard(){
     const {progress, increaseProgress, resetProgress} = useProgressBar(0);
     const { isOpen, openSidebar, closeSidebar } = useSidebar(); // This gets the hooks from useSidebar.jsx
 
-    
-    const [tasks, setTasks] = useState(() => {
-        const savedTasks = localStorage.getItem('tasks');
-        return savedTasks ? JSON.parse(savedTasks) : [];
-    });
 
+    const { tasks } = useTasks();
+    
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -134,10 +131,10 @@ function Dashboard(){
 
 
     // gets todays tasks
-    const todayTasks = tasks.filter(task => {
+    const todayTasksTotal= tasks.filter(task => {
         const dueDate = new Date(task.dueDate);
         dueDate.setHours(0, 0, 0, 0);
-        return dueDate.getTime() === today.getTime() && !task.isComplete;
+        return dueDate.getTime() === today.getTime();
     });
 
     // gets the tasks completed today
@@ -184,13 +181,12 @@ function Dashboard(){
                 <div className="card p-4 rounded-lg border-[#097204] border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Todays Tasks</h2>
-                        <p>{completedToday.length}/{todayTasks.length}</p>
-                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'> {`${progress}`}/10</div>
+                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'>{completedToday.length}/{todayTasksTotal.length}</div>
                     </div>
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${progress}%`} }></div>
+                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
                     </div>
                     <p className="text-gray-600 mt-2">No tasks for today</p>
                 </div>
@@ -199,13 +195,12 @@ function Dashboard(){
                 <div className="card p-4 rounded-lg border-[#097204] border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Overall Progress</h2>
-                        <p>{completedThisMonth.length}/{tasksThisMonth.length}</p>
-                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'> {`${progress}`}/10 </div>
+                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'>{completedThisMonth.length}/{tasksThisMonth.length}</div>
                     </div>
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${progress}%`} }></div>
+                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${(completedThisMonth.length / tasksThisMonth.length) * 100}%`} }></div>
                     </div>
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>

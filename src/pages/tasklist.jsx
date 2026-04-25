@@ -6,6 +6,7 @@ import AddIcon from './styles/assets/add-svgrepo-com.svg';
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { isOverdue } from '../hooks/checkOverdue';
+import { useTasks } from "../context/TaskContext";
 
 function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggleComplete, category, priority, isOverdue }){    
     const categoryColor = {
@@ -58,18 +59,7 @@ function TaskList(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [ isClicked, setIsClicked ] = useState('All');
 
-
-    {/* Stores the task in memory (erases if refreshed) */}
-    const [ tasks , setTasks ] = useState(() => {
-        const savedTasks = localStorage.getItem('tasks');
-        return savedTasks ? JSON.parse(savedTasks) : [];  // if there is tasks stored it will display, but if none it will be an empty list.
-    });
-
-    // Save tasks to localStorage whenever tasks change
-    useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }, [tasks]);
-
+    const { tasks, deleteTask, toggleTaskComplete } = useTasks();
     {/* Handles the event click for the filter */}
     const handleClick = (buttonId) =>{
         setIsClicked(buttonId);
@@ -92,21 +82,6 @@ function TaskList(){
     const totalTaskCount = tasks.length;
     const totalActiveTaskCount = tasks.filter(task => !task.isComplete).length;
     const totalCompletedTaskCount = tasks.filter(task => task.isComplete).length;
-
-    {/* Deletes the task entry */}
-    const deleteTask = (id) => {
-        setTasks(tasks.filter(task => task.id !== id));
-    } 
-
-    {/* Sets the task 'true' or 'false' by toggling the checkbox */}
-    const toggleTaskComplete = (taskId) => {
-        setTasks(tasks.map(task => 
-            task.id === taskId ? {...task, 
-                isComplete: !task.isComplete,
-                completedAt: !task.isComplete ? new Date().toISOString() : null} : task // sets the completedAt to the currentdate 
-        ))
-    }
-
 
 
     {/* Filters the tasks */}

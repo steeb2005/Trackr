@@ -9,7 +9,7 @@ import Low from './styles/assets/lowflag-svgrepo-com.svg';
 import Medium from './styles/assets/mediumflag-svgrepo-com.svg';
 import High from './styles/assets/highflag-svgrepo-com.svg';
 import Critical from './styles/assets/criticalflag-svgrepo-com.svg';
-
+import { useTasks } from "../context/TaskContext";
 
 /* 
 TODOS:
@@ -36,13 +36,7 @@ function CreateTask(){
     const [errors, setErrors] = useState({});
     const navigate = useNavigate(); // inorder to use the navigate function
 
-    const formatDate = (date) => {
-        return date.toLocaleDateString('en-US', {
-            year:'numeric',
-            month:'numeric',
-            day:'numeric'
-        });
-    }
+    const { addTask } = useTasks(); // Gets the function from TaskContext
 
     /* Sample entry for task 
     const taskEntryDescription = {
@@ -54,6 +48,14 @@ function CreateTask(){
     }
     */
    
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', {
+            year:'numeric',
+            month:'numeric',
+            day:'numeric'
+        });
+    }
+
     const validateForm = () => {
         const newErrors = {};
 
@@ -89,15 +91,14 @@ function CreateTask(){
 
         // TEST {console.log(newTask.title, newTask.description, newTask.dueDate, newTask.createdAt, newTask.category)}
 
-        /* Temporary to see if tasks is stored
+        /* Test to see if tasks is stored
         setTasks([...tasks, newTask]);
         console.log(newTask); 
         */
 
-        // Store the task in local storage
-        const existingTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-        localStorage.setItem('tasks', JSON.stringify([...existingTasks, newTask]));
-        
+        addTask(newTask);
+
+
        navigate('/tasklist');
     };
 
