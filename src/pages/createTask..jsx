@@ -4,18 +4,21 @@ import { useSidebar } from "../hooks/useSidebar";
 import { useState } from "react";
 import Back from './styles/assets/back-svgrepo-com.svg';
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker from 'react-datepicker';
+import {DatePicker} from 'react-datepicker';
 import Low from './styles/assets/lowflag-svgrepo-com.svg';
 import Medium from './styles/assets/mediumflag-svgrepo-com.svg';
 import High from './styles/assets/highflag-svgrepo-com.svg';
 import Critical from './styles/assets/criticalflag-svgrepo-com.svg';
 import { useTasks } from "../context/TaskContext";
 
+
+
+
+
 /* 
 TODOS:
-    - Hoverable and can select the categories
-    - title, description, duedate, category can be saved and used for taskEnty
-    - decide whether to stick with the current setPriority or remake it
+
+    - use aria comp
 */
 
 function CreateTask(){
@@ -163,6 +166,8 @@ function CreateTask(){
                 <div className="due-date w-full mt-5">
                     <h1 className="text-2xl font-bold text-gray-900 mb-3">Due Date</h1>
                     <div className="text-2xl px-8 py-5 items-center w-full border border-gray-600 rounded-4xl bg-gray-100">
+                        
+                        
                         <DatePicker
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
