@@ -6,6 +6,7 @@ import Target from './styles/assets/target-svgrepo-com.svg';
 import Header from '../components/header';
 import { useSidebar } from '../hooks/useSidebar';
 
+
 const quotes = [
         "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
         "I can do all things through him who strengthens me. - Philippians 4:13",

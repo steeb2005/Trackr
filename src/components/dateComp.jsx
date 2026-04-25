@@ -1,5 +1,7 @@
 import Close from '../pages/styles/assets/close-svgrepo-com.svg'
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { isOverdue } from '../hooks/checkOverdue';
 
 function NoteEntry({note, onDelete}){
     return(
@@ -14,7 +16,45 @@ function NoteEntry({note, onDelete}){
     )
 }
 
-function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = []} ) {
+
+function TaskEntryCalendar({ task, onToggleComplete}){    
+    const categoryColor = {
+        work: 'bg-[#4C6DF0]',
+        personal: 'bg-[#5FF652]',
+        health: 'bg-[#AC2DCC]',
+        study: 'bg-[#FF8710]',
+        finance: 'bg-[#FF02A2]',
+        events: 'bg-[#FFE204]' 
+    }    
+
+    return(
+        <div key={task.id} className={`flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
+            <div className={`bg-gray-50 w-full ml-2 rounded-lg`}>
+                <div className="flex items-start gap-3 p-6">
+                    <div className="mt-1 items-center bg-gray-600  flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs">
+                        <input 
+                            type="checkbox"
+                            checked={task.isComplete}
+                            onChange={() => onToggleComplete(task.id)}
+                        />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
+                        <p className="text-gray-600 text-xl">{task.description}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = [], tasks = [], toggleTaskComplete} ) {
+    
+    // When tasks are changed, it will save in localstorage
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
+
 
     const [notes, setNotes] = useState(existingNotes);
     const [newNote, setNewNote] = useState('');
@@ -34,6 +74,15 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
         onSaveNote(updatedNotes); // Save to parent component
     };
 
+    const categoryColor = {
+        work: 'bg-[#4C6DF0]',
+        personal: 'bg-[#5FF652]',
+        health: 'bg-[#AC2DCC]',
+        study: 'bg-[#FF8710]',
+        finance: 'bg-[#FF02A2]',
+        events: 'bg-[#FFE204]' 
+    }    
+
     return (
         <div class="border border-gray-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-4/5 max-w-md z-50">
             <div className='overflow-y-auto max-h-150'> {/* Scrolls the page */}
@@ -44,12 +93,25 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
                         <img src={Close} alt="close_svg" className='h-7'/>
                     </div>
                 </div>
-            
-                <div className=''></div>  {/* Div to put the Tasks */}
                 
+                
+                {/* Div to put the Tasks */}
+                {tasks.length > 0 && (
+                    <div className='task-section'>
+
+                        <h1 className='text-xl text-gray-500 font-semibold mt-3 mb-3'>Tasks</h1>                    
+                        {tasks.map(task => (
+                           <TaskEntryCalendar key={task.id} task={task} onToggleComplete={toggleTaskComplete}/> 
+                        ))}  
+
+                    </div>
+                    
+                    
+                )}
+                
+
                 <h1 className='text-xl text-gray-500 font-semibold mt-3 mb-3'>Notes</h1>
-
-
+                
                 <div className='note-section'> {/* Container to put the notes */}
                     {notes.length === 0 ? (
                         ''
@@ -83,3 +145,23 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
 
 export default DateComponent
 
+
+/*
+{tasks.map(task => (
+    <div key={task.id} className={`flex min-h-20 ${task.isComplete ? 'bg-gray-600' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
+        <div className={`bg-gray-50 w-full ml-2 rounded-lg`}>
+            <div className="flex items-start gap-3 p-6">
+                <div className="mt-1 items-center bg-gray-600  flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs">
+                    <input 
+                        type="checkbox"
+                    />
+                </div>
+                <div>
+                    <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
+                    <p className="text-gray-600 text-xl">{task.description}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+))}
+*/

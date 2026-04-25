@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/header'
 import Sidebar from '../components/sidebar'
 import { useSidebar } from '../hooks/useSidebar'
 import Next from './styles/assets/next-svgrepo-com.svg'
 import Prev from './styles/assets/previous-svgrepo-com.svg'
 import DateComponent from '../components/dateComp';
+import { isOverdue } from '../hooks/checkOverdue'; // checks if task is overdue
 
 function Calendar(){
 
@@ -27,7 +28,19 @@ function Calendar(){
     const [selectedDayData, setSelectedDayData] = useState({year:null, month:null, day:null});
     
     
+    const [tasks, setTasks] = useState([]);
 
+    // used to get the tasks stored in localstorage 
+    useEffect(() => {
+        const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        setTasks(savedTasks);
+    }, []);
+
+    // Function to get the tasks for that day
+    const getTasksDate = (day, month, year) => {
+        const dateStr = `${month + 1}/${day}/${year}`;
+        return tasks.filter(task => task.dueDate === dateStr);
+    }
 
     const getDaysinMonth = (year, month) => {
         return new Date(year, month + 1, 0).getDate();
@@ -75,13 +88,15 @@ function Calendar(){
     }
 
     const handleDateClick = (day) => {
-        const datekey = `${year}-${month + 1}-${day}`;
+        //const datekey = `${year}-${month + 1}-${day}`;
+        const datekey = `${month + 1}/${day}/${year}`;
+
         setSelectedDate(datekey);
         setSelectedDayData({year: year, month:monthNames[month], day: day});
         setShowDateModal(true);  // Shows the modal when the date cell is clicked 
     }
              
-    // Notes Component part
+    // Notes Component part 
     const [notes, setNotes] = useState({});
 
     const handleSaveNotes = (dateKey, noteList) => {
@@ -95,10 +110,35 @@ function Calendar(){
         return notes[datekey] || [];
     }
 
+    // Toggles the isComplete 
+    const toggleTaskComplete = (taskId) => {
+        setTasks(prevTask =>
+            prevTask.map(task => 
+                task.id === taskId ? {...task, isComplete: !task.isComplete} : task
+            )
+        );
+    };
+
+    // Color for category
+    const categoryColor = {
+        work: 'bg-[#4C6DF0]',
+        personal: 'bg-[#5FF652]',
+        health: 'bg-[#AC2DCC]',
+        study: 'bg-[#FF8710]',
+        finance: 'bg-[#FF02A2]',
+        events: 'bg-[#FFE204]' 
+    }    
+
     
 
-    return(
 
+
+
+
+
+    // Display starts here
+
+    return(
         <div className="bg-white h-screen m-0 p-0">
         
             {/* Sidebar Section */}
@@ -120,7 +160,10 @@ function Calendar(){
                     day = {selectedDayData.day}
                     onClose={handleCloseModal}
                     onSaveNote={(noteList) => handleSaveNotes(selectedDate, noteList)}
-                    existingNotes={getNotesForDate(selectedDate)}/>)}
+                    existingNotes={getNotesForDate(selectedDate)}
+                    tasks={getTasksDate(selectedDayData.day, month, selectedDayData.year)}
+                    toggleTaskComplete={toggleTaskComplete}/>)
+                }
 
                 {/* Sub Calendar Container */}
                 <div className="flex-1 w-full md:w-auto px-5">
@@ -163,10 +206,11 @@ function Calendar(){
                     {/* Days Calendar */}
                     <div className='grid grid-cols-7 grid-rows-6 items-center gap-4 mt-5 justify-items-center'>
                         {calendarDays.map((day, index) => {
-                            const isCurrentDay = isToday(year, month, day); {/* Gives the current date cell a green ring */}                            
-                            const datekey = day ? `${year}-${month + 1}-${day}` : null;
+                            const isCurrentDay = isToday(year, month, day); {/* Gives the current date cell a green ring */}        
+                            const datekey = day ? `${month + 1}/${day}/${year}` : null;
                             const hasNotes = datekey && notes[datekey]?.length > 0;
-
+                            const dayTasks = day ? getTasksDate(day, month, year) : [];
+                            const hasTasks = dayTasks.length > 0;
                             return (
                                 <div
                                     onClick={() => day && handleDateClick(day)}
@@ -181,6 +225,16 @@ function Calendar(){
                                     <span className='mb-2'>
                                         {day}
                                     </span>
+                                    
+                                    {/* Displays the tasks for date */}
+
+                                    {hasTasks && (
+                                        <div className='flex gap-1'>
+                                            {dayTasks.slice(0, 3).map((task) => (
+                                                <div key={task.id} className={`w-2 h-2 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ?  'bg-[#FF3538]' : categoryColor[task.category]} rounded-full`}></div>
+                                            ))}
+                                        </div>
+                                    )}
                                     
                                 </div>
                             )
