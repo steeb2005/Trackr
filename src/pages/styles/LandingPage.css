@@ -5,7 +5,6 @@
     width: 135vw;
     height: 52vh;
     border-top-left-radius: 79%;
-    z-index: -1;
 }
 
 .ellipse::before {
