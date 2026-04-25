@@ -83,8 +83,8 @@ function CreateTask(){
             priority: priority,
             category: selectedCategory,
             isComplete: false,
-            createdAt: new Date().toISOString()
-            
+            createdAt: new Date().toISOString(),
+            completedAt: null
         }
 
         // TEST {console.log(newTask.title, newTask.description, newTask.dueDate, newTask.createdAt, newTask.category)}

@@ -108,24 +108,55 @@ function Dashboard(){
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+
+    // check if the date is in the current month
+    const isInCurrentMonth = (dateString) => {
+        const date = new Date(dateString);
+        return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+    };
+
+    // gets the total tasks this month
+    const tasksThisMonth = tasks.filter(task => isInCurrentMonth(task.dueDate));
+
+    // gets the total ACTIVE tasks this month
+    const activeThisMonth = tasks.filter(task =>
+        isInCurrentMonth(task.dueDate) && !task.isComplete
+    );
+
+    
+    const completedThisMonth = tasks.filter(task => {
+        if (!task.isComplete) return false;
+        const completionDate = task.completedAt || task.createdAt;
+        return isInCurrentMonth(completionDate);
+    });
+
+
     // gets todays tasks
     const todayTasks = tasks.filter(task => {
         const dueDate = new Date(task.dueDate);
         dueDate.setHours(0, 0, 0, 0);
-        return dueDate.getTime() === today.getTime() && !tasks.isComplete;
+        return dueDate.getTime() === today.getTime() && !task.isComplete;
     });
 
-
+    // gets the tasks completed today
     const completedToday = tasks.filter(task => {
-        if(!task.isComplete) return false;
+        if(!task.isComplete || !task.completedAt) return false;
         const completedDate = new Date(task.createdAt);
         completedDate.setHours(0, 0, 0, 0);
         return completedDate.getTime() === today.getTime();
     });
 
 
-    const totalCompleted = tasks.filter(task => task.isComplete).length;
 
+    // gets the total completed tasks
+    const totalCompleted = tasks.filter(task => task.isComplete).length;
+    // gets the active tasks total
+    const totalActiveTasks = tasks.filter(task => !task.isComplete).length;
+
+
+    
     return (
         <div className="bg-white h-screen m-0 p-0">
 
@@ -153,7 +184,8 @@ function Dashboard(){
                 <div className="card p-4 rounded-lg border-[#097204] border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Todays Tasks</h2>
-                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'> {`${progress}`}/10 </div>
+                        <p>{completedToday.length}/{todayTasks.length}</p>
+                        <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'> {`${progress}`}/10</div>
                     </div>
 
                     {/* Progress Bar Portion*/}
@@ -167,6 +199,7 @@ function Dashboard(){
                 <div className="card p-4 rounded-lg border-[#097204] border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Overall Progress</h2>
+                        <p>{completedThisMonth.length}/{tasksThisMonth.length}</p>
                         <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'> {`${progress}`}/10 </div>
                     </div>
 
@@ -180,13 +213,13 @@ function Dashboard(){
                 <div className='grid grid-cols-2 gap-6 mb-10'>
                     <div className='w-full bg-green-300 p-5 rounded-xl'>
                         <img src={Check} alt="Check_img" className='h-10 w-10'/>
-                        <h1 className='mt-2 mb-2 font-bold text-5xl'>0</h1>
+                        <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalCompleted}</h1>
                         <p>Completed</p>
                     </div>
 
                     <div className='w-full bg-red-300 p-5 rounded-xl'>
                         <img src={Target} alt="Target_img" className='h-10 w-10 '/>
-                        <h1 className='mt-2 mb-2 font-bold text-5xl'>0</h1>
+                        <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalActiveTasks}</h1>
                         <p>Remaining</p>
                     </div>
                 </div>

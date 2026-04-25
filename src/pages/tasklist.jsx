@@ -101,9 +101,12 @@ function TaskList(){
     {/* Sets the task 'true' or 'false' by toggling the checkbox */}
     const toggleTaskComplete = (taskId) => {
         setTasks(tasks.map(task => 
-            task.id === taskId ? {...task, isComplete: !task.isComplete} : task
+            task.id === taskId ? {...task, 
+                isComplete: !task.isComplete,
+                completedAt: !task.isComplete ? new Date().toISOString() : null} : task // sets the completedAt to the currentdate 
         ))
     }
+
 
 
     {/* Filters the tasks */}
