@@ -26,6 +26,10 @@ const quotes = [
 ];
 
 
+/*
+TODO:
+    - Finish the diary
+*/
 
 
 
@@ -145,6 +149,12 @@ function Dashboard(){
         return completedDate.getTime() === today.getTime();
     });
 
+    const todayActiveTasks = tasks.filter(task => {
+        const dueDate = new Date(task.dueDate);
+        dueDate.setHours(0, 0, 0, 0);
+        return dueDate.getTime() === today.getTime() && !task.isComplete;
+    });
+
 
 
     // gets the total completed tasks
@@ -152,6 +162,15 @@ function Dashboard(){
     // gets the active tasks total
     const totalActiveTasks = tasks.filter(task => !task.isComplete).length;
 
+
+    const categoryColor = {
+        work: 'bg-[#4C6DF0]',
+        personal: 'bg-[#5FF652]',
+        health: 'bg-[#AC2DCC]',
+        study: 'bg-[#FF8710]',
+        finance: 'bg-[#FF02A2]',
+        events: 'bg-[#FFE204]' 
+    }
 
     
     return (
@@ -188,7 +207,27 @@ function Dashboard(){
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
                         <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
                     </div>
+
+                    <div className='tasks-displayer'>
+                        {todayActiveTasks.length > 0 ?(
+                           <ul className='mt-5'>
+                                {todayActiveTasks.map(task => (
+                                    <li className='flex gap-10 items-center px-5'>
+                                        <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full`}></div>
+                                        <p className='font-semibold text-xl'>{task.title}</p>
+                                    </li>    
+                                ))}
+                            </ul> 
+                        ) : <p className="text-gray-600 mt-2">No tasks for today</p>}
+                        
+                    </div>
+                    {/*
                     <p className="text-gray-600 mt-2">No tasks for today</p>
+                    <li className='flex gap-10 items-center  px-5'>
+                        <div className='w-2 h-2 bg-red-600 rounded-full'></div>
+                        <p className='font-semibold'>Nigger</p>
+                    </li>
+                    */}
                 </div>
 
 

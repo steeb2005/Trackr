@@ -14,13 +14,6 @@ import { useTasks } from "../context/TaskContext";
 
 
 
-
-/* 
-TODOS:
-
-    - use aria comp
-*/
-
 function CreateTask(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [startDate, setStartDate] = useState(new Date());
