@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Signin from './pages/signin';
@@ -7,7 +6,6 @@ import Calendar from './pages/calendar';
 import TaskList from './pages/tasklist';
 import CreateTask from './pages/createTask.';
 import Diary from './pages/diary';
-import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   return (
