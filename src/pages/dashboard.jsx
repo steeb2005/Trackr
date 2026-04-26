@@ -10,7 +10,8 @@ import LowPriority from './styles/assets/lowflag-svgrepo-com.svg';
 import MediumPriority from './styles/assets/mediumflag-svgrepo-com.svg';
 import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
 import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
-
+import { isOverdue } from '../hooks/checkOverdue';
+import Alert from './styles/assets/alert-svgrepo-com.svg'
 
 /*
 TODO:
@@ -131,21 +132,34 @@ function Dashboard(){
         return dueDate.getTime() === today.getTime();
     });
 
-    // gets the tasks completed today
+    /*  GETS THE COUNT OF TASKS COMPLETED TODAY. Regardless if they are another date
+
     const completedToday = tasks.filter(task => {
         if(!task.isComplete || !task.completedAt) return false;
-        const completedDate = new Date(task.createdAt);
+        if(isOverdue(task.dueDate)) return false;
+        const completedDate = new Date(task.completedAt);
         completedDate.setHours(0, 0, 0, 0);
         return completedDate.getTime() === today.getTime();
     });
+    */
 
+    // Gets todays active tasks
     const todayActiveTasks = tasks.filter(task => {
         const dueDate = new Date(task.dueDate);
         dueDate.setHours(0, 0, 0, 0);
         return dueDate.getTime() === today.getTime() && !task.isComplete;
     });
 
+    const tasksDueToday = tasks.filter(task => {
+        const dueDate = new Date(task.dueDate);
+        dueDate.setHours(0, 0, 0, 0);
+        return dueDate.getTime() === today.getTime();
+    });
 
+    const completedToday = tasksDueToday.filter(task => task.isComplete); 
+
+
+    const totalOverdueTasks = tasks.filter(task => isOverdue(task.dueDate) && !task.isComplete).length;
 
     // gets the total completed tasks
     const totalCompleted = tasks.filter(task => task.isComplete).length;
@@ -213,7 +227,7 @@ function Dashboard(){
                             <h1 className='text-gray-600 mt-2'>Tasks Today:</h1>
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
-                                    <li className='flex items-center px-5'>
+                                    <li className='flex items-center'>
                                         <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
                                         <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
                                         <p className='font-semibold text-xl'>{task.title}</p>
@@ -240,26 +254,25 @@ function Dashboard(){
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>
                     
-                <div className='grid grid-cols-2 gap-6 mb-10'>
+                <div className='grid grid-cols-2 md:grid-cols-1 gap-6 mb-10'>
                     <div className='w-full bg-green-300 p-5 rounded-xl'>
                         <img src={Check} alt="Check_img" className='h-10 w-10'/>
                         <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalCompleted}</h1>
-                        <p>Completed</p>
+                        <p>Total Completed</p>
                     </div>
 
                     <div className='w-full bg-red-300 p-5 rounded-xl'>
                         <img src={Target} alt="Target_img" className='h-10 w-10 '/>
                         <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalActiveTasks}</h1>
-                        <p>Remaining</p>
+                        <p>Total Remaining</p>
+                    </div>
+
+                    <div className='w-full bg-red-500 p-5 rounded-xl col-span-2 md:col-span-1'>
+                        <img src={Alert} alt="Target_img" className='h-10 w-10 '/>
+                        <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalOverdueTasks}</h1>
+                        <p>Total Overdue</p>
                     </div>
                 </div>
-
-
-                {/* Progress Test
-
-                <button onClick={increaseProgress} className='bg-green-600 hover:cursor-pointer' > click me </button>
-                <button className='bg-green-600 hover:cursor-pointer mt-10' onClick={resetProgress}> reset </button>
-                */}
 
             </div>
         </div>

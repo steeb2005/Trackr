@@ -31,9 +31,6 @@ function Header({ onOpenSidebar }){
                     <span>
                         <Link to="/diary" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Diary</Link>
                     </span>
-                    <span>
-                        <Link to="/create-diary-entry" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Diary List</Link>
-                    </span>
                 </div>
                
             </div>
