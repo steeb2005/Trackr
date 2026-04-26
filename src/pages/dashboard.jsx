@@ -7,6 +7,15 @@ import Header from '../components/header';
 import { useSidebar } from '../hooks/useSidebar';
 import { useTasks } from '../context/TaskContext';
 
+/*
+TODO:
+    - Fix Refresh bug (vercel.json)
+    - Finish Diary Page
+    - Fix DatePick css missing in createTask (on deployed)
+    - Fix dashboard status bar going full green despite no tasks listed
+*/
+
+
 const quotes = [
         "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
         "I can do all things through him who strengthens me. - Philippians 4:13",
