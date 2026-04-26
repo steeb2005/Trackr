@@ -16,8 +16,8 @@ import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
 TODO:
     - Fix DatePick css missing in createTask (on deployed) (Done)
     - Fix dashboard status bar going full green despite no tasks listed (DONE)
-    - Add Edit on TaskEntry
     - Add Notes for TaskEntry
+    - Add Edit on TaskEntry
     - Be able to save notes
     - Finish Diary Page
     - Add Login/SignIn function
@@ -81,29 +81,6 @@ function useFormattedDate(){
 
 
 
-function useProgressBar(initialProgress = 0){    
-    const [progress, setProgress] = useState(0);
-
-    const increaseProgress = () => {
-        if(progress < 100){
-            setProgress(progress + 10);
-        }
-    }
-
-    const resetProgress = () => {
-        setProgress(0);
-    }
-
-    return {
-        progress,
-        increaseProgress,
-        resetProgress
-    };
-}
-
-
-
-
 
 
 
@@ -114,7 +91,6 @@ function Dashboard(){
     const formattedDate = useFormattedDate();
 
 
-    const {progress, increaseProgress, resetProgress} = useProgressBar(0);
     const { isOpen, openSidebar, closeSidebar } = useSidebar(); // This gets the hooks from useSidebar.jsx
 
 

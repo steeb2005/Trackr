@@ -6,7 +6,7 @@ import Calendar from './pages/calendar';
 import TaskList from './pages/tasklist';
 import CreateTask from './pages/createTask.';
 import Diary from './pages/diary';
-import TestPage from './pages/createDiary';
+import CreateDiaryEntry from './pages/createDiary';
 import { TaskProvider } from './context/TaskContext';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
           <Route path="/tasklist" element={<TaskList/>}/>
           <Route path='/createtask' element={<CreateTask/>}/>
           <Route path='/diary' element={<Diary/>}/>
-          <Route path='/diarylist' element={<TestPage/>}/>
+          <Route path='/create-diary-entry' element={<CreateDiaryEntry/>}/>
         </Routes>
       </BrowserRouter>
     </TaskProvider>

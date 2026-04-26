@@ -3,8 +3,10 @@ import Header from "../components/header"
 import Sidebar from "../components/sidebar"
 import { useSidebar } from '../hooks/useSidebar'
 import Book from './styles/assets/book-svgrepo-com.svg'
+import Add from './styles/assets/add-svgrepo-com.svg'
+import { useNavigate } from "react-router-dom";
 
-// TODO: Finish this and make the create diary entry
+
 
 function DiaryEntry(){
 
@@ -22,6 +24,8 @@ function DiaryEntry(){
 
 function Diary(){
 
+    const navigate = useNavigate();
+
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [entries, setEntries] = useState([]);
     
@@ -37,15 +41,18 @@ function Diary(){
 
                 <div className="header-bar flex items-center border-b-3 pb-2 border-gray-400 shadow-xl">
                     <img src={Book} alt="book_svg" className="h-15"/>
-                    <h1 className="text-4xl font-bold ml-2">My Diary</h1>
-                    <button className="hover:cursor-pointer bg-gray-800 hover:bg-gray-800/80 ml-auto px-4 py-3 text-xl font-semibold text-white items-center rounded-xl">Add Entry</button>
+                    <h1 className="text-3xl font-bold ml-2">My Diary</h1>
+                    <button 
+                        className="hover:cursor-pointer flex bg-gray-800 hover:bg-gray-800/80 ml-auto px-4 py-3 text-xl font-semibold text-white items-center rounded-2xl"
+                        onClick={() => navigate('/create-diary-entry')}
+                    >
+                        <img src={Add} alt="add_svg" className="h-5 w-5"/>
+                        Add Entry
+                    </button>
                 </div>
 
-                <div className="content-body mt-5">
+                <div className="content-body mt-5"> 
 
-                    <DiaryEntry/>
-                    <DiaryEntry/>
-                    <DiaryEntry/>
                     <DiaryEntry/>
                     {/*
                     {entries.length === 0 ? (

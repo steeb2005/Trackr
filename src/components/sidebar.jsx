@@ -31,7 +31,7 @@ function Sidebar({isOpen, onClose}){
                             <Link to="/diary">Diary</Link>
                         </span>
                         <span className='dashboard flex items-center gap-3 justify-end'>
-                            <Link to="#">Diary List</Link>
+                            <Link to="/create-diary-entry">Diary List</Link>
                         </span>
                     </nav>
                     

@@ -41,6 +41,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                     <div>
                         <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
                         <p className="text-gray-600 text-xl">{task.description}</p>
+                        <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,17 @@ export function TaskProvider({ children }) {
         return saved ? JSON.parse(saved) : [];
     });
 
+    const [notes, setNotes] = useState(() => {
+        const saved = localStorage.getItem('notes');
+        return saved ? JSON.parse(saved) : {};
+    });
+
+    useEffect(() => {
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }, [notes]);
+
+
+
     // Persist to localStorage whenever tasks change
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -16,14 +27,36 @@ export function TaskProvider({ children }) {
     // Listen for storage changes from other tabs/instances
     useEffect(() => {
         const handleStorageChange = () => {
-            const saved = localStorage.getItem('tasks');
-            if (saved) {
-                setTasks(JSON.parse(saved));
+            const savedTasks = localStorage.getItem('tasks');
+            if (savedTasks) {
+                setTasks(JSON.parse(savedTasks));
+            }
+
+            const savedNotes = localStorage.getItem('notes');
+            if(savedNotes){
+                setNotes(JSON.parse(savedNotes));
             }
         };
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
+
+    const saveNotes = useCallback((datekey, noteList) => {
+        setNotes(prev => ({
+            ...prev, 
+            [datekey]: noteList
+        }));
+    }, []);
+
+    const deleteNote = useCallback((datekey, indexToDelete) => {
+        setNotes(prev => {
+            const notesForDate = prev[datekey] || [];
+            const updated = notesForDate.filter((_, i) => i !== indexToDelete);
+            return { ...prev, [datekey]: updated};
+        });
+    }, []);
+
+
 
     const addTask = useCallback((task) => {
         setTasks(prev => [...prev, { ...task, id: Date.now() }]);
@@ -49,13 +82,17 @@ export function TaskProvider({ children }) {
         ));
     }, []);
 
+
     const value = {
         tasks,
         setTasks,
         addTask,
         deleteTask,
         toggleTaskComplete,
-        updateTask
+        updateTask,
+        notes,
+        saveNotes,
+        deleteNote
     };
 
     return (

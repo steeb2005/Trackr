@@ -31,6 +31,7 @@ function Calendar(){
 
     const { tasks, toggleTaskComplete } = useTasks();
 
+    const { notes, saveNotes } = useTasks();
     
     // Function to get the tasks for that day
     const getTasksDate = (day, month, year) => {
@@ -93,6 +94,8 @@ function Calendar(){
     }
              
     // Notes Component part 
+
+    /* TEMPORARY REMOVE
     const [notes, setNotes] = useState({});
 
     const handleSaveNotes = (dateKey, noteList) => {
@@ -105,7 +108,7 @@ function Calendar(){
     const getNotesForDate = (datekey) => {
         return notes[datekey] || [];
     }
-
+    */
 
     // Color for category
     const categoryColor = {
@@ -143,14 +146,15 @@ function Calendar(){
                 {/* Date Component */}
                 {showDateModal && 
                     (<DateComponent 
-                    year = {selectedDayData.year} 
-                    month = {selectedDayData.month}
-                    day = {selectedDayData.day}
-                    onClose={handleCloseModal}
-                    onSaveNote={(noteList) => handleSaveNotes(selectedDate, noteList)}
-                    existingNotes={getNotesForDate(selectedDate)}
-                    tasks={getTasksDate(selectedDayData.day, month, selectedDayData.year)}
-                    toggleTaskComplete={toggleTaskComplete}/>)
+                        year = {selectedDayData.year} 
+                        month = {selectedDayData.month}
+                        day = {selectedDayData.day}
+                        onClose={handleCloseModal}
+                        onSaveNote={(noteList) => saveNotes(selectedDate, noteList)}
+                        existingNotes={notes[selectedDate] || []}
+                        tasks={getTasksDate(selectedDayData.day, month, selectedDayData.year)}
+                        toggleTaskComplete={toggleTaskComplete}
+                    />)
                 }
 
                 {/* Sub Calendar Container */}
