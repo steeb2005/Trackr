@@ -17,10 +17,11 @@ import Alert from './styles/assets/alert-svgrepo-com.svg'
 TODO:
     - Fix DatePick css missing in createTask (on deployed) (Done)
     - Fix dashboard status bar going full green despite no tasks listed (DONE)
-    - Add Notes for TaskEntry
-    - Add Edit on TaskEntry
-    - Be able to save notes
-    - Finish Diary Page
+    - Add Notes for TaskEntry (DONE)
+    - Add Edit on TaskEntry (DONE)
+    - Be able to save notes (DONE)
+    - Finish Diary Page (DONE)
+    
     - Add Login/SignIn function
     - Implement backend for each user
 */

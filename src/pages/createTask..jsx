@@ -150,7 +150,7 @@ function CreateTask(){
                             <img src={Back} alt="back_svg" className="h-10" />
                         </Link>
                     </div>
-                    <h1 className="text-3xl ml-5 font-bold">New Task</h1>
+                    <h1 className="text-3xl ml-5 font-bold">{isEditing ? 'Edit Task': 'New Task'}</h1>
                 </div>
 
                 <div className="title-enter mt-5">

@@ -20,6 +20,18 @@ export function TaskProvider({ children }) {
         return saved ? JSON.parse(saved) : [];
     });
 
+    
+    const [taskNotes, setTaskNotes] = useState(() => {
+        const saved = localStorage.getItem('taskNotes');
+        return saved ? JSON.parse(saved) : {};
+    })
+
+    // For Task Notes
+    useEffect(() => {
+        localStorage.setItem('taskNotes', JSON.stringify(taskNotes));
+    }, [taskNotes]);
+
+
     // For diary entries
     useEffect(() => {
         localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
@@ -39,6 +51,11 @@ export function TaskProvider({ children }) {
     // Listen for storage changes from other tabs/instances
     useEffect(() => {
         const handleStorageChange = () => {
+            const savedTaskNotes = localStorage.getItem('taskNotes');
+            if(savedTaskNotes){
+                setTaskNotes(JSON.parse(savedTaskNotes));  
+            } 
+
             const savedDiary = localStorage.getItem('diaryEntries');
             if(savedDiary){
                 setDiaryEntries(JSON.parse(savedDiary));
@@ -57,6 +74,24 @@ export function TaskProvider({ children }) {
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
+
+
+
+    const saveTaskNotes = useCallback((taskId, noteList) => {
+        setTaskNotes(prev => ({
+            ...prev,
+            [taskId]: noteList
+        }));
+    }, []);
+
+    const deleteTaskNote = useCallback((taskId, indexToDelete) => {
+        setTaskNotes(prev => {
+            const notes = prev[taskId] || [];
+            const updated = notes.filter((_, i) => i !== indexToDelete);
+            return { ...prev, [taskId]: updated };
+        });
+    }, []);
+
 
 
     const addDiaryEntry = useCallback((entry) => {
@@ -125,7 +160,10 @@ export function TaskProvider({ children }) {
         deleteNote,
         diaryEntries,
         addDiaryEntry,
-        deleteDiaryEntry
+        deleteDiaryEntry,
+        taskNotes,
+        saveTaskNotes,
+        deleteTaskNote
     };
 
     return (

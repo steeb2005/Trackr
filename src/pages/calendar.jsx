@@ -130,7 +130,7 @@ function Calendar(){
     // Display starts here
 
     return(
-        <div className="bg-white h-screen m-0 p-0">
+        <div className="bg-white h-screen m-0 p-0 mb-5">
         
             {/* Sidebar Section */}
             <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 

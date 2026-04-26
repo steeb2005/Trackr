@@ -13,8 +13,9 @@ import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
 import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
 import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
 import { useNavigate } from "react-router-dom";
+import TaskNoteModal from "../components/tasknoteModal";
 
-// use navigate
+
 
 function TaskEntry({ 
     title, 
@@ -26,7 +27,8 @@ function TaskEntry({
     category, 
     priority, 
     isOverdue, 
-    onEdit}){    
+    onEdit,
+    onNotesClick}){    
     
    
 
@@ -66,11 +68,11 @@ function TaskEntry({
                         </div>
 
                         {/* Add icons for these */}
-                        <div className={`flex justify-center items-center gap-5 text-xl text-gray-400  mt-5`}>
-                            <span>Notes</span>
+                        <div className={`flex justify-center items-center gap-5 text-xl text-gray-600  mt-5`}>
+                            <span onClick={onNotesClick} className="hover:cursor-pointer">Notes</span>
                             <span onClick={onEdit} className="hover:cursor-pointer" >Edit</span>
-                            <img src={Trash} alt="tash_svg" onClick={onDelete} className="h-8 w-8 hover:cursor-pointer"/>
-                            <img src={priorityFlag[priority]} alt="priorityflag_svg" className="w-8 h-8"/>
+                            <img src={Trash} alt="tash_svg" onClick={onDelete} className="h-7 w-7 hover:cursor-pointer"/>
+                            <img src={priorityFlag[priority]} alt="priorityflag_svg" className="w-7 h-7"/>
                         </div>
                     </div>
                 </div>
@@ -91,10 +93,23 @@ function TaskList(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [ isClicked, setIsClicked ] = useState('All');
 
-    const { tasks, deleteTask, toggleTaskComplete } = useTasks();
+    const { tasks, deleteTask, toggleTaskComplete, saveTaskNotes, taskNotes, deleteTaskNote } = useTasks();
     {/* Handles the event click for the filter */}
     const handleClick = (buttonId) =>{
         setIsClicked(buttonId);
+    }
+
+    const [selectedTaskForNotes, setSelectedTaskForNotes] = useState(null);
+    const [showTaskNoteModal, setShowTaskNoteModal] = useState(false);
+
+    const openTaskNotes = (task) => {
+        setSelectedTaskForNotes(task);
+        setShowTaskNoteModal(true);
+    };
+
+    const closeTaskNotes = () => {
+        setShowTaskNoteModal(false);
+        setSelectedTaskForNotes(null);
     }
 
     /* Test Dummy task creator 
@@ -168,6 +183,18 @@ function TaskList(){
 
                 {/* Tasks display Section */}
                 <div>
+
+                    {/* Display Task Note Modal */}
+                    {showTaskNoteModal && selectedTaskForNotes && (
+                        <TaskNoteModal
+                            task={selectedTaskForNotes}
+                            onClose={closeTaskNotes}
+                            onSaveNote={(notes) => saveTaskNotes(selectedTaskForNotes.id, notes)}
+                            existingNotes={taskNotes[selectedTaskForNotes.id] || []}
+                            onDeleteNote={(index) => deleteTaskNote(selectedTaskForNotes.id, index)}
+                        />
+                    )}
+
                     {tasks.length === 0 ? (
                         <div className="flex justify-center text-center text-black text-xl h-screen">
                             <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
@@ -185,6 +212,7 @@ function TaskList(){
                                 priority={task.priority}
                                 isOverdue={isOverdue(task.dueDate)}
                                 onEdit={() => handleEdit(task)}
+                                onNotesClick={() => openTaskNotes(task)}
                             />
                     )))}
                 </div>

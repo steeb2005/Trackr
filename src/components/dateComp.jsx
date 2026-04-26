@@ -5,13 +5,14 @@ import { isOverdue } from '../hooks/checkOverdue';
 
 function NoteEntry({note, onDelete}){
     return(
-        <div className='note bg-white border border-yellow-300 w-full p-3 mb-5 rounded-xl hover:cursor-pointer'>
-            <span>
-                {note}
-            </span>
-            <div className='flex justify-end'>
-                <img src={Close} onClick={onDelete} alt="close_svg" className='h-5'/>
-            </div>
+        <div className='note flex justify-between bg-white border border-yellow-300 w-full p-3 mb-5 rounded-xl'>
+            <p className='flex-1'>{note}</p>
+            <button 
+                className="text-red-500 ml-2 hover:text-red-700 hover:cursor-pointer"
+                onClick={onDelete}
+            >
+                ✕
+            </button>
         </div>
     )
 }
@@ -131,7 +132,7 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
 
                     <textarea 
                         rows="3" 
-                        className='focus:outline-gray-400 flex w-full min-h-20 bg-gray-100 p-3 border border-gray-300 rounded-xl mt-2' 
+                        className='focus:outline-gray-400 flex w-full min-h-20 bg-gray-100 p-3 border border-gray-300 rounded-xl mt-2 resize-none' 
                         placeholder='Add a note for this date...'
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}/>
