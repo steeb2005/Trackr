@@ -1,5 +1,5 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
-import Logo from '../pages/styles/assets/trackr-icon-svg.svg';
+import Logo from '../pages/styles/assets/trackr-logo.svg';
 import { Link } from 'react-router-dom';
 
 function Header({ onOpenSidebar }){

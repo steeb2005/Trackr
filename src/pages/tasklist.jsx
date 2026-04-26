@@ -12,8 +12,24 @@ import MediumPriority from './styles/assets/mediumflag-svgrepo-com.svg';
 import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
 import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
 import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
+import { useNavigate } from "react-router-dom";
 
-function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggleComplete, category, priority, isOverdue }){    
+// use navigate
+
+function TaskEntry({ 
+    title, 
+    description, 
+    dueDate, 
+    onDelete, 
+    isComplete, 
+    onToggleComplete, 
+    category, 
+    priority, 
+    isOverdue, 
+    onEdit}){    
+    
+   
+
     const categoryColor = {
         work: 'bg-[#4C6DF0]',
         personal: 'bg-[#5FF652]',
@@ -52,7 +68,7 @@ function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggle
                         {/* Add icons for these */}
                         <div className={`flex justify-center items-center gap-5 text-xl text-gray-400  mt-5`}>
                             <span>Notes</span>
-                            <span>Edit</span>
+                            <span onClick={onEdit} className="hover:cursor-pointer" >Edit</span>
                             <img src={Trash} alt="tash_svg" onClick={onDelete} className="h-8 w-8 hover:cursor-pointer"/>
                             <img src={priorityFlag[priority]} alt="priorityflag_svg" className="w-8 h-8"/>
                         </div>
@@ -65,8 +81,13 @@ function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggle
 
 
 
+
+
 function TaskList(){
     
+    // use to navigate
+    const navigate = useNavigate();
+
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [ isClicked, setIsClicked ] = useState('All');
 
@@ -110,8 +131,12 @@ function TaskList(){
     {/* Loads the filtered tasks */}
     const filteredTasks = getFilteredTasks();
 
-    // Checks if task is overdue
     
+    const handleEdit = (task) => {
+        navigate('/createtask', { state: {taskToEdit: task}});
+    };
+
+
 
     return(    
         <div className=" h-screen p-0 m-0 box-border">
@@ -144,8 +169,8 @@ function TaskList(){
                 {/* Tasks display Section */}
                 <div>
                     {tasks.length === 0 ? (
-                        <div className="flex justify-center text-center text-black text-xl">
-                            No Tasks to display
+                        <div className="flex justify-center text-center text-black text-xl h-screen">
+                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
                         </div>
                     ) : (filteredTasks.map(task => (
                             <TaskEntry
@@ -159,6 +184,7 @@ function TaskList(){
                                 category={task.category}
                                 priority={task.priority}
                                 isOverdue={isOverdue(task.dueDate)}
+                                onEdit={() => handleEdit(task)}
                             />
                     )))}
                 </div>

@@ -1,7 +1,7 @@
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 import { useSidebar } from "../hooks/useSidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Back from './styles/assets/back-svgrepo-com.svg';
 import { Link, useNavigate } from "react-router-dom";
 import {DatePicker} from 'react-datepicker';
@@ -10,7 +10,7 @@ import Medium from './styles/assets/mediumflag-svgrepo-com.svg';
 import High from './styles/assets/highflag-svgrepo-com.svg';
 import Critical from './styles/assets/criticalflag-svgrepo-com.svg';
 import { useTasks } from "../context/TaskContext";
-
+import { useLocation } from "react-router-dom";
 
 
 
@@ -19,20 +19,43 @@ function CreateTask(){
     const [startDate, setStartDate] = useState(new Date());
     const [priority, SetPriority] = useState('low');
 
-    const [tasks, setTasks] = useState([]); // temporary in storing the tasks
-
+    /*
     const year = startDate.getFullYear();
     const month = startDate.getMonth() + 1;
     const day = startDate.getDate();
+    */
     //const formattedDateKey = `${year}-${month}-${day}`; // commented to not conflict with the formatDate.
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
     const [errors, setErrors] = useState({});
-    const navigate = useNavigate(); // inorder to use the navigate function
+    
+    // Edit taskEntry part
 
-    const { addTask } = useTasks(); // Gets the function from TaskContext
+    const navigate = useNavigate(); // inorder to use the navigate function
+    
+    const { addTask, updateTask } = useTasks(); // Gets the function from TaskContext
+
+    
+    const location = useLocation();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
+
+    useEffect(() => {
+        if (location.state?.taskToEdit) {
+            const task = location.state.taskToEdit;
+            setTitle(task.title);
+            setDescription(task.description);
+            setStartDate(new Date(task.dueDate));
+            setSelectedCategory(task.category);
+            SetPriority(task.priority);
+            setIsEditing(true);
+            setEditingTaskId(task.id);
+        }
+    }, [location.state]);
+
+
 
     /* Sample entry for task 
     const taskEntryDescription = {
@@ -73,8 +96,7 @@ function CreateTask(){
             return;
         }
 
-        const newTask = {
-            id: Date.now(),
+        const taskData = {
             title: title.trim(),
             description: description.trim() || '', // optional field
             dueDate: formatDate(startDate),
@@ -85,17 +107,13 @@ function CreateTask(){
             completedAt: null
         }
 
-        // TEST {console.log(newTask.title, newTask.description, newTask.dueDate, newTask.createdAt, newTask.category)}
+        if(isEditing && editingTaskId){
+            updateTask(editingTaskId, taskData)
+        }else{
+            addTask({...taskData, id: Date.now()});
+        }
 
-        /* Test to see if tasks is stored
-        setTasks([...tasks, newTask]);
-        console.log(newTask); 
-        */
-
-        addTask(newTask);
-
-
-       navigate('/tasklist');
+        navigate('/tasklist');
     };
 
     {/* Categories */}
@@ -107,6 +125,15 @@ function CreateTask(){
         {id: 'finance', label: 'Finance', color: 'bg-[#FF02A2]'},
         {id: 'events', label: 'Events', color: 'bg-[#FFE204]'},
     ]
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,13 +185,13 @@ function CreateTask(){
 
                 <div className="due-date w-full mt-5">
                     <h1 className="text-2xl font-bold text-gray-900 mb-3">Due Date</h1>
-                    <div className="text-2xl px-8 py-5 items-center w-full border border-gray-600 rounded-4xl bg-gray-100">
+                    <div className="z-0 text-2xl px-8 py-5 items-center w-full border border-gray-600 rounded-4xl bg-gray-100">
                         
                         
                         <DatePicker
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
-                            className="outline-none"
+                            className="outline-none" 
                         />
                       
                     </div>
@@ -210,7 +237,8 @@ function CreateTask(){
                         className="hover:cursor-pointer border-none bg-gray-900 text-white text-3xl font-bold text-center p-3 w-full rounded-3xl"
                         onClick={handleCreateTask}
                     >
-                        Create Task
+                        {isEditing ? 'Save Changes' : 'Create Task'}
+
                     </button>
                 </div>
                 
@@ -223,3 +251,36 @@ function CreateTask(){
 }
 
 export default CreateTask
+
+
+/* Original setCreateTask before editTask
+    const handleCreateTask = () => {
+        if(!validateForm()){
+            return;
+        }
+
+        const newTask = {
+            id: Date.now(),
+            title: title.trim(),
+            description: description.trim() || '', // optional field
+            dueDate: formatDate(startDate),
+            priority: priority,
+            category: selectedCategory,
+            isComplete: false,
+            createdAt: new Date().toISOString(),
+            completedAt: null
+        }
+
+        // TEST {console.log(newTask.title, newTask.description, newTask.dueDate, newTask.createdAt, newTask.category)}
+
+        Test to see if tasks is stored
+        setTasks([...tasks, newTask]);
+        console.log(newTask); 
+        
+
+        addTask(newTask);
+
+
+        navigate('/tasklist');
+    };
+*/
