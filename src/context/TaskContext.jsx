@@ -8,16 +8,28 @@ export function TaskProvider({ children }) {
         return saved ? JSON.parse(saved) : [];
     });
 
+
     const [notes, setNotes] = useState(() => {
         const saved = localStorage.getItem('notes');
         return saved ? JSON.parse(saved) : {};
     });
 
+
+    const [diaryEntries, setDiaryEntries] = useState(() => {
+        const saved = localStorage.getItem('diaryEntries');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    // For diary entries
+    useEffect(() => {
+        localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
+    }, [diaryEntries]);
+
+    
+    // For notes
     useEffect(() => {
         localStorage.setItem('notes', JSON.stringify(notes));
     }, [notes]);
-
-
 
     // Persist to localStorage whenever tasks change
     useEffect(() => {
@@ -27,6 +39,11 @@ export function TaskProvider({ children }) {
     // Listen for storage changes from other tabs/instances
     useEffect(() => {
         const handleStorageChange = () => {
+            const savedDiary = localStorage.getItem('diaryEntries');
+            if(savedDiary){
+                setDiaryEntries(JSON.parse(savedDiary));
+            }
+
             const savedTasks = localStorage.getItem('tasks');
             if (savedTasks) {
                 setTasks(JSON.parse(savedTasks));
@@ -40,6 +57,19 @@ export function TaskProvider({ children }) {
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
+
+
+    const addDiaryEntry = useCallback((entry) => {
+        setDiaryEntries(prev => [...prev, {...entry, id: Date.now(), date: new Date().toISOString()}]);
+
+    }, []);
+
+    const deleteDiaryEntry = useCallback((entryId) => {
+        setDiaryEntries(prev => prev.filter(entry => entry.id !== entryId));
+    }, []);
+
+
+
 
     const saveNotes = useCallback((datekey, noteList) => {
         setNotes(prev => ({
@@ -92,7 +122,10 @@ export function TaskProvider({ children }) {
         updateTask,
         notes,
         saveNotes,
-        deleteNote
+        deleteNote,
+        diaryEntries,
+        addDiaryEntry,
+        deleteDiaryEntry
     };
 
     return (

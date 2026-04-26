@@ -5,7 +5,7 @@ import { useSidebar } from '../hooks/useSidebar'
 import Book from './styles/assets/book-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import Back from './styles/assets/back-svgrepo-com.svg';
-
+import { useTasks } from '../context/TaskContext';
 
 
 
@@ -24,6 +24,17 @@ function CreateDiaryEntry(){
         day: 'numeric',
         year: 'numeric'
     });
+
+	const { addDiaryEntry } = useTasks();
+	const [title, setTitle ] = useState(''); 
+	const [content, setContent] = useState('');
+
+
+	const handleSave = () => {
+		if(!title.trim() || !content.trim()) return;
+		addDiaryEntry({title: title.trim(), content: content.trim()});
+		navigate('/diary');
+	}
 
 	return(
 		<div className="body m-0 p-0 h-screen">
@@ -48,7 +59,7 @@ function CreateDiaryEntry(){
 					
 				</div>
 				<div className="date-field mt-8">
-					<h1 className="font-bold text-gray-800 text-2xl mb-4">Date</h1>
+					<h1 className="font-bold text-gray-800 text-2xl mb-4">Entry Date</h1>
 					<div className="bg-gray-100 border border-gray-600 p-5 rounded-4xl items-center text-xl text-gray-600">{formattedDate}</div>
 				</div>
 
@@ -59,13 +70,17 @@ function CreateDiaryEntry(){
 							type="text" 
 							placeholder="Title" 
 							className={`font-semibold text-2xl w-full outline-none mb-2`}
+							value={title} 
+							onChange={(e) => setTitle(e.target.value)}
                     	/>
 
 						<textarea 
 							id="diary-key"
 							placeholder="What happened today? How are you feeling?"
 							rows='3'
-							className=" text-xl w-full  outline-none h-50"        
+							className=" text-md w-full  outline-none h-50"        
+							value={content}
+							onChange={(e) => setContent(e.target.value)}
 							>   
 						</textarea>
 					</div>
@@ -74,7 +89,7 @@ function CreateDiaryEntry(){
 				<div className="pb-10 mt-10">
                     <button 
                         className="hover:cursor-pointer hover:bg-[#097204]/80 border-none bg-[#097204] text-white text-2xl font-bold text-center p-3 w-full rounded-3xl"
-                        
+						onClick={handleSave}
                     >
                         Save Entry
 
