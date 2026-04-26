@@ -6,12 +6,22 @@ import Target from './styles/assets/target-svgrepo-com.svg';
 import Header from '../components/header';
 import { useSidebar } from '../hooks/useSidebar';
 import { useTasks } from '../context/TaskContext';
+import LowPriority from './styles/assets/lowflag-svgrepo-com.svg';
+import MediumPriority from './styles/assets/mediumflag-svgrepo-com.svg';
+import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
+import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
+
 
 /*
 TODO:
+    - Fix DatePick css missing in createTask (on deployed) (Done)
+    - Fix dashboard status bar going full green despite no tasks listed (DONE)
+    - Add Edit on TaskEntry
+    - Add Notes for TaskEntry
+    - Be able to save notes
     - Finish Diary Page
-    - Fix DatePick css missing in createTask (on deployed)
-    - Fix dashboard status bar going full green despite no tasks listed
+    - Add Login/SignIn function
+    - Implement backend for each user
 */
 
 
@@ -176,6 +186,15 @@ function Dashboard(){
         events: 'bg-[#FFE204]' 
     }
 
+
+    
+    const priorityFlag = {
+        low: LowPriority,
+        medium:  MediumPriority,
+        high: HighPriority,
+        critical: CriticalPriority
+    };
+
     
     return (
         <div className="bg-white h-screen m-0 p-0">
@@ -209,7 +228,7 @@ function Dashboard(){
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
+                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ todayTasksTotal.length === 0 ? {width: 0} : {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
                     </div>
 
                     <div className='tasks-displayer'>
@@ -218,8 +237,9 @@ function Dashboard(){
                             <h1 className='text-gray-600 mt-2'>Tasks Today:</h1>
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
-                                    <li className='flex gap-10 items-center px-5'>
-                                        <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full`}></div>
+                                    <li className='flex items-center px-5'>
+                                        <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
+                                        <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
                                         <p className='font-semibold text-xl'>{task.title}</p>
                                     </li>    
                                 ))}
@@ -239,7 +259,7 @@ function Dashboard(){
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ {width: `${(completedThisMonth.length / tasksThisMonth.length) * 100}%`} }></div>
+                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={tasksThisMonth.length === 0 ? {width: 0} : {width: `${(completedThisMonth.length / tasksThisMonth.length) * 100}%`} }></div>
                     </div>
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>
