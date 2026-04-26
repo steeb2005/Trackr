@@ -9,7 +9,6 @@ import { useTasks } from '../context/TaskContext';
 
 /*
 TODO:
-    - Fix Refresh bug (vercel.json)
     - Finish Diary Page
     - Fix DatePick css missing in createTask (on deployed)
     - Fix dashboard status bar going full green despite no tasks listed
@@ -35,10 +34,6 @@ const quotes = [
 ];
 
 
-/*
-TODO:
-    - Finish the diary
-*/
 
 
 
@@ -219,7 +214,9 @@ function Dashboard(){
 
                     <div className='tasks-displayer'>
                         {todayActiveTasks.length > 0 ?(
-                           <ul className='mt-5'>
+                            <>
+                            <h1 className='text-gray-600 mt-2'>Tasks Today:</h1>
+                            <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <li className='flex gap-10 items-center px-5'>
                                         <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full`}></div>
@@ -227,16 +224,10 @@ function Dashboard(){
                                     </li>    
                                 ))}
                             </ul> 
+                            </>
                         ) : <p className="text-gray-600 mt-2">No tasks for today</p>}
                         
                     </div>
-                    {/*
-                    <p className="text-gray-600 mt-2">No tasks for today</p>
-                    <li className='flex gap-10 items-center  px-5'>
-                        <div className='w-2 h-2 bg-red-600 rounded-full'></div>
-                        <p className='font-semibold'>Nigger</p>
-                    </li>
-                    */}
                 </div>
 
 

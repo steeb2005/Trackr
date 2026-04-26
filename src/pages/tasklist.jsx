@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { isOverdue } from '../hooks/checkOverdue';
 import { useTasks } from "../context/TaskContext";
+import LowPriority from './styles/assets/lowflag-svgrepo-com.svg';
+import MediumPriority from './styles/assets/mediumflag-svgrepo-com.svg';
+import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
+import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
+import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
 
 function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggleComplete, category, priority, isOverdue }){    
     const categoryColor = {
@@ -17,6 +22,13 @@ function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggle
         finance: 'bg-[#FF02A2]',
         events: 'bg-[#FFE204]' 
     }
+
+    const priorityFlag = {
+        low: LowPriority,
+        medium:  MediumPriority,
+        high: HighPriority,
+        critical: CriticalPriority
+    };
 
     return(
         <div className={`flex min-h-50 duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
@@ -41,9 +53,8 @@ function TaskEntry({ title, description, dueDate, onDelete, isComplete, onToggle
                         <div className={`flex justify-center items-center gap-5 text-xl text-gray-400  mt-5`}>
                             <span>Notes</span>
                             <span>Edit</span>
-                            <span>Bell</span>
-                            <span onClick={onDelete}>Trash</span>
-                            <span>Flag</span>
+                            <img src={Trash} alt="tash_svg" onClick={onDelete} className="h-8 w-8 hover:cursor-pointer"/>
+                            <img src={priorityFlag[priority]} alt="priorityflag_svg" className="w-8 h-8"/>
                         </div>
                     </div>
                 </div>
