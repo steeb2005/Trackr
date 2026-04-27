@@ -22,6 +22,7 @@ TODO:
     - Be able to save notes (DONE)
     - Finish Diary Page (DONE)
     
+    - Fix login/Signin for mobile
     - Add Login/SignIn function
     - Implement backend for each user
 */

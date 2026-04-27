@@ -242,7 +242,7 @@ function Calendar(){
 
 
                 {/* Legends Container */}
-                <div className="w-full md:max-w-130 flex px-5 flex-col">
+                <div className="w-full md:max-w-130 flex px-5 flex-col pb-10">
                     {/* Legends */}
                     <h1 className='text-xl font-bold text-gray-600 mb-5'>TASK CATEGORIES</h1>
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Header({ onOpenSidebar }){
     return(
         
-        <div className="t-0 r-0 header bg-[#097204] fixed w-full py-4 px-5 border-b-4 border-amber-500">
+        <div className="t-0 r-0 header bg-[#097204] fixed w-full py-2 px-5 border-b-4 border-amber-500">
             <div className='flex justify-between'>
                 
                 <div className='flex'>

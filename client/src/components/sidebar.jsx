@@ -9,7 +9,7 @@ function Sidebar({isOpen, onClose}){
                 ${isOpen ? 'visible' : 'hidden'}`}> {/* Checks if the sidebar is open and will make it visible else hidden */}
 
                 <div className='p-5'>
-                    <div className="burger-icon absolute right-5"> 
+                    <div className="burger-icon absolute right-5 top-2"> 
                         <img src={Burger} 
                             alt="close_menu" 
                             className='w-10 h-10 hover:cursor-pointer' 

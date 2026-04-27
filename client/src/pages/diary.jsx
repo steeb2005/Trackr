@@ -67,9 +67,9 @@ function Diary(){
 
                 <div className="header-bar flex items-center border-b-3 pb-2 border-gray-400 shadow-xl">
                     <img src={Book} alt="book_svg" className="h-15"/>
-                    <h1 className="text-3xl font-bold ml-2 text-gray-800">My Diary</h1>
+                    <h1 className="md:text-3xl text-2xl font-bold ml-2 text-gray-800">My Diary</h1>
                     <button 
-                        className="hover:cursor-pointer flex bg-gray-800 hover:bg-gray-800/80 ml-auto px-4 py-3 text-xl font-semibold text-white items-center rounded-2xl"
+                        className="hover:cursor-pointer flex bg-gray-800 hover:bg-gray-800/80 ml-auto px-4 py-3 md:text-xl text-lg font-semibold text-white items-center rounded-2xl"
                         onClick={() => navigate('/create-diary-entry')}
                     >
                         <img src={Add} alt="add_svg" className="h-5 w-5"/>
