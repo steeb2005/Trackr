@@ -1,0 +1,15 @@
+{
+  "name": "trackr-project-csc106",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "dev": "cd client && npm run dev",
+    "install-client": "cd client && npm install"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "vite": "^8.0.4"
+  }
+}
