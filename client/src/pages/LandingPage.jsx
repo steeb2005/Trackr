@@ -13,18 +13,18 @@ function LandingPage() {
             Trackr
           </h1>
 
-          <p className="text-[clamp(20px,30px,40px)] font-medium leading-tight">
+          <p className="text-2xl md:text-3xl font-medium leading-tight">
             Calendar <br/>
             Tasks <br/>
             Notes <br />
             All in one Place
           </p>
 
-          <p className="text-[clamp(10px,20px,30px)] text-gray-300 mt-4 max-w-2xl">
+          <p className="text-md md:text-xl text-gray-300 mt-4 max-w-2xl">
             With Trackr, students can plan their day, track accomplishments, and never miss a deadline, all in a clean, easy-to-use interface.
           </p>
 
-          <Link to="/signin" className="z-100 inline-block bg-[#f6ff00] text-2xl text-black px-15 py-2.5 rounded-full mt-6 no-underline hover:bg-[#ecf147] active:bg-[#d4d800] font-medium hover:cursor-pointer">
+          <Link to="/login" className="z-100 inline-block bg-[#f6ff00] text-xl text-black px-15 py-2 rounded-full mt-6 no-underline hover:bg-[#ecf147] active:bg-[#d4d800] font-medium hover:cursor-pointer">
             Continue
           </Link>
 
