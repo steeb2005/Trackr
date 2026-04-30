@@ -1,12 +1,21 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useTasks } from '../context/TaskContext';
 
 function Sidebar({isOpen, onClose}){  
+    const { user, logout } = useTasks();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+        onClose();
+    };
+
     return (       
         
             <div className={`bg-[#097204] h-screen w-64 z-50 fixed top-0 right-0 transition duration-300 
-                ${isOpen ? 'visible' : 'hidden'}`}> {/* Checks if the sidebar is open and will make it visible else hidden */}
+                ${isOpen ? 'visible' : 'hidden'}`}> 
 
                 <div className='p-5'>
                     <div className="burger-icon absolute right-5 top-2"> 
@@ -16,21 +25,28 @@ function Sidebar({isOpen, onClose}){
                             onClick={onClose}/>
                     </div>
                     <div className='menu'>
+                        
+                        <nav className='space-y-4 text-white text-2xl font-semibold mt-5'> 
 
-                        <nav className='space-y-4 text-white text-2xl font-semibold mt-20'> 
-
                             <span className='dashboard flex items-center gap-3 justify-end'>
-                                <Link to="/dashboard">Dashboard</Link>
+                                <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
                             </span>
                             <span className='dashboard flex items-center gap-3 justify-end'>
-                                <Link to="/calendar">Calendar</Link>
+                                <Link to="/calendar" onClick={onClose}>Calendar</Link>
                             </span>
                             <span className='dashboard flex items-center gap-3 justify-end'>
-                                <Link to="/tasklist">Tasks</Link>
+                                <Link to="/tasklist" onClick={onClose}>Tasks</Link>
                             </span>
                             <span className='dashboard flex items-center gap-3 justify-end'>
-                                <Link to="/diary">Diary</Link>
+                                <Link to="/diary" onClick={onClose}>Diary</Link>
                             </span>
+                            {user && (
+                                <span className='dashboard flex items-center gap-3 justify-end'>
+                                    <button onClick={handleLogout} className="hover:text-gray-200 hover:cursor-pointer">
+                                        Logout
+                                    </button>
+                                </span>
+                            )}
                         </nav>
                         
                     </div>

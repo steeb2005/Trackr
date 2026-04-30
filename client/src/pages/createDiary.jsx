@@ -78,7 +78,7 @@ function CreateDiaryEntry(){
 							id="diary-key"
 							placeholder="What happened today? How are you feeling?"
 							rows='3'
-							className=" text-md w-full  outline-none h-50"        
+							className=" text-md w-full resize-none outline-none h-50"        
 							value={content}
 							onChange={(e) => setContent(e.target.value)}
 							>   

@@ -14,7 +14,7 @@ import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
 import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
 import { useNavigate } from "react-router-dom";
 import TaskNoteModal from "../components/tasknoteModal";
-
+import TrashRed from './styles/assets/trash-red-svgrepo-com.svg';
 
 
 function TaskEntry({ 
@@ -48,6 +48,8 @@ function TaskEntry({
         critical: CriticalPriority
     };
 
+    const [isHovered, setIsHovered] = useState(false);
+
     return(
         <div className={`flex min-h-50 duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
             <div className={`bg-gray-100 w-full ml-3 rounded-xl`}>
@@ -58,6 +60,7 @@ function TaskEntry({
                             type="checkbox"
                             checked={isComplete}
                             onChange={onToggleComplete}
+                            className="hover:cursor-pointer"
                         />
                     </div>
                     <div>
@@ -71,7 +74,16 @@ function TaskEntry({
                         <div className={`flex justify-center items-center gap-5 text-xl text-gray-600  mt-5`}>
                             <span onClick={onNotesClick} className="hover:cursor-pointer">Notes</span>
                             <span onClick={onEdit} className="hover:cursor-pointer" >Edit</span>
-                            <img src={Trash} alt="tash_svg" onClick={onDelete} className="h-7 w-7 hover:cursor-pointer"/>
+                            
+                            <img 
+                                src={isHovered ? TrashRed : Trash}
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)} 
+                                alt="trash_svg" 
+                                onClick={onDelete} 
+                                className="h-7 w-7 hover:cursor-pointer"
+                            />
+                            
                             <img src={priorityFlag[priority]} alt="priorityflag_svg" className="w-7 h-7"/>
                         </div>
                     </div>
@@ -143,6 +155,9 @@ function TaskList(){
         return tasks;
     }
 
+    const completedTask = tasks.filter(task => task.isComplete).length;
+    const activeTasks = tasks.filter(task => !task.isComplete).length;
+
     {/* Loads the filtered tasks */}
     const filteredTasks = getFilteredTasks();
 
@@ -196,9 +211,20 @@ function TaskList(){
                         />
                     )}
 
+                    {/* Shows task entries */}
+
+                    
                     {tasks.length === 0 ? (
                         <div className="flex justify-center text-center text-black text-xl h-screen">
                             <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
+                        </div>
+                    ) :  isClicked === 'Active' && activeTasks === 0 ? (
+                        <div className="flex justify-center text-center text-black text-xl h-screen">
+                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Active Tasks</h1>
+                        </div>
+                    ) : isClicked === 'Done' && completedTask === 0 ? (
+                        <div className="flex justify-center text-center text-black text-xl h-screen">
+                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Completed Tasks</h1>
                         </div>
                     ) : (filteredTasks.map(task => (
                             <TaskEntry
@@ -226,3 +252,27 @@ function TaskList(){
 
 
 export default TaskList
+
+
+/*
+{tasks.length === 0 ? (
+    <div className="flex justify-center text-center text-black text-xl h-screen">
+        <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
+    </div>
+) : (filteredTasks.map(task => (
+        <TaskEntry
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            isComplete={task.isComplete}
+            onToggleComplete = {() => toggleTaskComplete(task.id)}
+            dueDate={task.dueDate}
+            onDelete={() => deleteTask(task.id)}
+            category={task.category}
+            priority={task.priority}
+            isOverdue={isOverdue(task.dueDate)}
+            onEdit={() => handleEdit(task)}
+            onNotesClick={() => openTaskNotes(task)}
+        />
+)))}
+*/

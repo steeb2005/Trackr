@@ -6,7 +6,8 @@ import Book from './styles/assets/book-svgrepo-com.svg'
 import Add from './styles/assets/add-svgrepo-com.svg'
 import { useNavigate } from "react-router-dom";
 import {useTasks} from '../context/TaskContext';
-import Trash from './styles/assets/trash-red-svgrepo-com.svg'
+import TrashRed from './styles/assets/trash-red-svgrepo-com.svg'
+import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
 
 function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiaryEntry}){
     const [isExpanded, setIsExpanded] = useState(false);
@@ -18,24 +19,28 @@ function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiary
         year: 'numeric'
     });
 
+    const [isHovered, setIsHovered] = useState(false);
+
     return(
         <div key={entryId} className="mb-8">
             <h1 className="mb-2">{formattedDate}</h1>
             <div 
-                className={`entry hover:cursor-pointer bg-gray-100 hover:bg-gray-300 shadow-[#097204] shadow-[3px_3px] duration-200 p-4 rounded-xl`}
+                className={`entry hover:cursor-pointer bg-gray-100 hover:bg-gray-200 shadow-[#097204] shadow-[3px_3px] duration-100 p-4 rounded-xl`}
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <h1 className="text-xl font-bold">{entryTitle}</h1>
 
-                <p className={`overflow-ellipsis break-words ${!isExpanded ? 'line-clamp-2' : ''}`}>{entryContent}</p>
+                <p className={`text-ellipsis break-words ${!isExpanded ? 'line-clamp-2' : ''}`}>{entryContent}</p>
 
                 {isExpanded && (
                     <div className="flex justify-end ">
                         <img 
-                            src={Trash} 
+                            src={isHovered ? TrashRed : Trash} 
                             alt="trash_svg" 
                             className="hover:cursor-pointer h-8 w-8"
                             onClick={ondeleteDiaryEntry}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
                         />
                     </div>
                 )}

@@ -37,6 +37,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                             type="checkbox"
                             checked={task.isComplete}
                             onChange={() => onToggleComplete(task.id)}
+                            className='hover:cursor-pointer'
                         />
                     </div>
                     <div>

@@ -1,15 +1,25 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
 import Logo from '../pages/styles/assets/trackr-logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTasks } from '../context/TaskContext';
 
 function Header({ onOpenSidebar }){
+    const { user, logout } = useTasks();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
     return(
         
         <div className="t-0 r-0 header bg-[#097204] fixed w-full py-2 px-5 border-b-4 border-amber-500">
             <div className='flex justify-between'>
                 
-                <div className='flex'>
+                <div className='flex items-center gap-4'>
                     <img src={Logo} alt="logo" className='h-10'/>
+                    
                 </div>
                
                 <div className="burger-icon flex md:hidden justify-end"> 
@@ -31,6 +41,16 @@ function Header({ onOpenSidebar }){
                     <span>
                         <Link to="/diary" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Diary</Link>
                     </span>
+                    {user && (
+                        <span>
+                            <button 
+                                onClick={handleLogout}
+                                className='p-2 hover:bg-[#075e02] rounded-full transition duration-200 hover:cursor-pointer'
+                            >
+                                Logout
+                            </button>
+                        </span>
+                    )}
                 </div>
                
             </div>

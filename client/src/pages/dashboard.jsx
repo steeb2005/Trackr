@@ -97,7 +97,7 @@ function Dashboard(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar(); // This gets the hooks from useSidebar.jsx
 
 
-    const { tasks } = useTasks();
+    const { tasks, user } = useTasks();
     
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -201,7 +201,7 @@ function Dashboard(){
             <div className="main-container px-8 pt-25 grid grid-cols-1 gap-4">
 
                 <div className="card">
-                    <h2 className="text-4xl font-bold text-gray-800">Welcome Back</h2>
+                    <h2 className="text-4xl font-bold text-gray-800">Welcome {user.name}</h2>
                     <p className="text-gray-600 mt-2 text-2xl">{formattedDate}</p>
                 </div>
 
@@ -226,7 +226,7 @@ function Dashboard(){
                     <div className='tasks-displayer'>
                         {todayActiveTasks.length > 0 ?(
                             <>
-                            <h1 className='text-gray-600 mt-2'>Tasks Today:</h1>
+                            <h1 className='text-red-600 mt-2'>Tasks Due Today:</h1>
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <li className='flex items-center'>
