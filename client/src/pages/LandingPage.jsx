@@ -5,8 +5,8 @@ function LandingPage() {
 
 
   return (
-    <>
-    <div className="bg-[#097204] text-white">
+    
+    <div className="bg-[#097204] h-screen text-white">
       <div className="container-fluid min-h-screen flex justify-center items-center relative z-10 ">
         <div className="container max-w-4xl mx-auto text-left px-10">
           <h1 className="text-[clamp(30px,60px,70px)] font-bold text-[#f6ff00]">
@@ -32,7 +32,7 @@ function LandingPage() {
       </div>
       <div className="ellipse bg-[#bdbdbd] "></div>
     </div>
-    </>
+    
   )
 }
 

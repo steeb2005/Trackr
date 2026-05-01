@@ -67,10 +67,10 @@ function TaskEntry({
 
     return(  
       
-        <div id={task.id} className={`${isFlashing ? 'animate-flash' : ''} scroll-mt-50 flex min-h-50 duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
+        <div id={task.id} className={`${isFlashing ? 'animate-flash' : ''} scroll-mt-50 flex duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
             <div className={`${isFlashing ? 'animate-flash' : ''} bg-gray-100 w-full ml-3 rounded-xl`}>
                 
-                <div className={` flex items-start gap-3 mb-1 p-6`}>
+                <div className={` flex items-start gap-3 mb-1 p-4`}>
                     <div className={` mt-1 items-center bg-gray-700 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs`}>
                         <input 
                             type="checkbox"
@@ -80,7 +80,7 @@ function TaskEntry({
                         />
                     </div>
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900 ">{title}</h2>
+                        <h2 className={`text-xl md:text-2xl font-bold ${isComplete ? 'text-gray-500' : 'text-gray-900 '}`}>{title}</h2>
                         <p className="text-gray-600 text-xl">{description}</p>
                         <div className={`inline-block bg-gray-300 text-gray-600 text-sm p-2 mt-2 rounded-full items-center`}>
                             <p className={`${isOverdue ? 'font-semibold text-red-600' : ''}`}>{isOverdue ? 'Overdue: ' : 'Due: '}{dueDate}</p>

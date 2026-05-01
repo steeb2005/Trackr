@@ -26,7 +26,7 @@ function Sidebar({isOpen, onClose}){
                     </div>
                     <div className='menu mt-10'>
                         
-                        <nav className='space-y-4 text-white text-2xl font-semibold mt-5'> 
+                        <nav className='space-y-4 text-white text-xl font-semibold mt-5'> 
 
                             <span className='dashboard flex items-center gap-3 justify-end'>
                                 <Link to="/dashboard" onClick={onClose}>Dashboard</Link>

@@ -91,7 +91,7 @@ function Diary(){
                     ) : (
                         diaryEntries.map(entry => (
                             <DiaryEntry
-                                entryId={entry.id}
+                                entry={entry.id}
                                 entryTitle={entry.title}
                                 entryContent={entry.content}  
                                 entryDate={entry.date}

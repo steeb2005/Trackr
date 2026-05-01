@@ -27,7 +27,7 @@ TODO:
     - Implement backend for each user (DONE)
     
     - Make server usable in vercel using vercels serverless function 
-        or deploy backend to railway and frontend to vercel 
+        or deploy backend to railway and frontend to vercel (DONE)
 */
 
 
@@ -205,12 +205,12 @@ function Dashboard(){
 
                 <div className="card">
                     <h2 className="text-4xl font-bold text-gray-800">Welcome {user.name}</h2>
-                    <p className="text-gray-600 mt-2 text-2xl">{formattedDate}</p>
+                    <p className="text-gray-600 text-lg">{formattedDate}</p>
                 </div>
 
-                <div className="card bg-[#097204] px-10 py-6 rounded-lg shadow-md mt-2 shadow-amber-500">
+                <div className="card bg-[#097204] px-8 py-5 rounded-lg shadow-md mt-2 shadow-amber-500">
                     <h2 className="text-2xl font-semibold text-white">Daily Quotes</h2>
-                    <p className="text-xl text-white mt-4">{quote}</p>
+                    <p className="text-md text-white mt-4">{quote}</p>
                 </div>
                 <h1 className='text-3xl mt-3 mb-5 font-bold text-gray-800'>Your Progress</h1>
             
@@ -229,14 +229,14 @@ function Dashboard(){
                     <div className='tasks-displayer'>
                         {todayActiveTasks.length > 0 ?(
                             <>
-                            <h1 className='text-red-600 mt-2'>Tasks Due Today:</h1>
+                            <h1 className='text-gray-500 mt-2'>Tasks Due Today:</h1>
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <HashLink smooth to={`/tasklist/#${task.id}`}>
-                                        <li className='flex items-center'>
+                                        <li className='flex items-center mt-2 bg-gray-300 hover:bg-gray-200 rounded-md px-3 py-1'>
                                             <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
                                             <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
-                                            <p className='font-semibold text-xl'>{task.title}</p>
+                                            <p className='font-semibold text-md md:text-lg'>{task.title}</p>
                                         </li>    
                                     </HashLink>
                                 ))}
@@ -261,23 +261,23 @@ function Dashboard(){
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>
                     
-                <div className='grid grid-cols-2 md:grid-cols-1 gap-6 mb-10'>
+                <div className='grid grid-cols-2 md:grid-cols-1 gap-4 mb-10'>
                     <div className='w-full bg-green-300 p-5 rounded-xl'>
                         <img src={Check} alt="Check_img" className='h-10 w-10'/>
                         <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalCompleted}</h1>
-                        <p>Total Completed</p>
+                        <p className='font-semibold text-gray-900'>Total Completed</p>
                     </div>
 
                     <div className='w-full bg-red-300 p-5 rounded-xl'>
                         <img src={Target} alt="Target_img" className='h-10 w-10 '/>
                         <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalActiveTasks}</h1>
-                        <p>Total Remaining</p>
+                        <p className='font-semibold text-gray-900'>Total Remaining</p>
                     </div>
 
                     <div className='w-full bg-red-500 p-5 rounded-xl col-span-2 md:col-span-1'>
                         <img src={Alert} alt="Target_img" className='h-10 w-10 '/>
                         <h1 className='mt-2 mb-2 font-bold text-5xl'>{totalOverdueTasks}</h1>
-                        <p>Total Overdue</p>
+                        <p className='font-semibold text-gray-900'>Total Overdue</p>
                     </div>
                 </div>
 

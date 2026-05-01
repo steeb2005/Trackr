@@ -35,7 +35,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
         <div key={task.id} className={`flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
             <div className={`bg-gray-50 w-full ml-2 rounded-lg`}>
                 <div className="flex items-start gap-3 p-6">
-                    <div className="mt-1 items-center bg-gray-600  flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs">
+                    <div className="mt-1 items-center bg-gray-600 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs mr-2">
                         <input 
                             type="checkbox"
                             checked={task.isComplete}
@@ -45,8 +45,8 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                     </div>
                     <HashLink smooth to={`/tasklist/#${task.id}`}>
                         <div>
-                            <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
-                            <p className="text-gray-600 text-xl">{task.description}</p>
+                            <h2 className={`text-lg md:text-2xl font-semibold  ${task.isComplete ? 'text-gray-400': 'text-gray-900'} `}>{task.title}</h2>
+                            <p className={` text-sm md:text-xl ${task.isComplete ? 'text-gray-400' : 'text-gray-600' }`}>{task.description}</p>
                             <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
                         </div>
                     </HashLink>
@@ -145,7 +145,7 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
                         onChange={(e) => setNewNote(e.target.value)}/>
                     <div className='flex justify-center mt-5'>
                         <button 
-                            className='text-white text-md px-26 py-2 bg-[#097204] rounded-4xl hover:cursor-pointer hover:bg-[#097204]/70'
+                            className='text-white text-md px-21 py-2 bg-[#097204] rounded-4xl hover:cursor-pointer hover:bg-[#097204]/70'
                             onClick={handleAddNote}>Add Note</button>
                     </div>
                 </div>

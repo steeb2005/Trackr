@@ -163,30 +163,30 @@ function Calendar(){
                 <div className="flex-1 w-full md:w-auto px-5">
 
                     {/* Main header */}
-                    <div className='date-header flex justify-between items-center px-5'>
+                    <div className='date-header flex justify-between items-center'>
                         <h2 
-                            className='hover:cursor-pointer text-2xl font-bold text-gray-900 xl:text-4xl'
+                            className='hover:cursor-pointer text-2xl mr-3 font-bold text-gray-900 xl:text-4xl'
                             onClick={backToCurrentDay}>
                                 {monthNames[month]} {year}
                         </h2>
 
-                        <div className='button-section flex gap-5'>
+                        <div className='button-section flex gap-3 justify-between'>
                             <button 
                                 onClick={prevMonth}
-                                className='bg-white border-1 border-gray-300 px-5 py-3 rounded-xl flex justify-center shadow-md hover:bg-gray-100 hover:cursor-pointer'>
-                                <img src={Prev} alt="next_svg" className='h-5 md:h-7'/>
+                                className='bg-white border border-gray-300 px-5 py-3 rounded-xl flex justify-center shadow-md  hover:bg-gray-100 hover:cursor-pointer'>
+                                <img src={Prev} alt="next_svg" className='h-4 md:h-5'/>
                             </button>
 
                             <button 
                                 onClick={nextMonth}
-                                className='bg-white border-1 border-gray-300 px-5 py-3 rounded-xl flex justify-center shadow-md hover:bg-gray-100 hover:cursor-pointer'>
-                                <img src={Next} alt="prev_svg" className='h-5 md:h-7'/>
+                                className='bg-white border border-gray-300 px-5 py-3 rounded-xl flex justify-center shadow-md hover:bg-gray-100 hover:cursor-pointer'>
+                                <img src={Next} alt="prev_svg" className='h-4 md:h-5'/>
                             </button>
                         </div>
                     </div>
 
                     {/*  Days Header */}
-                    <div className='grid grid-cols-7 items-center gap-3 text-xl text-gray-500 font-semibold mt-5'>
+                    <div className='grid grid-cols-7 items-center gap-3 text-md md:text-xl text-gray-500 font-semibold mt-5'>
                         <div className='flex justify-center'>Sun</div>
                         <div className='flex justify-center '>Mon</div>
                         <div className='flex justify-center '>Tue</div>
@@ -198,7 +198,7 @@ function Calendar(){
 
 
                     {/* Days Calendar */}
-                    <div className='grid grid-cols-7 grid-rows-6 items-center gap-4 mt-5 justify-items-center'>
+                    <div className='grid grid-cols-7 grid-rows-6 items-center gap-4 mt-3 justify-items-center'>
                         {calendarDays.map((day, index) => {
                             const isCurrentDay = isToday(year, month, day); {/* Gives the current date cell a green ring */}        
                             const datekey = day ? `${month + 1}/${day}/${year}` : null;
@@ -210,13 +210,13 @@ function Calendar(){
                                     onClick={() => day && handleDateClick(day)}
                                     key={index}
                                     className={`
-                                        text-xl w-12 h-13 md:w-13 md:h-14 xl:w-16 xl:h-16 xl:text-2xl border rounded-xl shadow-md/20 flex justify-center flex-col items-center 
+                                        text-md w-11 h-12 md:w-13 md:h-14 xl:w-16 xl:h-16 xl:text-2xl border rounded-xl shadow-md/20 flex justify-center flex-col items-center 
                                         ${day ? 'border-gray-400  bg-white hover:cursor-pointer hover:bg-gray-100' : 'bg-gray-200 border-0'}
                                         ${isCurrentDay ? 'ring-2 ring-[#097204]' : ''}
                                         ${hasNotes ? 'border-yellow-400 border-2' : ''}
                                         `}  
                                 >
-                                    <span className='mb-2'>
+                                    <span className='mb-1'>
                                         {day}
                                     </span>
                                     
@@ -249,35 +249,35 @@ function Calendar(){
                     <h1 className='text-xl font-bold text-gray-600 mb-5'>TASK CATEGORIES</h1>
 
                     <div className='gap-3 border border-gray-300 rounded-xl py-5 px-6 shadow-md/20 grid grid-cols-2'>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#4C6DF0] h-8 w-8 rounded-full '></div>
                             Work
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#5FF652] h-8 w-8 rounded-full '></div>
                             Personal
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#AC2DCC] h-8 w-8 rounded-full '></div>
                             Health
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#FF8710] h-8 w-8 rounded-full '></div>
                             Study
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#FF02A2] h-8 w-8 rounded-full '></div>
                             Finance
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#FFE204] h-8 w-8 rounded-full '></div>
                             Events
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#ACACAC] h-8 w-8 rounded-full '></div>
                             Completed
                         </div>
-                        <div className='flex flex-row items-center text-xl gap-4 mb-3'>
+                        <div className='flex flex-row items-center text-lg md:text-xl gap-4 mb-3'>
                             <div className='bg-[#FF3538] h-8 w-8 rounded-full '></div>
                             Overdue
                         </div>
