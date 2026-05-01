@@ -25,7 +25,10 @@ const connectOptions = {
 mongoose
     .connect(MONGOURL, connectOptions)
     .then(() => console.log("trackrdb successfully connected"))
-    .catch(err => console.error(err));
+    .catch(err => {
+        console.error("MongoDB connection error:", err.message);
+        process.exit(1);
+    });
 
 // Routes
 const taskRoutes = require('./routes/taskRoute');
