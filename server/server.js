@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://your-app.vercel.app', // your Vercel URL
+  origin: 'https://trackr-jet.vercel.app/login', // your Vercel URL
   credentials: true
 }));
 app.use(express.json());
