@@ -15,9 +15,11 @@ import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
 import { useNavigate } from "react-router-dom";
 import TaskNoteModal from "../components/tasknoteModal";
 import TrashRed from './styles/assets/trash-red-svgrepo-com.svg';
-
+import { useLocation } from "react-router-dom";
 
 function TaskEntry({ 
+    key,
+    task,
     title, 
     description, 
     dueDate, 
@@ -28,9 +30,20 @@ function TaskEntry({
     priority, 
     isOverdue, 
     onEdit,
-    onNotesClick}){    
+    onNotesClick,
+    existingNotes
+    }){    
     
-   
+    const [isFlashing, setIsFlashing] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.hash === `#${task.id}`) {
+        setIsFlashing(true);
+        setTimeout(() => setIsFlashing(false), 1000);
+        }
+    }, [location.hash, task.id]);
+
 
     const categoryColor = {
         work: 'bg-[#4C6DF0]',
@@ -48,14 +61,17 @@ function TaskEntry({
         critical: CriticalPriority
     };
 
+    const numberOfNotes = existingNotes.length;
+
     const [isHovered, setIsHovered] = useState(false);
 
-    return(
-        <div className={`flex min-h-50 duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
-            <div className={`bg-gray-100 w-full ml-3 rounded-xl`}>
+    return(  
+      
+        <div id={task.id} className={`${isFlashing ? 'animate-flash' : ''} scroll-mt-50 flex min-h-50 duration-200 ${isComplete ? 'bg-gray-600' : isOverdue ? 'bg-[#FF3538]' : categoryColor[category]}  rounded-xl shadow-xl mb-5`}> 
+            <div className={`${isFlashing ? 'animate-flash' : ''} bg-gray-100 w-full ml-3 rounded-xl`}>
                 
-                <div className="flex items-start gap-3 mb-1 p-6">
-                    <div className="mt-1 items-center bg-gray-700 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs">
+                <div className={` flex items-start gap-3 mb-1 p-6`}>
+                    <div className={` mt-1 items-center bg-gray-700 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs`}>
                         <input 
                             type="checkbox"
                             checked={isComplete}
@@ -71,9 +87,9 @@ function TaskEntry({
                         </div>
 
                         {/* Add icons for these */}
-                        <div className={`flex justify-center items-center gap-5 text-xl text-gray-600  mt-5`}>
-                            <span onClick={onNotesClick} className="hover:cursor-pointer">Notes</span>
-                            <span onClick={onEdit} className="hover:cursor-pointer" >Edit</span>
+                        <div className={`flex justify-start items-center gap-5 text-xl text-gray-600  mt-5`}>
+                            <span onClick={onNotesClick} className="hover:cursor-pointer hover:text-gray-400">{numberOfNotes === 0 ? 'Add Note' : `Notes(${numberOfNotes})`}</span>
+                            <span onClick={onEdit} className="hover:cursor-pointer hover:text-gray-400">Edit</span>
                             
                             <img 
                                 src={isHovered ? TrashRed : Trash}
@@ -90,6 +106,8 @@ function TaskEntry({
                 </div>
             </div>
         </div>
+        
+        
     )
 }
 
@@ -178,7 +196,7 @@ function TaskList(){
             <Header onOpenSidebar={openSidebar}/> 
 
             {/* Main container */}
-            <div className="pt-23 px-5">
+            <div className="pt-23 px-5 py-5">
                 <div className=" flex justify-between items-center">
                     <h1 className="text-4xl text-gray-800 font-bold">My Tasks</h1>
                     <Link 
@@ -229,6 +247,7 @@ function TaskList(){
                     ) : (filteredTasks.map(task => (
                             <TaskEntry
                                 key={task.id}
+                                task={task}
                                 title={task.title}
                                 description={task.description}
                                 isComplete={task.isComplete}
@@ -240,8 +259,11 @@ function TaskList(){
                                 isOverdue={isOverdue(task.dueDate)}
                                 onEdit={() => handleEdit(task)}
                                 onNotesClick={() => openTaskNotes(task)}
+                                existingNotes={taskNotes[task.id] || []}
                             />
                     )))}
+
+                
                 </div>
                 
             </div>

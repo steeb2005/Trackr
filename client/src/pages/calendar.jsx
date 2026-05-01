@@ -7,6 +7,8 @@ import Prev from './styles/assets/previous-svgrepo-com.svg'
 import DateComponent from '../components/dateComp';
 import { isOverdue } from '../hooks/checkOverdue'; // checks if task is overdue
 import { useTasks } from '../context/TaskContext';
+import { HashLink } from 'react-router-hash-link';
+
 
 function Calendar(){
 

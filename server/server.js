@@ -12,9 +12,15 @@ app.use(express.json());
 
 // MongoDB Connection
 const MONGOURL = process.env.MONGOURL;
+const connectOptions = {
+  dbName: 'trackrdb',
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+}
+
 mongoose
-    .connect(MONGOURL)
-    .then(() => console.log("MongoDB connected"))
+    .connect(MONGOURL, connectOptions)
+    .then(() => console.log("trackrdb successfully connected"))
     .catch(err => console.error(err));
 
 // Routes

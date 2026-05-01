@@ -24,7 +24,7 @@ function Sidebar({isOpen, onClose}){
                             className='w-10 h-10 hover:cursor-pointer' 
                             onClick={onClose}/>
                     </div>
-                    <div className='menu'>
+                    <div className='menu mt-10'>
                         
                         <nav className='space-y-4 text-white text-2xl font-semibold mt-5'> 
 

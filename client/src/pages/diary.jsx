@@ -23,9 +23,9 @@ function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiary
 
     return(
         <div key={entryId} className="mb-8">
-            <h1 className="mb-2">{formattedDate}</h1>
+            <h1 className="mb-2 text-gray-600 font-semibold">{formattedDate}</h1>
             <div 
-                className={`entry hover:cursor-pointer bg-gray-100 hover:bg-gray-200 shadow-[#097204] shadow-[3px_3px] duration-100 p-4 rounded-xl`}
+                className={`entry hover:cursor-pointer bg-gray-100 hover:bg-gray-200 hover:shadow-[#097204] hover:shadow-[3px_3px] duration-100 p-4 rounded-xl ${isExpanded ? 'shadow-[#097204] shadow-[3px_3px]' : ''}`}
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <h1 className="text-xl font-bold">{entryTitle}</h1>

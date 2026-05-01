@@ -17,3 +17,14 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #11eb05;
 }
+
+
+@keyframes flash {
+  0% { background-color: rgb(219, 219, 219); }
+  50% { background-color: rgb(219, 219, 219); }
+  100% { background-color: ''; }
+}
+
+.animate-flash {
+  animation: flash 1s ease;
+}

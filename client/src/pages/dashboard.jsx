@@ -12,6 +12,7 @@ import HighPriority from './styles/assets/highflag-svgrepo-com.svg';
 import CriticalPriority from './styles/assets/criticalflag-svgrepo-com.svg';
 import { isOverdue } from '../hooks/checkOverdue';
 import Alert from './styles/assets/alert-svgrepo-com.svg'
+import { HashLink } from 'react-router-hash-link';
 
 /*
 TODO:
@@ -21,10 +22,12 @@ TODO:
     - Add Edit on TaskEntry (DONE)
     - Be able to save notes (DONE)
     - Finish Diary Page (DONE)
+    - Fix login/Signin for mobile (DONE)
+    - Add Login/SignIn function (DONE)
+    - Implement backend for each user (DONE)
     
-    - Fix login/Signin for mobile
-    - Add Login/SignIn function
-    - Implement backend for each user
+    - Make server usable in vercel using vercels serverless function 
+        or deploy backend to railway and frontend to vercel 
 */
 
 
@@ -229,11 +232,13 @@ function Dashboard(){
                             <h1 className='text-red-600 mt-2'>Tasks Due Today:</h1>
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
-                                    <li className='flex items-center'>
-                                        <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
-                                        <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
-                                        <p className='font-semibold text-xl'>{task.title}</p>
-                                    </li>    
+                                    <HashLink smooth to={`/tasklist/#${task.id}`}>
+                                        <li className='flex items-center'>
+                                            <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
+                                            <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
+                                            <p className='font-semibold text-xl'>{task.title}</p>
+                                        </li>    
+                                    </HashLink>
                                 ))}
                             </ul> 
                             </>

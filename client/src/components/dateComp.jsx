@@ -2,6 +2,8 @@ import Close from '../pages/styles/assets/close-svgrepo-com.svg'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { isOverdue } from '../hooks/checkOverdue';
+import { HashLink } from 'react-router-hash-link';
+
 
 function NoteEntry({note, onDelete}){
     return(
@@ -29,6 +31,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
     }    
 
     return(
+       
         <div key={task.id} className={`flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
             <div className={`bg-gray-50 w-full ml-2 rounded-lg`}>
                 <div className="flex items-start gap-3 p-6">
@@ -40,14 +43,17 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                             className='hover:cursor-pointer'
                         />
                     </div>
-                    <div>
-                        <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
-                        <p className="text-gray-600 text-xl">{task.description}</p>
-                        <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
-                    </div>
+                    <HashLink smooth to={`/tasklist/#${task.id}`}>
+                        <div>
+                            <h2 className="text-2xl font-semibold text-gray-900 ">{task.title}</h2>
+                            <p className="text-gray-600 text-xl">{task.description}</p>
+                            <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
+                        </div>
+                    </HashLink>
                 </div>
             </div>
         </div>
+    
     )
 }
 
