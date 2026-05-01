@@ -12,6 +12,8 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(express.json());
+
 // MongoDB Connection
 const MONGOURL = process.env.MONGOURL;
 const connectOptions = {
