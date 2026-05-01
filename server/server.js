@@ -8,10 +8,9 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://trackr-jet.vercel.app/login', // your Vercel URL
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true
 }));
-app.use(express.json());
 
 // MongoDB Connection
 const MONGOURL = process.env.MONGOURL;
