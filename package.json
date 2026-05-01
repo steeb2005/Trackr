@@ -8,6 +8,7 @@
     "install-client": "cd client && npm install"
   },
   "devDependencies": {
+    "@vercel/static-build": "^2.0.6",
     "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^9.39.4",
     "vite": "^8.0.4"

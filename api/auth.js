@@ -10,24 +10,24 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
+  const path = req.url; // Full path: /api/auth/register, /api/auth/login, /api/auth/me
+
   try {
-    if (req.method === 'POST' && req.url === '/register') {
+    if (req.method === 'POST' && (path.endsWith('/register') || path.endsWith('/signin'))) {
       return registerUser(req, res);
     }
-    if (req.method === 'POST' && req.url === '/login') {
+    if (req.method === 'POST' && (path.endsWith('/login') || path.endsWith('/signin'))) {
       return loginUser(req, res);
     }
-    if (req.method === 'GET' && req.url === '/me') {
-      // For /me, apply auth
+    if (req.method === 'GET' && path.endsWith('/me')) {
       const { protect } = require('../server/middleware/authMiddleware');
       await protect(req, res, () => {});
       return getMe(req, res);
     }
 
-    return res.status(404).json({ error: 'Route not found' });
+    return res.status(404).json({ error: 'Auth route not found' });
   } catch (err) {
-    // For /me route errors from protect
-    if (req.url === '/me') {
+    if (path.endsWith('/me')) {
       return res.status(401).json({ message: err.message || 'Unauthorized' });
     }
     return res.status(500).json({ error: err.message });
