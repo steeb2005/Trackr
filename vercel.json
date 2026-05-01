@@ -1,15 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "source": "client/package.json",
-      "destination": "@vercel/static-build"
-    }
-  ],
-  "routes": [
-    {
-      "source": "/(.*)",
-      "destination": "/client/dist/$1"
-    }
+  "framework": "vite",
+  "outputDirectory": "client/dist",
+  "buildCommand": "cd client && npm install && npm run build",
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
