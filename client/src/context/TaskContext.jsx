@@ -26,39 +26,49 @@ export function TaskProvider({ children }) {
         }
     }, []);
 
-    const fetchUser = async () => {
-        try {
-            const res = await axios.get(`${API_URL}/auth/me`);
-            setUser(res.data);
-            await fetchData();
-        } catch (err) {
-            localStorage.removeItem('token');
-            delete axios.defaults.headers.common['Authorization'];
-            setError('Session expired');
-        } finally {
-            setLoading(false);
-        }
-    };
+    useEffect(() => {
+        const controller = new AbortController();
+        const fetchUser = async () => {
+            const token = localStorage.getItem('token');
+            if (token && !loading) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                try {
+                    const res = await axios.get(`${API_URL}/auth/me`, { signal: controller.signal });
+                    setUser(res.data);
+                    await fetchData(controller.signal);
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        localStorage.removeItem('token');
+                        delete axios.defaults.headers.common['Authorization'];
+                        setError('Session expired');
+                    }
+                }finally {
+                    if (!controller.signal.aborted) setLoading(false);
+                }
+            } else {
+                setLoading(false);
+            }
+        };
+        fetchUser();
+        return () => controller.abort();
+    }, []);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async (signal = null) => {
         try {
             const [tasksRes, diaryRes] = await Promise.all([
-                axios.get(`${API_URL}/tasks`),
-                axios.get(`${API_URL}/diary`)
+                axios.get(`${API_URL}/tasks`, { signal }),
+                axios.get(`${API_URL}/diary`, { signal })
             ]);
-
             setTasks(tasksRes.data);
             setDiaryEntries(diaryRes.data);
-
-            const notesRes = await axios.get(`${API_URL}/notes`);
+            const notesRes = await axios.get(`${API_URL}/notes`, { signal });
             setNotes(notesRes.data.notes || {});
-
-            const taskNotesRes = await axios.get(`${API_URL}/task-notes`);
+            const taskNotesRes = await axios.get(`${API_URL}/task-notes`, { signal });
             setTaskNotes(taskNotesRes.data.taskNotes || {});
-        } catch (err) {
-            setError(err.message);
+        }catch (err) {
+            if (err.name !== 'AbortError') setError(err.message);
         }
-    };
+    }, []);
 
     const login = async (email, password) => {
         const res = await axios.post(`${API_URL}/auth/login`, { email, password });
