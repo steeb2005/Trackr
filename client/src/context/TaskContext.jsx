@@ -15,41 +15,28 @@ export function TaskProvider({ children }) {
     const [error, setError] = useState(null);
     const [user, setUser] = useState(null);
 
-    // Check for existing token and load user
     useEffect(() => {
+        const controller = new AbortController();
         const token = localStorage.getItem('token');
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            fetchUser();
-        } else {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        const controller = new AbortController();
-        const fetchUser = async () => {
-            const token = localStorage.getItem('token');
-            if (token && !loading) {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                try {
-                    const res = await axios.get(`${API_URL}/auth/me`, { signal: controller.signal });
+            axios.get(`${API_URL}/auth/me`, { signal: controller.signal })
+                .then(res => {
                     setUser(res.data);
-                    await fetchData(controller.signal);
-                } catch (err) {
+                    return fetchData(controller.signal);
+                })
+                .catch(err => {
                     if (err.name !== 'AbortError') {
                         localStorage.removeItem('token');
                         delete axios.defaults.headers.common['Authorization'];
-                        setError('Session expired');
                     }
-                }finally {
+                })
+                .finally(() => {
                     if (!controller.signal.aborted) setLoading(false);
-                }
-            } else {
-                setLoading(false);
-            }
-        };
-        fetchUser();
+                });
+        } else {
+            setLoading(false);
+        }
         return () => controller.abort();
     }, []);
 
@@ -65,7 +52,7 @@ export function TaskProvider({ children }) {
             setNotes(notesRes.data.notes || {});
             const taskNotesRes = await axios.get(`${API_URL}/task-notes`, { signal });
             setTaskNotes(taskNotesRes.data.taskNotes || {});
-        }catch (err) {
+        } catch (err) {
             if (err.name !== 'AbortError') setError(err.message);
         }
     }, []);
@@ -100,7 +87,6 @@ export function TaskProvider({ children }) {
         setTaskNotes({});
     };
 
-    // Task operations
     const addTask = useCallback(async (task) => {
         try {
             const response = await axios.post(`${API_URL}/tasks`, task);
@@ -125,12 +111,10 @@ export function TaskProvider({ children }) {
         try {
             const task = tasks.find(t => t.id === taskId);
             if (!task) return;
-
             const updates = {
                 isComplete: !task.isComplete,
                 completedAt: !task.isComplete ? new Date().toISOString() : null
             };
-
             const response = await axios.put(`${API_URL}/tasks/${taskId}`, updates);
             setTasks(prev => prev.map(t =>
                 t.id === taskId ? response.data : t
@@ -153,7 +137,6 @@ export function TaskProvider({ children }) {
         }
     }, []);
 
-    // Notes operations (date-based)
     const saveNotes = useCallback(async (datekey, noteList) => {
         try {
             await axios.post(`${API_URL}/notes`, { date: datekey, content: noteList });
@@ -172,11 +155,9 @@ export function TaskProvider({ children }) {
             const currentNotes = notes[datekey] || [];
             const noteToDelete = currentNotes[indexToDelete];
             if (!noteToDelete) return;
-
             await axios.delete(`${API_URL}/notes`, {
                 data: { date: datekey, content: noteToDelete }
             });
-
             setNotes(prev => {
                 const updated = (prev[datekey] || []).filter((_, i) => i !== indexToDelete);
                 return { ...prev, [datekey]: updated };
@@ -187,7 +168,6 @@ export function TaskProvider({ children }) {
         }
     }, [notes]);
 
-    // Diary operations
     const addDiaryEntry = useCallback(async (entry) => {
         try {
             const newEntry = {
@@ -213,40 +193,11 @@ export function TaskProvider({ children }) {
         }
     }, []);
 
-    /*
     const saveTaskNotes = useCallback(async (taskId, noteList) => {
         try {
-            await axios.delete(`${API_URL}/task-notes`, {
-                data: { taskId }
-            });
-
-            await Promise.all(
-                noteList.map(note =>
-                    axios.post(`${API_URL}/task-notes`, {
-                        taskId,
-                        content: note
-                    })
-                )
-            );
-
-            setTaskNotes(prev => ({
-                ...prev,
-                [taskId]: noteList
-            }));
-        } catch (err) {
-            console.error('Failed to save task notes:', err);
-            setError(err.message);
-        }
-    }, []);
-    */
-   
-    // Task Notes operations
-    const saveTaskNotes = useCallback(async (taskId, noteList) => {
-        try {
-            // Send the entire array in ONE request
             await axios.post(`${API_URL}/task-notes`, {
                 taskId,
-                content: noteList  // array, not individual strings
+                content: noteList
             });
             setTaskNotes(prev => ({
                 ...prev,
@@ -263,11 +214,9 @@ export function TaskProvider({ children }) {
             const currentNotes = taskNotes[taskId] || [];
             const noteToDelete = currentNotes[indexToDelete];
             if (!noteToDelete) return;
-
             await axios.delete(`${API_URL}/task-notes`, {
                 data: { taskId, content: noteToDelete }
             });
-
             setTaskNotes(prev => {
                 const updated = (prev[taskId] || []).filter((_, i) => i !== indexToDelete);
                 return { ...prev, [taskId]: updated };
