@@ -21,6 +21,19 @@ function NoteEntry({note, onDelete}){
 
 
 function TaskEntryCalendar({ task, onToggleComplete}){    
+    const [isCooldown, setIsCooldown] = useState(false);
+
+    const handleToggle = () => {
+        if (isCooldown) return; 
+
+        onToggleComplete(task.id);
+        setIsCooldown(true);
+
+        setTimeout(() => {
+            setIsCooldown(false);
+        }, 300);
+    };
+
     const categoryColor = {
         work: 'bg-[#4C6DF0]',
         personal: 'bg-[#5FF652]',
@@ -39,7 +52,8 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                         <input 
                             type="checkbox"
                             checked={task.isComplete}
-                            onChange={() => onToggleComplete(task.id)}
+                            onChange={handleToggle}
+                            disabled={isCooldown}
                             className='hover:cursor-pointer'
                         />
                     </div>

@@ -36,6 +36,7 @@ function TaskEntry({
     
     const [isFlashing, setIsFlashing] = useState(false);
     const location = useLocation();
+    const [isCooldown, setIsCooldown] = useState(false);
 
     useEffect(() => {
         if (location.hash === `#${task.id}`) {
@@ -43,6 +44,17 @@ function TaskEntry({
         setTimeout(() => setIsFlashing(false), 1000);
         }
     }, [location.hash, task.id]);
+
+    const handleToggle = () => {
+        if (isCooldown) return; 
+
+        onToggleComplete();
+        setIsCooldown(true);
+
+        setTimeout(() => {
+            setIsCooldown(false);
+        }, 300);
+    };
 
 
     const categoryColor = {
@@ -75,7 +87,8 @@ function TaskEntry({
                         <input 
                             type="checkbox"
                             checked={isComplete}
-                            onChange={onToggleComplete}
+                            onChange={handleToggle}
+                            disabled={isCooldown}
                             className="hover:cursor-pointer"
                         />
                     </div>

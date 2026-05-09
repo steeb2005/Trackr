@@ -124,10 +124,14 @@ function Dashboard(){
 
     
     const completedThisMonth = tasks.filter(task => {
+        return task.isComplete && isInCurrentMonth(task.dueDate);
+    });
+
+    /*
         if (!task.isComplete) return false;
         const completionDate = task.completedAt || task.createdAt;
         return isInCurrentMonth(completionDate);
-    });
+    */
 
 
     // gets todays tasks
