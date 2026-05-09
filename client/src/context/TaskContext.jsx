@@ -42,15 +42,15 @@ export function TaskProvider({ children }) {
 
     const fetchData = useCallback(async (signal = null) => {
         try {
-            const [tasksRes, diaryRes] = await Promise.all([
+            const [tasksRes, diaryRes, notesRes, taskNotesRes] = await Promise.all([
                 axios.get(`${API_URL}/tasks`, { signal }),
-                axios.get(`${API_URL}/diary`, { signal })
+                axios.get(`${API_URL}/diary`, { signal }),
+                axios.get(`${API_URL}/notes`, { signal }),
+                axios.get(`${API_URL}/task-notes`, { signal })
             ]);
             setTasks(tasksRes.data);
             setDiaryEntries(diaryRes.data);
-            const notesRes = await axios.get(`${API_URL}/notes`, { signal });
             setNotes(notesRes.data.notes || {});
-            const taskNotesRes = await axios.get(`${API_URL}/task-notes`, { signal });
             setTaskNotes(taskNotesRes.data.taskNotes || {});
         } catch (err) {
             if (err.name !== 'AbortError') setError(err.message);
@@ -88,141 +88,137 @@ export function TaskProvider({ children }) {
     };
 
     const addTask = useCallback(async (task) => {
+        const tempId = `temp-${Date.now()}`;
+        const tempTask = { ...task, id: tempId };
+        
+        setTasks(prev => [...prev, tempTask]); // instant
         try {
             const response = await axios.post(`${API_URL}/tasks`, task);
-            setTasks(prev => [...prev, response.data]);
+            // replace temp task with real one from DB (gets real id)
+            setTasks(prev => prev.map(t => t.id === tempId ? response.data : t));
         } catch (err) {
-            console.error('Failed to add task:', err);
+            setTasks(prev => prev.filter(t => t.id !== tempId)); // rollback
             setError(err.message);
         }
     }, []);
 
     const deleteTask = useCallback(async (taskId) => {
+        const prev = tasks; // snapshot for rollback
+        setTasks(p => p.filter(t => t.id !== taskId)); // instant
         try {
             await axios.delete(`${API_URL}/tasks/${taskId}`);
-            setTasks(prev => prev.filter(task => task.id !== taskId));
         } catch (err) {
-            console.error('Failed to delete task:', err);
+            setTasks(prev); // rollback
             setError(err.message);
         }
-    }, []);
+    }, [tasks]);
 
     const toggleTaskComplete = useCallback(async (taskId) => {
+        const prevTasks = tasks;
+        const task = tasks.find(t => t.id === taskId);
+        if (!task) return;
+        const updates = {
+            isComplete: !task.isComplete,
+            completedAt: !task.isComplete ? new Date().toISOString() : null
+        };
+        setTasks(p => p.map(t => t.id === taskId ? { ...t, ...updates } : t)); // instant
         try {
-            const task = tasks.find(t => t.id === taskId);
-            if (!task) return;
-            const updates = {
-                isComplete: !task.isComplete,
-                completedAt: !task.isComplete ? new Date().toISOString() : null
-            };
             const response = await axios.put(`${API_URL}/tasks/${taskId}`, updates);
-            setTasks(prev => prev.map(t =>
-                t.id === taskId ? response.data : t
-            ));
+            setTasks(p => p.map(t => t.id === taskId ? response.data : t));
         } catch (err) {
-            console.error('Failed to toggle task:', err);
+            setTasks(prevTasks); // rollback
             setError(err.message);
         }
     }, [tasks]);
 
     const updateTask = useCallback(async (taskId, updates) => {
+        const prevTasks = tasks;
+        setTasks(p => p.map(t => t.id === taskId ? { ...t, ...updates } : t)); // instant
         try {
             const response = await axios.put(`${API_URL}/tasks/${taskId}`, updates);
-            setTasks(prev => prev.map(t =>
-                t.id === taskId ? response.data : t
-            ));
+            setTasks(p => p.map(t => t.id === taskId ? response.data : t));
         } catch (err) {
-            console.error('Failed to update task:', err);
+            setTasks(prevTasks); // rollback
             setError(err.message);
         }
-    }, []);
+    }, [tasks]);
 
     const saveNotes = useCallback(async (datekey, noteList) => {
+        const prevNotes = notes;
+        setNotes(prev => ({ ...prev, [datekey]: noteList })); // instant
         try {
             await axios.post(`${API_URL}/notes`, { date: datekey, content: noteList });
-            setNotes(prev => ({
-                ...prev,
-                [datekey]: noteList
-            }));
         } catch (err) {
-            console.error('Failed to save notes:', err);
+            setNotes(prevNotes); // rollback
             setError(err.message);
         }
-    }, []);
+    }, [notes]);
 
     const deleteNote = useCallback(async (datekey, indexToDelete) => {
+        const prevNotes = notes;
+        const currentNotes = notes[datekey] || [];
+        const noteToDelete = currentNotes[indexToDelete];
+        if (!noteToDelete) return;
+        setNotes(prev => {
+            const updated = (prev[datekey] || []).filter((_, i) => i !== indexToDelete);
+            return { ...prev, [datekey]: updated };
+        }); // instant
         try {
-            const currentNotes = notes[datekey] || [];
-            const noteToDelete = currentNotes[indexToDelete];
-            if (!noteToDelete) return;
-            await axios.delete(`${API_URL}/notes`, {
-                data: { date: datekey, content: noteToDelete }
-            });
-            setNotes(prev => {
-                const updated = (prev[datekey] || []).filter((_, i) => i !== indexToDelete);
-                return { ...prev, [datekey]: updated };
-            });
+            await axios.delete(`${API_URL}/notes`, { data: { date: datekey, content: noteToDelete } });
         } catch (err) {
-            console.error('Failed to delete note:', err);
+            setNotes(prevNotes); // rollback
             setError(err.message);
         }
     }, [notes]);
 
     const addDiaryEntry = useCallback(async (entry) => {
+        const tempId = `temp-${Date.now()}`;
+        const tempEntry = { ...entry, id: tempId, date: new Date().toISOString() };
+        setDiaryEntries(prev => [...prev, tempEntry]); // instant
         try {
-            const newEntry = {
-                ...entry,
-                id: Date.now(),
-                date: new Date().toISOString()
-            };
-            const response = await axios.post(`${API_URL}/diary`, newEntry);
-            setDiaryEntries(prev => [...prev, response.data]);
+            const response = await axios.post(`${API_URL}/diary`, tempEntry);
+            setDiaryEntries(prev => prev.map(e => e.id === tempId ? response.data : e));
         } catch (err) {
-            console.error('Failed to add diary entry:', err);
+            setDiaryEntries(prev => prev.filter(e => e.id !== tempId)); // rollback
             setError(err.message);
         }
     }, []);
 
     const deleteDiaryEntry = useCallback(async (entryId) => {
+        const prevEntries = diaryEntries;
+        setDiaryEntries(prev => prev.filter(e => e.id !== entryId)); // instant
         try {
             await axios.delete(`${API_URL}/diary/${entryId}`);
-            setDiaryEntries(prev => prev.filter(entry => entry.id !== entryId));
         } catch (err) {
-            console.error('Failed to delete diary entry:', err);
+            setDiaryEntries(prevEntries); // rollback
             setError(err.message);
         }
-    }, []);
+    }, [diaryEntries]);
 
     const saveTaskNotes = useCallback(async (taskId, noteList) => {
+        const prevTaskNotes = taskNotes;
+        setTaskNotes(prev => ({ ...prev, [taskId]: noteList })); // instant
         try {
-            await axios.post(`${API_URL}/task-notes`, {
-                taskId,
-                content: noteList
-            });
-            setTaskNotes(prev => ({
-                ...prev,
-                [taskId]: noteList
-            }));
+            await axios.post(`${API_URL}/task-notes`, { taskId, content: noteList });
         } catch (err) {
-            console.error('Failed to save task notes:', err);
+            setTaskNotes(prevTaskNotes); // rollback
             setError(err.message);
         }
-    }, []);
+    }, [taskNotes]);
 
     const deleteTaskNote = useCallback(async (taskId, indexToDelete) => {
+        const prevTaskNotes = taskNotes;
+        const currentNotes = taskNotes[taskId] || [];
+        const noteToDelete = currentNotes[indexToDelete];
+        if (!noteToDelete) return;
+        setTaskNotes(prev => {
+            const updated = (prev[taskId] || []).filter((_, i) => i !== indexToDelete);
+            return { ...prev, [taskId]: updated };
+        }); // instant
         try {
-            const currentNotes = taskNotes[taskId] || [];
-            const noteToDelete = currentNotes[indexToDelete];
-            if (!noteToDelete) return;
-            await axios.delete(`${API_URL}/task-notes`, {
-                data: { taskId, content: noteToDelete }
-            });
-            setTaskNotes(prev => {
-                const updated = (prev[taskId] || []).filter((_, i) => i !== indexToDelete);
-                return { ...prev, [taskId]: updated };
-            });
+            await axios.delete(`${API_URL}/task-notes`, { data: { taskId, content: noteToDelete } });
         } catch (err) {
-            console.error('Failed to delete task note:', err);
+            setTaskNotes(prevTaskNotes); // rollback
             setError(err.message);
         }
     }, [taskNotes]);
