@@ -32,21 +32,63 @@ TODO:
 
 
 const quotes = [
-        "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
-        "I can do all things through him who strengthens me. - Philippians 4:13",
-        "Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths. - Proverbs 3:5-6",
-        "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. - Philippians 4:6",
-        "The Lord is my shepherd; I shall not want. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul. - Psalm 23:1-3",        
-        "Be strong and courageous. Do not fear or be in dread of them, for it is the Lord your God who goes with you. He will not leave you or forsake you. - Deuteronomy 31:6",
-        "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful. - 1 Corinthians 13:4-5",
-        "Cast all your anxiety on him because he cares for you. - 1 Peter 5:7", 
-        "But seek first the kingdom of God and his righteousness, and all these things will be added to you. - Matthew 6:33",
-        "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go. - Joshua 1:9",
-        "Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you. - 1 Thessalonians 5:16-18",
-        "Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come. - 2 Corinthians 5:17",
-        "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law. - Galatians 5:22-23",
-        "Come to me, all who labor and are heavy laden, and I will give you rest. Take my yoke upon you, and learn from me, for I am gentle and lowly in heart, and you will find rest for your souls. - Matthew 11:28-29",
-        "And we know that in all things God works for the good of those who love him, who have been called according to his purpose. - Romans 8:28"
+    // --- BIBLICAL WISDOM (Original 15) ---
+    "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope. - Jeremiah 29:11",
+    "I can do all things through him who strengthens me. - Philippians 4:13",
+    "Trust in the Lord with all your heart, and do not lean on your own understanding. In all your ways acknowledge him, and he will make straight your paths. - Proverbs 3:5-6",
+    "Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. - Philippians 4:6",
+    "The Lord is my shepherd; I shall not want. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul. - Psalm 23:1-3",        
+    "Be strong and courageous. Do not fear or be in dread of them, for it is the Lord your God who goes with you. He will not leave you or forsake you. - Deuteronomy 31:6",
+    "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful. - 1 Corinthians 13:4-5",
+    "Cast all your anxiety on him because he cares for you. - 1 Peter 5:7", 
+    "But seek first the kingdom of God and his righteousness, and all these things will be added to you. - Matthew 6:33",
+    "Have I not commanded you? Be strong and courageous. Do not be frightened, and do not be dismayed, for the Lord your God is with you wherever you go. - Joshua 1:9",
+    "Rejoice always, pray without ceasing, give thanks in all circumstances; for this is the will of God in Christ Jesus for you. - 1 Thessalonians 5:16-18",
+    "Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come. - 2 Corinthians 5:17",
+    "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control; against such things there is no law. - Galatians 5:22-23",
+    "Come to me, all who labor and are heavy laden, and I will give you rest. Take my yoke upon you, and learn from me, for I am gentle and lowly in heart, and you will find rest for your souls. - Matthew 11:28-29",
+    "And we know that in all things God works for the good of those who love him, who have been called according to his purpose. - Romans 8:28",
+
+    // --- PHILOSOPHERS & THINKERS ---
+    "The only true wisdom is in knowing you know nothing. - Socrates",
+    "Knowing yourself is the beginning of all wisdom. - Aristotle",
+    "He who has a why to live for can bear almost any how. - Friedrich Nietzsche",
+    "Our life is what our thoughts make it. - Marcus Aurelius",
+    "In the middle of every difficulty lies opportunity. - Albert Einstein",
+    "Man is condemned to be free; because once thrown into the world, he is responsible for everything he does. - Jean-Paul Sartre",
+    "We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Will Durant",
+    "Waste no more time arguing about what a good man should be. Be one. - Marcus Aurelius",
+    "Life is not a problem to be solved, but a reality to be experienced. - Søren Kierkegaard",
+    "I think, therefore I am. - René Descartes",
+
+    // --- LEADERS & HISTORICAL FIGURES ---
+    "The greatest glory in living lies not in never falling, but in rising every time we fall. - Nelson Mandela",
+    "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill",
+    "Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that. - Martin Luther King Jr.",
+    "Do what you can, with what you have, where you are. - Theodore Roosevelt",
+    "I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison",
+    "The only thing we have to fear is fear itself. - Franklin D. Roosevelt",
+    "You must be the change you wish to see in the world. - Mahatma Gandhi",
+    "Spread love everywhere you go. Let no one ever come to you without leaving happier. - Mother Teresa",
+    "Whatever you are, be a good one. - Abraham Lincoln",
+    "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+
+    // --- LITERARY & MODERN WISDOM ---
+    "Not all those who wander are lost. - J.R.R. Tolkien",
+    "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment. - Ralph Waldo Emerson",
+    "It is never too late to be what you might have been. - George Eliot",
+    "There is no greater agony than bearing an untold story inside you. - Maya Angelou",
+    "Life is what happens when you're making other plans. - John Lennon",
+    "The only way to do great work is to love what you do. - Steve Jobs",
+    "Everything you’ve ever wanted is on the other side of fear. - George Addair",
+    "The journey of a thousand miles begins with one step. - Lao Tzu",
+    "What lies behind us and what lies before us are tiny matters compared to what lies within us. - Ralph Waldo Emerson",
+    "Believe you can and you're halfway there. - Theodore Roosevelt",
+    "The best way to predict the future is to create it. - Peter Drucker",
+    "To love and be loved is to feel the sun from both sides. - David Viscott",
+    "Your time is limited, so don't waste it living someone else's life. - Steve Jobs",
+    "It does not matter how slowly you go as long as you do not stop. - Confucius",
+    "Education is the most powerful weapon which you can use to change the world. - Nelson Mandela"
 ];
 
 
