@@ -21,7 +21,7 @@ function Login(){
     };
 
     return (
-        <div className="flex justify-center flex-col items-center bg-[#097204] min-h-screen">     
+        <div className="flex overflow-hidden justify-center flex-col items-center bg-[#097204] min-h-screen">     
             <div className="header-container pb-10 ">
                 <h1 className="text-5xl text-white font-bold">Login!</h1>
             </div>

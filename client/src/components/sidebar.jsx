@@ -6,6 +6,7 @@ function Sidebar({isOpen, onClose}){
     const { user, logout } = useTasks();
     const navigate = useNavigate();
 
+    
     const handleLogout = () => {
         logout();
         navigate('/');
@@ -14,8 +15,9 @@ function Sidebar({isOpen, onClose}){
 
     return (       
         
-            <div className={`bg-[#097204] h-screen w-64 z-50 fixed top-0 right-0 transition duration-300 
-                ${isOpen ? 'visible' : 'hidden'}`}> 
+            <div className={`bg-[#097204] h-screen w-45 z-50 fixed top-0 right-0 transition-transform duration-300 ease-in-out
+                ${isOpen ? 'translate-x-0' : 'translate-x-full' }
+                `}> 
 
                 <div className='p-5'>
                     <div className="burger-icon absolute right-5 top-2"> 
