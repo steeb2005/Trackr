@@ -191,14 +191,14 @@ function CreateTask(){
                         <DatePicker
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
-                            className="outline-none" 
+                            className="outline-none -z-10" 
                         />
                       
                     </div>
                 </div>
 
                 <div className="priority mt-5">
-                    <h1>SetPriority (Optional)</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-3">SetPriority</h1>
                     <select 
                         id="priority" 
                         value={priority} 
