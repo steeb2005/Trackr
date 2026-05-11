@@ -198,7 +198,7 @@ function CreateTask(){
                 </div>
 
                 <div className="priority mt-5">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-3">SetPriority</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-3">Set Priority</h1>
                     <select 
                         id="priority" 
                         value={priority} 
