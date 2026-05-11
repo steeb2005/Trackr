@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: always;
+  text-rendering: optimizeLegibility;
+}
+
 ::-webkit-scrollbar {
   width: 3px;
   height: 8px;
