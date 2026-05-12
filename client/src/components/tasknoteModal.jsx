@@ -27,7 +27,7 @@ function TaskNoteModal({ task, onClose, onSaveNote, existingNotes = [], onDelete
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
             <div 
-                className="bg-white rounded-lg shadow-xl w-4/5 max-w-md p-6 overflow-y-auto max-h-150"
+                className="bg-white rounded-lg shadow-xl w-4/5 max-w-md p-6 overflow-y-auto max-h-110"
             >
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold">Note: {task.title}</h2>

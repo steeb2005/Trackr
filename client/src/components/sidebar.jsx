@@ -15,7 +15,7 @@ function Sidebar({isOpen, onClose}){
 
     return (       
         
-            <div className={`bg-[#097204] h-screen w-45 z-50 fixed top-0 right-0 transition-transform duration-300 ease-in-out
+            <div className={`bg-[#097204] z-999 h-screen w-45  fixed top-0 right-0 transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : 'translate-x-full' }
                 `}> 
 
