@@ -107,9 +107,17 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
         events: 'bg-[#FFE204]' 
     }    
 
+    // prevent background scrolling
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []);
+
     return (
-        <div className='fixed inset-0 bg-black/30'> {/* prevents background clicks */}
-            <div className="fixed border border-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-4/5 max-w-md">
+        <div className='overflow-hidden fixed inset-0 bg-black/30'> {/* prevents background clicks */}
+            <div className=" fixed border border-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-4/5 max-w-md">
                 <div className='overflow-y-auto max-h-110'> {/* Scrolls the page */}
                     
                     <div className='flex flex-row justify-between items-center'>
