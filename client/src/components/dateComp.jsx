@@ -7,7 +7,7 @@ import { HashLink } from 'react-router-hash-link';
 
 function NoteEntry({note, onDelete}){
     return(
-        <div className='note flex justify-between bg-white border border-yellow-300 w-full p-3 mb-5 rounded-xl'>
+        <div className='note overflow-hidden bg-white p-3 mb-2 rounded-xl flex justify-between items-start border border-yellow-300'>
             <p className='flex-1'>{note}</p>
             <button 
                 className="text-red-500 ml-2 hover:text-red-700 hover:cursor-pointer"
@@ -45,8 +45,8 @@ function TaskEntryCalendar({ task, onToggleComplete}){
 
     return(
        
-        <div key={task.id} className={`flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
-            <div className={`bg-gray-50 w-full ml-2 rounded-lg`}>
+        <div key={task.id} className={`mr-2 flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
+            <div className={`bg-gray-50 ml-2 rounded-lg w-full`}>
                 <div className="flex items-start gap-3 p-6">
                     <div className="mt-1 items-center bg-gray-600 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs mr-2">
                         <input 
@@ -57,12 +57,12 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                             className='hover:cursor-pointer'
                         />
                     </div>
-                    <HashLink smooth to={`/tasklist/#${task.id}`}>
-                        <div>
-                            <h2 className={`text-lg md:text-2xl font-semibold  ${task.isComplete ? 'text-gray-400': 'text-gray-900'} `}>{task.title}</h2>
-                            <p className={` text-sm md:text-xl ${task.isComplete ? 'text-gray-400' : 'text-gray-600' }`}>{task.description}</p>
-                            <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
-                        </div>
+                    <HashLink className='whitespace-nowrap overflow-hidden' smooth to={`/tasklist/#${task.id}`}>
+                        
+                        <h2 className={`overflow-hidden text-ellipsis text-lg md:text-2xl font-semibold  ${task.isComplete ? 'text-gray-400': 'text-gray-900'} `}>{task.title}</h2>
+                        <p className={`overflow-hidden text-ellipsis text-sm md:text-xl ${task.isComplete ? 'text-gray-400' : 'text-gray-600' }`}>{task.description}</p>
+                        <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
+                    
                     </HashLink>
                 </div>
             </div>
@@ -116,9 +116,9 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
     }, []);
 
     return (
-        <div className='overflow-hidden fixed inset-0 bg-black/30'> {/* prevents background clicks */}
-            <div className=" fixed border border-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-4/5 max-w-md">
-                <div className='overflow-y-auto max-h-110'> {/* Scrolls the page */}
+        <div className=' fixed inset-0 bg-black/30'> {/* prevents background clicks */}
+            <div className="overflow-auto max-h-110 fixed border border-gray-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg w-4/5 max-w-md">
+                <div> {/* Scrolls the page */}
                     
                     <div className='flex flex-row justify-between items-center'>
                         <h1 className='text-gray-900 font-semibold text-2xl'>{month} {day}, {year}</h1>

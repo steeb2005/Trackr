@@ -238,7 +238,7 @@ function Dashboard(){
 
     
     return (
-        <div className="bg-white h-screen m-0 p-0">
+        <div className="bg-white  m-0 p-0">
 
             {/* Sidebar Section */}
             <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 
@@ -247,7 +247,7 @@ function Dashboard(){
             <Header onOpenSidebar={openSidebar}/> 
             
 
-            <div className="main-container px-8 pt-25 grid grid-cols-1 gap-4">
+            <div className="h-screen overflow-auto main-container px-8 pt-25 grid grid-cols-1 gap-4">
 
                 <div className="card">
                     <h2 className="text-4xl font-bold text-gray-800">Welcome {user.name}</h2>
@@ -279,10 +279,10 @@ function Dashboard(){
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <HashLink smooth to={`/tasklist/#${task.id}`}>
-                                        <li className='flex items-center mt-2 bg-gray-300 hover:bg-gray-200 rounded-md px-3 py-1'>
+                                        <li className='whitespace-nowrap flex items-center mt-2 bg-gray-300 hover:bg-gray-200 rounded-md px-3 py-1'>
                                             <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
                                             <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
-                                            <p className='font-semibold text-md md:text-lg'>{task.title}</p>
+                                            <p className='w-full overflow-hidden text-ellipsis font-semibold text-md md:text-lg'>{task.title}</p>
                                         </li>    
                                     </HashLink>
                                 ))}

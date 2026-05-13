@@ -37,12 +37,12 @@ function CreateDiaryEntry(){
 	}
 
 	return(
-		<div className="body m-0 p-0 h-screen">
+		<div className="body m-0 p-0">
 
 			<Sidebar isOpen={isOpen} onClose={closeSidebar}/>		
 			<Header onOpenSidebar={openSidebar}/>
 
-			<div className={`pt-23 px-5 h-screen`}>
+			<div className={`pt-23 px-5 h-screen overflow-auto`}>
 
 				<div className="flex gap-5 items-center">
 					

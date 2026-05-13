@@ -1,16 +1,20 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
 import Logo from '../pages/styles/assets/trackr-logo.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
+import { useState } from 'react';
 
 function Header({ onOpenSidebar }){
     const { user, logout } = useTasks();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
         logout();
         navigate('/');
     };
+
+    const currentLoocation = location.pathname.substring(1) || 'dashboard';
 
     return(
         
@@ -30,16 +34,16 @@ function Header({ onOpenSidebar }){
                 </div>    
                 <div className='hidden md:flex flex-row items-center gap-10 justify-end text-lg text-white font-semibold'>
                     <span>
-                        <Link to="/dashboard" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Dashboard</Link>
+                        <Link to="/dashboard" className={`${currentLoocation=== 'dashboard' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Dashboard</Link>
                     </span>
                     <span>
-                        <Link to="/calendar" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Calendar</Link>
+                        <Link to="/calendar" className={`${currentLoocation === 'calendar' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Calendar</Link>
                     </span>
                     <span>
-                        <Link to="/tasklist" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Tasks</Link>
+                        <Link to="/tasklist" className={`${currentLoocation === 'tasklist' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Tasks</Link>
                     </span>
                     <span>
-                        <Link to="/diary" className='p-2 hover:bg-[#075e02] rounded-full transition duration-200'>Diary</Link>
+                        <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Diary</Link>
                     </span>
                     {user && (
                         <span>

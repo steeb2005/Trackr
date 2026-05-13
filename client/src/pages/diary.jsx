@@ -28,9 +28,9 @@ function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiary
                 className={`entry hover:cursor-pointer bg-gray-200 hover:shadow-[#097204] hover:shadow-[3px_3px] duration-100 p-4 rounded-xl ${isExpanded ? 'shadow-[#097204] shadow-[3px_3px]' : ''}`}
                 onClick={() => setIsExpanded(!isExpanded)}
             >
-                <h1 className="text-xl font-bold">{entryTitle}</h1>
+                <h1 className={`overflow-hidden text-ellipsis ${!isExpanded ? 'whitespace-nowrap' : ''} text-xl font-bold`}>{entryTitle}</h1>
 
-                <p className={`text-ellipsis break-words ${!isExpanded ? 'line-clamp-2' : ''}`}>{entryContent}</p>
+                <p className={`overflow-hidden  text-ellipsis ${!isExpanded ? 'whitespace-nowrap' : ''}`}>{entryContent}</p>
 
                 {isExpanded && (
                     <div className="flex justify-end ">
@@ -68,7 +68,7 @@ function Diary(){
             {/* Header Section*/}
             <Header onOpenSidebar={openSidebar}/>     
 
-            <div className="main-container w-full h-screen px-5 pt-26">
+            <div className="main-container w-full h-screen overflow-auto px-5 pt-26">
 
                 <div className="header-bar flex items-center border-b-3 pb-2 border-gray-400 shadow-xl">
                     <img src={Book} alt="book_svg" className="h-15"/>

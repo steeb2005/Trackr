@@ -132,7 +132,7 @@ function Calendar(){
     // Display starts here
 
     return(
-        <div className="bg-white h-screen m-0 p-0 mb-5">
+        <div className=" bg-white m-0 p-0">
         
             {/* Sidebar Section */}
             <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 
@@ -143,7 +143,7 @@ function Calendar(){
 
 
             {/* Main Calendar Container */}
-            <div className="flex flex-col md:flex-row gap-6 pt-25 h-96">
+            <div className="h-screen overflow-y-auto flex flex-col md:flex-row gap-6 pt-24">
 
                 {/* Date Component */}
                 {showDateModal && 
@@ -160,7 +160,7 @@ function Calendar(){
                 }
 
                 {/* Sub Calendar Container */}
-                <div className="flex-1 w-full md:w-auto px-5">
+                <div className="flex-1 w-full md:w-auto px-5 ">
 
                     {/* Main header */}
                     <div className='date-header flex justify-between items-center'>

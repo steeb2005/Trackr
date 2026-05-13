@@ -34,13 +34,13 @@ function TaskNoteModal({ task, onClose, onSaveNote, existingNotes = [], onDelete
     };
 
     return (
-        <div className='overflow:hidden'>
+        <div>
             <div className=" fixed inset-0 z-50 flex items-center justify-center bg-black/30">
                 <div 
                     className=" bg-white rounded-lg shadow-xl w-4/5 max-w-md p-6 overflow-y-auto max-h-110"
                 >
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold">Note: {task.title}</h2>
+                    <div className="overflow-hidden flex justify-between items-center mb-4">
+                        <h2 className="overflow-hidden text-ellipsis text-xl font-bold">Task: {task.title}</h2>
                         <img src={Close} alt="close" className="h-6 cursor-pointer" onClick={onClose} />
                     </div>
 
@@ -49,8 +49,8 @@ function TaskNoteModal({ task, onClose, onSaveNote, existingNotes = [], onDelete
                             <p className="text-gray-500">No notes yet.</p>
                         ) : (
                             notes.map((note, idx) => (
-                                <div key={idx} className="bg-white p-3 mb-2 rounded-xl flex justify-between items-start border border-yellow-300">
-                                    <p className="flex-1">{note}</p>
+                                <div key={idx} className="overflow-hidden bg-white p-3 mb-2 rounded-xl flex justify-between items-start border border-yellow-300">
+                                    <p className="overflow-hidden break-words flex-1">{note}</p>
                                     <button 
                                         onClick={() => handleDeleteNote(idx)}
                                         className="hover:cursor-pointer text-red-500 ml-2 hover:text-red-700"

@@ -28,63 +28,63 @@ function ProtectedRoute({ children }) {
 function App() {
   return (
     <>     
-      <TaskProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path='/login' element={<Login/>}/>
-            <Route path="/signin" element={<Signin />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/calendar" 
-              element={
-                <ProtectedRoute>
-                  <Calendar/>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/tasklist" 
-              element={
-                <ProtectedRoute>
-                  <TaskList/>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path='/createtask' 
-              element={
-                <ProtectedRoute>
-                  <CreateTask/>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path='/diary' 
-              element={
-                <ProtectedRoute>
-                  <Diary/>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path='/create-diary-entry' 
-              element={
-                <ProtectedRoute>
-                  <CreateDiaryEntry/>
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </BrowserRouter>
-      </TaskProvider>
+        <TaskProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path='/login' element={<Login/>}/>
+                    <Route path="/signin" element={<Signin />} />
+                    <Route 
+                    path="/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                        <Dashboard />
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path="/calendar" 
+                    element={
+                        <ProtectedRoute>
+                        <Calendar/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path="/tasklist" 
+                    element={
+                        <ProtectedRoute>
+                        <TaskList/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path='/createtask' 
+                    element={
+                        <ProtectedRoute>
+                        <CreateTask/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path='/diary' 
+                    element={
+                        <ProtectedRoute>
+                        <Diary/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path='/create-diary-entry' 
+                    element={
+                        <ProtectedRoute>
+                        <CreateDiaryEntry/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                </Routes>
+            </BrowserRouter>
+        </TaskProvider>
     </>
   );
 }

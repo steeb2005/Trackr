@@ -143,7 +143,7 @@ function CreateTask(){
             
             <Header onOpenSidebar={openSidebar}/> 
 
-            <div className="main-container h-screen pt-23 px-5">
+            <div className="main-container h-screen overflow-auto pt-23 px-5">
                 <div className="header flex items-center">
                     <div className="back border border-[#097204] rounded-xl shadow-md p-3">
                         <Link to={'/tasklist'}>

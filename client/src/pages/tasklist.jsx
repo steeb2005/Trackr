@@ -17,6 +17,13 @@ import TaskNoteModal from "../components/tasknoteModal";
 import TrashRed from './styles/assets/trash-red-svgrepo-com.svg';
 import { useLocation } from "react-router-dom";
 
+/*
+    FIX TEXT OVERLAP 
+    - notesModal
+    - dateModal
+    - dashboard
+*/
+
 function TaskEntry({ 
     key,
     task,
@@ -92,9 +99,9 @@ function TaskEntry({
                             className="hover:cursor-pointer"
                         />
                     </div>
-                    <div>
-                        <h2 className={`text-xl md:text-2xl font-bold ${isComplete ? 'text-gray-500' : 'text-gray-900 '}`}>{title}</h2>
-                        <p className="text-gray-600 text-xl">{description}</p>
+                    <div className="w-full overflow-hidden">
+                        <h2 className={`break-words overflow-hidden text-xl md:text-2xl font-bold ${isComplete ? 'text-gray-500' : 'text-gray-900 '}`}>{title}</h2>
+                        <p className="break-words text-gray-600 text-xl">{description}</p>
                         <div className={`inline-block bg-gray-300 text-gray-600 text-sm p-2 mt-2 rounded-full items-center`}>
                             <p className={`${isOverdue ? 'font-semibold text-red-600' : ''}`}>{isOverdue ? 'Overdue: ' : 'Due: '}{dueDate}</p>
                         </div>
@@ -200,17 +207,17 @@ function TaskList(){
 
 
     return(    
-        <div className=" h-screen p-0 m-0 box-border">
+        <div className="p-0 m-0 box-border">
 
            {/* Sidebar Section */}
             <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 
 
-            {/* Header Section*/}
             <Header onOpenSidebar={openSidebar}/> 
+            {/* Header Section*/}
 
             {/* Main container */}
-            <div className="pt-23 px-5 py-5">
-                <div className=" flex justify-between items-center">
+            <div className="h-screen overflow-auto pt-23 px-5 py-5">
+                <div className=" flex justify-between items-center ">
                     <h1 className="text-4xl text-gray-800 font-bold">My Tasks</h1>
                     <Link 
                         to={'/createtask'}
