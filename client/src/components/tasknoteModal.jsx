@@ -39,8 +39,8 @@ function TaskNoteModal({ task, onClose, onSaveNote, existingNotes = [], onDelete
                 <div 
                     className=" bg-white rounded-lg shadow-xl w-4/5 max-w-md p-6 overflow-y-auto max-h-110"
                 >
-                    <div className="overflow-hidden flex justify-between items-center mb-4">
-                        <h2 className="overflow-hidden text-ellipsis text-xl font-bold">Task: {task.title}</h2>
+                    <div className=" flex justify-between items-center mb-4">
+                        <h2 className="whitespace-nowrap overflow-hidden text-ellipsis text-xl font-bold">Task: {task.title}</h2>
                         <img src={Close} alt="close" className="h-6 cursor-pointer" onClick={onClose} />
                     </div>
 
