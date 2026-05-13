@@ -2,7 +2,7 @@ import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
 import Logo from '../pages/styles/assets/trackr-logo.svg';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Header({ onOpenSidebar }){
     const { user, logout } = useTasks();
@@ -18,7 +18,7 @@ function Header({ onOpenSidebar }){
 
     return(
         
-        <div className="t-0 r-0 header bg-[#097204] fixed w-full py-2 px-5 border-b-4 border-amber-500 z-100">
+        <div className={`t-0 r-0 header bg-[#097204] fixed w-full py-2 px-5 border-b-4 border-amber-500 z-100`}>
             <div className='flex justify-between'>
                 
                 <div className='flex items-center gap-4'>
@@ -32,24 +32,24 @@ function Header({ onOpenSidebar }){
                         className='w-10 h-10 hover:cursor-pointer'
                         onClick={onOpenSidebar}/>
                 </div>    
-                <div className='hidden md:flex flex-row items-center gap-10 justify-end text-lg text-white font-semibold'>
+                <div className='hidden md:flex flex-row items-center gap-2 justify-end text-lg text-white font-semibold'>
                     <span>
-                        <Link to="/dashboard" className={`${currentLoocation=== 'dashboard' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Dashboard</Link>
+                        <Link to="/dashboard" className={`${currentLoocation=== 'dashboard' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Dashboard</Link>
                     </span>
                     <span>
-                        <Link to="/calendar" className={`${currentLoocation === 'calendar' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Calendar</Link>
+                        <Link to="/calendar" className={`${currentLoocation === 'calendar' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Calendar</Link>
                     </span>
                     <span>
-                        <Link to="/tasklist" className={`${currentLoocation === 'tasklist' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Tasks</Link>
+                        <Link to="/tasklist" className={`${currentLoocation === 'tasklist' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Tasks</Link>
                     </span>
                     <span>
-                        <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-full transition duration-200`}>Diary</Link>
+                        <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Diary</Link>
                     </span>
                     {user && (
                         <span>
                             <button 
                                 onClick={handleLogout}
-                                className='p-2 hover:bg-[#075e02] rounded-full transition duration-200 hover:cursor-pointer'
+                                className='p-2 hover:bg-[#075e02] rounded-xl transition duration-200 hover:cursor-pointer px-4'
                             >
                                 Logout
                             </button>

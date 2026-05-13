@@ -238,7 +238,7 @@ function Dashboard(){
 
     
     return (
-        <div className="bg-white  m-0 p-0">
+        <div className="bg-white m-0 p-0">
 
             {/* Sidebar Section */}
             <Sidebar isOpen={isOpen} onClose={closeSidebar}/> 
@@ -247,7 +247,7 @@ function Dashboard(){
             <Header onOpenSidebar={openSidebar}/> 
             
 
-            <div className="h-screen overflow-auto main-container px-8 pt-25 grid grid-cols-1 gap-4">
+            <div className="h-screen overflow-auto main-container pt-25 px-8 grid grid-cols-1 gap-4">
 
                 <div className="card">
                     <h2 className="text-4xl font-bold text-gray-800">Welcome {user.name}</h2>

@@ -27,7 +27,8 @@ function ProtectedRoute({ children }) {
 
 function App() {
   return (
-    <>     
+    <>   
+        
         <TaskProvider>
             <BrowserRouter>
                 <Routes>

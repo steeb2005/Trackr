@@ -221,7 +221,7 @@ function TaskList(){
                     <h1 className="text-4xl text-gray-800 font-bold">My Tasks</h1>
                     <Link 
                         to={'/createtask'}
-                        className="flex justify-center items-center p-4 bg-gray-900 hover:bg-gray-900/80 text-white rounded-3xl text-xl hover:cursor-pointer">
+                        className="flex justify-center items-center px-3 py-3 bg-gray-900 hover:bg-gray-900/80 text-white rounded-3xl text-xl hover:cursor-pointer">
                             <img src={AddIcon} alt="add_svg" className="h-6 mr-1"/>
                             New task
                     </Link>
@@ -254,15 +254,15 @@ function TaskList(){
                     
                     {tasks.length === 0 ? (
                         <div className="flex justify-center text-center text-black text-xl h-screen">
-                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
+                            <h1 className="text-gray-600 text-md font-semibold mt-20">No Tasks Created</h1>
                         </div>
                     ) :  isClicked === 'Active' && activeTasks === 0 ? (
                         <div className="flex justify-center text-center text-black text-xl h-screen">
-                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Active Tasks</h1>
+                            <h1 className="text-gray-600 text-md font-semibold mt-20">No Active Tasks</h1>
                         </div>
                     ) : isClicked === 'Done' && completedTask === 0 ? (
                         <div className="flex justify-center text-center text-black text-xl h-screen">
-                            <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Completed Tasks</h1>
+                            <h1 className="text-gray-600 text-md font-semibold mt-20">No Completed Tasks</h1>
                         </div>
                     ) : (filteredTasks.map(task => (
                             <TaskEntry
