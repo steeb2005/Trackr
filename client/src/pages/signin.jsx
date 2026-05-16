@@ -14,6 +14,8 @@ function SignIn(){
     const [error, setError] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     }
@@ -22,14 +24,29 @@ function SignIn(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
         try {
             await register(name, email, password);
-            console.log(name, email, password); // gets the credentials of the login
             navigate('/dashboard');
         } catch (err) {
+            setIsLoading(false);
             setError(err.response?.data?.message || 'Registration failed');
         }
     };
+
+
+
+
+    if (isLoading) {
+        return (
+            <div className="flex overflow-hidden justify-center flex-col items-center bg-[#097204] min-h-screen">
+                <div className="bg-white p-8 rounded-lg w-full max-w-md text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#097204] mx-auto mb-4"></div>
+                    <p className="text-gray-700">Signing you in...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex overflow-hidden justify-center flex-col items-center bg-[#097204] min-h-screen">     
@@ -74,6 +91,7 @@ function SignIn(){
                         ></input>
                         <img src={showPassword ? openEye : closeEye} onClick={toggleShowPassword} alt="eye" className='h-6 w-6 hover:cursor-pointer'/>
                     </fieldset>
+
                     {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                     
                     <button type="submit" className="mt-4 text-md w-full bg-[#097204] text-white font-bold py-2 px-4 rounded-md hover:bg-[#097204c4] hover:cursor-pointer transition">Sign Up</button>
