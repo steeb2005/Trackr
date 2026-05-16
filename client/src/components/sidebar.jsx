@@ -8,6 +8,9 @@ function Sidebar({isOpen, onClose}){
     const location = useLocation();
     
     const handleLogout = () => {
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedPassword');
+        localStorage.setItem('rememberMe', 'false');
         logout();
         navigate('/');
         onClose();

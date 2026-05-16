@@ -1,6 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
 import { useState } from 'react';
+import openEye from '../pages/styles/assets/eye-svgrepo-com.svg';
+import closeEye from '../pages/styles/assets/eye-slash-svgrepo-com.svg';
+
 
 function SignIn(){
     const navigate = useNavigate();
@@ -9,6 +12,12 @@ function SignIn(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,18 +62,18 @@ function SignIn(){
                             required
                         ></input>
                     </fieldset>
-                    <fieldset className="border border-gray-300 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
+                    <fieldset className="border flex border-gray-300 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
                         <legend className="text-sm md:text-md font-semibold text-gray-600 px-1">Password</legend>
                         <input 
-                            type="password" 
+                            type={showPassword ? 'text' : 'password'} 
                             className="text-sm md:text-md w-full px-2 py-1 border-0 focus:outline-none bg-transparent" 
                             placeholder="Create a password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         ></input>
+                        <img src={showPassword ? openEye : closeEye} onClick={toggleShowPassword} alt="eye" className='h-6 w-6 hover:cursor-pointer'/>
                     </fieldset>
-                    
                     {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                     
                     <button type="submit" className="mt-4 text-md w-full bg-[#097204] text-white font-bold py-2 px-4 rounded-md hover:bg-[#097204c4] hover:cursor-pointer transition">Sign Up</button>
