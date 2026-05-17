@@ -1,22 +1,11 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
 import Logo from '../pages/styles/assets/trackr-logo.svg';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useTasks } from '../context/TaskContext';
-import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 function Header({ onOpenSidebar }){
-    const { user, logout } = useTasks();
-    const navigate = useNavigate();
     const location = useLocation();
 
-    const handleLogout = () => {
-        localStorage.removeItem('rememberedEmail');
-        localStorage.removeItem('rememberedPassword');
-        localStorage.setItem('rememberMe', 'false');
-        logout();
-        navigate('/');
-    };
-
+    
     const currentLoocation = location.pathname.substring(1) || 'dashboard';
 
     return(
@@ -48,21 +37,14 @@ function Header({ onOpenSidebar }){
                     <span>
                         <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Diary</Link>
                     </span>
-                    {user && (
-                        <span>
-                            <button 
-                                onClick={handleLogout}
-                                className='p-2 hover:bg-[#075e02] rounded-xl transition duration-200 hover:cursor-pointer px-4'
-                            >
-                                Logout
-                            </button>
-                        </span>
-                    )}
+                    <span>
+                        <Link to="/account" className={`${currentLoocation === 'account' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Account</Link>
+                    </span>
                 </div>
-               
             </div>
         </div>
     )
 }
 
 export default Header
+               

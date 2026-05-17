@@ -247,10 +247,10 @@ function Dashboard(){
             <Header onOpenSidebar={openSidebar}/> 
             
 
-            <div className="h-screen overflow-auto main-container pt-25 px-8 grid grid-cols-1 gap-4">
+            <div className="h-screen overflow-auto main-container pt-22 px-8 grid grid-cols-1 gap-4">
 
                 <div className="card">
-                    <h2 className="text-4xl font-bold text-gray-800">Welcome {user.name}</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Welcome {user.name}</h2>
                     <p className="text-gray-600 text-lg">{formattedDate}</p>
                 </div>
 

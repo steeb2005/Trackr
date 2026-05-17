@@ -1,20 +1,8 @@
 import Burger from '../pages/styles/assets/burger-menu-svgrepo-com.svg';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useTasks } from '../context/TaskContext';
 
 function Sidebar({isOpen, onClose}){  
-    const { user, logout } = useTasks();
-    const navigate = useNavigate();
     const location = useLocation();
-    
-    const handleLogout = () => {
-        localStorage.removeItem('rememberedEmail');
-        localStorage.removeItem('rememberedPassword');
-        localStorage.setItem('rememberMe', 'false');
-        logout();
-        navigate('/');
-        onClose();
-    };
 
 
     const currentLocation = location.pathname.substring(1) || 'dashboard';
@@ -48,13 +36,9 @@ function Sidebar({isOpen, onClose}){
                         <span className={`py-1 px-2 rounded-md ${currentLocation === 'diary' ? 'bg-[#075e02]' : ''}`}>
                             <Link to="/diary" onClick={onClose}>Diary</Link>
                         </span> 
-                        {user && (
-                            <span className='py-1 px-2 rounded-md'>
-                                <button onClick={handleLogout} >
-                                    Logout
-                                </button>
-                            </span>
-                        )}
+                        <span className={`py-1 px-2 rounded-md ${currentLocation === 'account' ? 'bg-[#075e02]' : ''}`}>
+                            <Link to="/account" onClick={onClose}>Account</Link>
+                        </span> 
                     </nav>
                     
                 </div>

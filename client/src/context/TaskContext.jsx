@@ -87,6 +87,23 @@ export function TaskProvider({ children }) {
         setTaskNotes({});
     };
 
+    const deleteAccount = async () => {
+        try {
+            await axios.delete(`${API_URL}/auth`);
+            // On success – clear everything client-side
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            setUser(null);
+            setTasks([]);
+            setNotes({});
+            setDiaryEntries([]);
+            setTaskNotes({});
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        }
+    };
+
     const addTask = useCallback(async (task) => {
         const tempId = `temp-${Date.now()}`;
         const tempTask = { ...task, id: tempId };
@@ -142,6 +159,20 @@ export function TaskProvider({ children }) {
             setError(err.message);
         }
     }, [tasks]);
+
+    const updateUser = useCallback(async (userData) => {
+        const prevUser = user;
+        // ✅ Merge with existing user data
+        setUser(prev => ({ ...prev, ...userData }));
+        try {
+            const response = await axios.put(`${API_URL}/auth/update`, userData);
+            setUser(response.data); // server response should have the full updated user
+        } catch (err) {
+            setUser(prevUser);
+            setError(err.message);
+            throw err; // ✅ Re-throw so Account.jsx catch block actually fires
+        }
+    }, [user]);
 
     const saveNotes = useCallback(async (datekey, noteList) => {
         const prevNotes = notes;
@@ -244,7 +275,9 @@ export function TaskProvider({ children }) {
         user,
         login,
         register,
-        logout
+        logout,
+        updateUser,
+        deleteAccount
     };
 
     return (

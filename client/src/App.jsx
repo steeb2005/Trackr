@@ -8,8 +8,8 @@ import CreateTask from './pages/createTask'
 import Diary from './pages/diary'
 import CreateDiaryEntry from './pages/createDiary'
 import Login from './pages/login'
+import Account from './pages/account'
 import { TaskProvider, useTasks } from './context/TaskContext'
-
 // Protected Route wrapper
 function ProtectedRoute({ children }) {
     const { user, loading } = useTasks();
@@ -78,6 +78,14 @@ function App() {
                     element={
                         <ProtectedRoute>
                         <CreateDiaryEntry/>
+                        </ProtectedRoute>
+                    } 
+                    />
+                    <Route 
+                    path='/account' 
+                    element={
+                        <ProtectedRoute>
+                        <Account/>
                         </ProtectedRoute>
                     } 
                     />
