@@ -187,10 +187,10 @@ function Account(){
                     </div>
                 )}
 
-                <div className="flex flex-row gap-2" >
+                <div className="flex flex-row gap-2">
 
-                    <div className="flex flex-col md:flex-row bg-gray-300 rounded-xl p-3 min-w-50 md:min-w-150">
-                        <div className="overflow-auto bg-gray-400 rounded-full w-23 h-23 md:w-30 md:h-30 flex items-end justify-center">
+                    <div className="flex flex-col md:flex-row bg-gray-200 rounded-xl p-3 min-w-50 md:min-w-150">
+                        <div className="overflow-auto bg-gray-300 rounded-full w-23 h-23 md:w-30 md:h-30 flex items-end justify-center">
                             <img 
                                 src={User} 
                                 alt="user" 
@@ -208,7 +208,7 @@ function Account(){
                         <a href="#editinfo" >
 
                             <div 
-                                className="hover rounded-xl p-3 bg-gray-300 hover:cursor-pointer hover:bg-gray-300/80 flex flex-col items-center text-center"
+                                className="hover rounded-xl p-3 bg-gray-200 hover:cursor-pointer hover:bg-gray-300/80 flex flex-col items-center text-center h-full"
                                 
                             >
                                 <img src={Pencil} alt="Pencil" className="w-10 h-10"/>
@@ -217,7 +217,7 @@ function Account(){
                         </a>
 
                         <div 
-                            className="bg-red-700 hover:cursor-pointer hover:bg-red-700/80 p-3 text-white rounded-xl flex items-center justify-center"
+                            className="bg-red-700 hover:cursor-pointer hover:bg-red-700/80 p-3 text-white rounded-xl flex items-center justify-center h-full"
                             onClick={() => setConfirmDeleteUser(true)}
                         >
                             <p className="font-semibold text-center">Delete Account</p>
