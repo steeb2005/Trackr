@@ -10,8 +10,8 @@ const app = express();
 // Change CORS_ORIGIN for development
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  credentials: true
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    credentials: true
 }));
 
 app.use(express.json());
@@ -19,9 +19,9 @@ app.use(express.json());
 // MongoDB Connection
 const MONGOURL = process.env.MONGOURL;
 const connectOptions = {
-  dbName: 'trackrdb',
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
+    dbName: 'trackrdb',
+    serverSelectionTimeoutMS: 5000,
+    socketTimeoutMS: 45000,
 }
 
 mongoose

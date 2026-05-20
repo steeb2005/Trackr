@@ -100,7 +100,7 @@ function Account(){
             await deleteAccount();
             navigate('/login');
         } catch (err) {
-            setisLoading(false);
+            setIsLoading(false);
             alert("Failed to delete account: " + (err.message || "Unknown error"));
         }
     };
@@ -316,39 +316,5 @@ function Account(){
     
     
 }
-
-
-/*
-
-
-            {confirmDeleteUser && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-                    <div className="bg-white rounded-2xl p-8 max-w-md w-confirmDeleteUser mx-4 shadow-2xl">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                            Delete Account
-                        </h2>
-                        <p className="text-gray-600 mb-6">
-                            This will permanently remove your account,all your tasks, notes, diary entries, and task notes. This action cannot be undone.
-                        </p>
-                        <div className="flex justify-end gap-3">
-                            <button
-                                className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100"
-                                onClick={() => setConfirmDeleteUser(false)}
-                                type="button"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="px-5 py-2.5 rounded-xl bg-red-700 text-white font-semibold hover:bg-red-700/80"
-                                onClick={handleDeleteAccount}
-                                type="button"
-                            >
-                                Yes, Delete My Account
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
- */
 
 export default Account
