@@ -112,8 +112,12 @@ function CreateTask(){
         }else{
             addTask({...taskData, id: Date.now()});
         }
-
-        navigate('/tasklist');
+        
+        navigate('/tasklist', {
+            state: {
+                showSuccess: true
+            }
+        });
     };
 
     {/* Categories */}

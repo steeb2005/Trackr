@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Header from "../components/header"
 import Sidebar from "../components/sidebar"
 import { useSidebar } from '../hooks/useSidebar'
@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 import {useTasks} from '../context/TaskContext';
 import TrashRed from './styles/assets/trash-red-svgrepo-com.svg'
 import Trash from './styles/assets/trash-blank-alt-svgrepo-com.svg';
+import Check from './styles/assets/circle-check-filled-svgrepo-com.svg';
+import { useLocation } from "react-router-dom";
+
+
+
 
 function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiaryEntry}){
     const [isExpanded, setIsExpanded] = useState(false);
@@ -56,9 +61,33 @@ function DiaryEntry({entryId, entryTitle, entryContent, entryDate, ondeleteDiary
 function Diary(){
 
     const navigate = useNavigate();
-
+    const location = useLocation();
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const {diaryEntries, deleteDiaryEntry} = useTasks();
+
+    const [deleteEntryNotif, setDeleteEntryNotif] = useState(false);
+    const [successEntryNotif, setSuccesEntryNotif] = useState(false);
+
+
+    const handleDeleteEntry = (entryId) => {
+        deleteDiaryEntry(entryId);
+        setDeleteEntryNotif(true);
+        setTimeout(() => {
+            setDeleteEntryNotif(false);
+        }, 3000);
+    }
+
+    useEffect(() =>{
+        if(location.state?.showSuccess){
+            setSuccesEntryNotif(true);
+
+            window.history.replaceState({}, document.title);
+
+            setTimeout(() => {
+                setSuccesEntryNotif(false);
+            }, 3000);
+        }
+    }, [location])
 
     return(
         <div className="m-0 p-0">
@@ -67,6 +96,25 @@ function Diary(){
 
             {/* Header Section*/}
             <Header onOpenSidebar={openSidebar}/>     
+
+            {/* Success Notification */}
+            {successEntryNotif && (
+                <div className="fixed bottom-2 -right-15 transform -translate-x-1/2 -translate-y-1/2 z-999">
+                    <div className="bg-green-500 text-white shadow-md flex flex-row justify-center items-center rounded-lg p-4 animate-slide-in-out-side"> {/*animate-slide-in-out-side*/}
+                        <img src={Check} alt="check" className="h-6 w-6"/>
+                        <h1 className="font-semibold text-center text-md md:text-xl ml-2">Entry Created</h1>
+                    </div>
+                </div>
+            )}
+            {/* Delete Notification */}
+            {deleteEntryNotif && (
+                <div className="fixed bottom-2 -right-15 transform -translate-x-1/2 -translate-y-1/2 z-999">
+                    <div className="bg-red-500 text-white shadow-md flex flex-row justify-center items-center rounded-lg p-4 animate-slide-in-out-side"> {/*animate-slide-in-out-side*/}
+                        <img src={Check} alt="check" className="h-6 w-6"/>
+                        <h1 className="font-semibold text-center text-md md:text-xl ml-2">Entry Deleted</h1>
+                    </div>
+                </div>
+            )}
 
             <div className="main-container w-full h-screen overflow-auto px-5 pt-26">
 
@@ -95,7 +143,7 @@ function Diary(){
                                 entryTitle={entry.title}
                                 entryContent={entry.content}  
                                 entryDate={entry.date}
-                                ondeleteDiaryEntry={() => deleteDiaryEntry(entry.id)}
+                                ondeleteDiaryEntry={() => handleDeleteEntry(entry.id)}
                             />
                         ))
                     )}

@@ -33,7 +33,11 @@ function CreateDiaryEntry(){
 	const handleSave = () => {
 		if(!title.trim() || !content.trim()) return;
 		addDiaryEntry({title: title.trim(), content: content.trim()});
-		navigate('/diary');
+		navigate('/diary', {
+			state: {
+				showSuccess: true
+			}
+		});
 	}
 
 	return(

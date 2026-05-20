@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import TaskNoteModal from "../components/tasknoteModal";
 import TrashRed from './styles/assets/trash-red-svgrepo-com.svg';
 import { useLocation } from "react-router-dom";
-
+import Check from './styles/assets/circle-check-filled-svgrepo-com.svg';
 /*
     FIX TEXT OVERLAP 
     - notesModal
@@ -52,6 +52,7 @@ function TaskEntry({
         }
     }, [location.hash, task.id]);
 
+    
     const handleToggle = () => {
         if (isCooldown) return; 
 
@@ -139,10 +140,11 @@ function TaskList(){
     
     // use to navigate
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [ isClicked, setIsClicked ] = useState('All');
-
+    
     const { tasks, deleteTask, toggleTaskComplete, saveTaskNotes, taskNotes, deleteTaskNote } = useTasks();
     {/* Handles the event click for the filter */}
     const handleClick = (buttonId) =>{
@@ -151,6 +153,32 @@ function TaskList(){
 
     const [selectedTaskForNotes, setSelectedTaskForNotes] = useState(null);
     const [showTaskNoteModal, setShowTaskNoteModal] = useState(false);
+    const [showDeleteNotif, setShowDeleteNotif] = useState(false);
+    const [showSuccessNotif, setShowSuccessNotif] = useState(false);
+
+    const handleDeleteTask = (taskId) => {
+        deleteTask(taskId);
+        setShowDeleteNotif(true);
+        
+        setTimeout(() => {
+            setShowDeleteNotif(false);
+        }, 3000);
+    }
+
+    // Shows success notification
+    useEffect(() => {
+        if(location.state?.showSuccess){
+            setShowSuccessNotif(true);
+
+            // Resets state 
+            window.history.replaceState({},document.title)
+
+            setTimeout(() => {
+                setShowSuccessNotif(false);
+            }, 3000);
+        }
+    }, [location])
+
 
     const openTaskNotes = (task) => {
         setSelectedTaskForNotes(task);
@@ -162,19 +190,7 @@ function TaskList(){
         setSelectedTaskForNotes(null);
     }
 
-    /* Test Dummy task creator 
-    const addTask = () => {
-        const newTask = {
-            id: Date.now(),
-            title: `New Task ${tasks.length + 1}`,
-            description: "Task Description",
-            dueDate: "Feb 27, 2026",
-            isComplete: false
-        }
-        setTasks([...tasks, newTask]);
-    };
-    */
-
+    
     {/* Gets the total tasks, Active Tasks, and Completed Tasks respectively*/}
     const totalTaskCount = tasks.length;
     const totalActiveTaskCount = tasks.filter(task => !task.isComplete).length;
@@ -217,6 +233,29 @@ function TaskList(){
 
             {/* Main container */}
             <div className="h-screen overflow-auto pt-23 px-5 py-5">
+
+                {/* Delete Notification */}
+                {showDeleteNotif && (
+                    <div className="fixed bottom-2 -right-15 transform -translate-x-1/2 -translate-y-1/2 z-999">
+                        <div className="bg-red-500 text-white shadow-md flex flex-row justify-center items-center rounded-lg p-4 animate-slide-in-out-side"> {/*animate-slide-in-out-side*/}
+                            <img src={Check} alt="check" className="h-6 w-6"/>
+                            <h1 className="font-semibold text-center text-md md:text-xl ml-2">Task Deleted</h1>
+                        </div>
+                    </div>
+                )}
+
+
+                {/* Success Notification */}
+                {showSuccessNotif && (
+                    <div className="fixed bottom-2 -right-15 transform -translate-x-1/2 -translate-y-1/2 z-999">
+                        <div className="bg-green-500 text-white shadow-md flex flex-row justify-center items-center rounded-lg p-4 animate-slide-in-out-side"> {/*animate-slide-in-out-side*/}
+                            <img src={Check} alt="check" className="h-6 w-6"/>
+                            <h1 className="font-semibold text-center text-md md:text-xl ml-2">Task Created</h1>
+                        </div>
+                    </div>
+                )}
+
+
                 <div className=" flex justify-between items-center ">
                     <h1 className="text-4xl text-gray-800 font-bold">My Tasks</h1>
                     <Link 
@@ -273,13 +312,14 @@ function TaskList(){
                                 isComplete={task.isComplete}
                                 onToggleComplete = {() => toggleTaskComplete(task.id)}
                                 dueDate={task.dueDate}
-                                onDelete={() => deleteTask(task.id)}
+                                onDelete={() => handleDeleteTask(task.id)}
                                 category={task.category}
                                 priority={task.priority}
                                 isOverdue={isOverdue(task.dueDate)}
                                 onEdit={() => handleEdit(task)}
                                 onNotesClick={() => openTaskNotes(task)}
                                 existingNotes={taskNotes[task.id] || []}
+                                
                             />
                     )))}
 

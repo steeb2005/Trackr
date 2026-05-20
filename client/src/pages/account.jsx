@@ -90,6 +90,7 @@ function Account(){
         localStorage.removeItem('rememberedEmail');
         localStorage.removeItem('rememberedPassword');
         localStorage.setItem('rememberMe', 'false');
+        setIsLoading(true);
         logout();
         navigate('/');
     };
