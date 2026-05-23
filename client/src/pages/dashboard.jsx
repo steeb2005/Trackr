@@ -254,14 +254,14 @@ function Dashboard(){
                     <p className="text-gray-600 text-lg">{formattedDate}</p>
                 </div>
 
-                <div className="card bg-[#097204] px-8 py-5 rounded-lg shadow-md mt-2 shadow-amber-500">
+                <div className="card bg-layout-primary px-8 py-5 rounded-lg shadow-md mt-2 shadow-amber-500">
                     <h2 className="text-2xl font-semibold text-white">Daily Quotes</h2>
                     <p className="text-md text-white mt-4">{quote}</p>
                 </div>
                 <h1 className='text-3xl mt-3 mb-5 font-bold text-gray-800'>Your Progress</h1>
             
             
-                <div className="card p-4 rounded-lg border-[#097204] border">
+                <div className="card p-4 rounded-lg border-layout-primary border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Todays Tasks</h2>
                         <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'>{completedToday.length}/{todayTasksTotal.length}</div>
@@ -269,7 +269,7 @@ function Dashboard(){
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={ todayTasksTotal.length === 0 ? {width: 0} : {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
+                        <div className='bg-layout-primary h-full rounded-xl duration-300' style={ todayTasksTotal.length === 0 ? {width: 0} : {width: `${(completedToday.length / todayTasksTotal.length) * 100}%`} }></div>
                     </div>
 
                     <div className='tasks-displayer'>
@@ -279,10 +279,16 @@ function Dashboard(){
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <HashLink smooth to={`/tasklist/#${task.id}`}>
-                                        <li className='whitespace-nowrap flex items-center mt-2 bg-gray-300 hover:bg-gray-200 rounded-md px-3 py-1'>
-                                            <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5 mr-5'/>
-                                            <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full mr-2`}></div>
+                                        <li className='whitespace-nowrap flex flex-col mt-2 bg-gray-300 hover:bg-gray-300/80 rounded-md px-3 py-1'>
                                             <p className='w-full overflow-hidden text-ellipsis font-semibold text-md md:text-lg'>{task.title}</p>
+                                            <div className='flex flex-row items-center mt-2'>
+                                                <div className='p-2 bg-gray-400/40 rounded-md items-center mr-2'>
+                                                    <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full`}></div>
+                                                </div>
+                                                <div className='p-1 bg-gray-400/40 rounded-md items-center mr-2'>
+                                                    <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5'/>
+                                                </div>
+                                            </div>
                                         </li>    
                                     </HashLink>
                                 ))}
@@ -294,7 +300,7 @@ function Dashboard(){
                 </div>
 
 
-                <div className="card p-4 rounded-lg border-[#097204] border">
+                <div className="card p-4 rounded-lg border-layout-primary border">
                     <div className='flex justify-between items-center'>
                         <h2 className="text-xl font-semibold text-gray-800">Overall Progress</h2>
                         <div className='px-4 py-1 rounded-full bg-gray-300 justitfy-center text-md font-semibold'>{completedThisMonth.length}/{tasksThisMonth.length}</div>
@@ -302,7 +308,7 @@ function Dashboard(){
 
                     {/* Progress Bar Portion*/}
                     <div className='bar w-full h-3 mt-2 rounded-xl bg-gray-400'>
-                        <div className='bg-[#097204] h-full rounded-xl duration-300' style={tasksThisMonth.length === 0 ? {width: 0} : {width: `${(completedThisMonth.length / tasksThisMonth.length) * 100}%`} }></div>
+                        <div className='bg-layout-primary h-full rounded-xl duration-300' style={tasksThisMonth.length === 0 ? {width: 0} : {width: `${(completedThisMonth.length / tasksThisMonth.length) * 100}%`} }></div>
                     </div>
                     <p className="text-gray-600 mt-2">Total completions for the month</p>
                 </div>

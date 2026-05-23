@@ -9,7 +9,7 @@ function Sidebar({isOpen, onClose}){
 
     return (       
     
-        <div className={`bg-[#097204] z-999 h-screen w-45  fixed top-0 right-0 transition-transform duration-300 ease-in-out
+        <div className={`bg-layout-primary z-999 h-screen w-45  fixed top-0 right-0 transition-transform duration-300 ease-in-out
             ${isOpen ? 'translate-x-0' : 'translate-x-full' }
             `}> 
 
@@ -34,7 +34,7 @@ function Sidebar({isOpen, onClose}){
                             <Link to="/tasklist" onClick={onClose}>Tasks</Link>
                         </span>
                         <span className={`py-1 px-2 rounded-md ${currentLocation === 'diary' ? 'bg-[#075e02]' : ''}`}>
-                            <Link to="/diary" onClick={onClose}>Diary</Link>
+                            <Link to="/diary" onClick={onClose}>Journal</Link>
                         </span> 
                         <span className={`py-1 px-2 rounded-md ${currentLocation === 'account' ? 'bg-[#075e02]' : ''}`}>
                             <Link to="/account" onClick={onClose}>Account</Link>

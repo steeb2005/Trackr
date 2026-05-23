@@ -120,7 +120,7 @@ function Diary(){
 
                 <div className="header-bar flex items-center border-b-3 pb-2 border-gray-400 shadow-xl">
                     <img src={Book} alt="book_svg" className="h-15"/>
-                    <h1 className="md:text-3xl text-2xl font-bold ml-2 text-gray-900">My Diary</h1>
+                    <h1 className="md:text-3xl text-2xl font-bold ml-2 text-gray-900">Journal</h1>
                     <button 
                         className="hover:cursor-pointer flex bg-gray-900 hover:bg-gray-900/80 ml-auto px-3 py-3 md:text-xl text-lg font-semibold text-white items-center rounded-full"
                         onClick={() => navigate('/create-diary-entry')}

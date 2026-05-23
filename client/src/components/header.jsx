@@ -10,7 +10,7 @@ function Header({ onOpenSidebar }){
 
     return(
         
-        <div className={`t-0 r-0 header bg-[#097204] fixed w-full py-2 px-5 border-b-4 border-amber-500 z-100`}>
+        <div className={`t-0 r-0 header bg-layout-primary fixed w-full py-2 px-5 border-b-4 border-amber-500 z-100`}>
             <div className='flex justify-between'>
                 
                 <div className='flex items-center gap-4'>
@@ -35,7 +35,7 @@ function Header({ onOpenSidebar }){
                         <Link to="/tasklist" className={`${currentLoocation === 'tasklist' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Tasks</Link>
                     </span>
                     <span>
-                        <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Diary</Link>
+                        <Link to="/diary" className={`${currentLoocation === 'diary' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Journal</Link>
                     </span>
                     <span>
                         <Link to="/account" className={`${currentLoocation === 'account' ? 'bg-[#075e02]' : ''} p-2 hover:bg-[#075e02] rounded-xl transition duration-200 px-4`}>Account</Link>

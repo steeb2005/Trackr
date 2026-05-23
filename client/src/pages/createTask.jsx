@@ -12,7 +12,10 @@ import Critical from './styles/assets/criticalflag-svgrepo-com.svg';
 import { useTasks } from "../context/TaskContext";
 import { useLocation } from "react-router-dom";
 
-
+/*
+    TODO:
+    - Update database to add time 
+*/
 
 function CreateTask(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
