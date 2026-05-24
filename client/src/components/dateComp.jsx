@@ -45,7 +45,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
 
     return(
        
-        <div key={task.id} className={`mr-2 flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
+        <div key={task.id} className={`mr-2 flex min-h-20 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate, task.dueTime) ? 'bg-[#FF3538]' : categoryColor[task.category]} rounded-xl shadow-md mb-5`}> 
             <div className={`bg-gray-50 ml-2 rounded-lg w-full`}>
                 <div className="flex items-start gap-3 p-6">
                     <div className="mt-1 items-center bg-gray-600 flex justify-center accent-gray-700 outline-none text-white rounded p-1 text-xs mr-2">
@@ -61,7 +61,7 @@ function TaskEntryCalendar({ task, onToggleComplete}){
                         
                         <h2 className={`overflow-hidden text-ellipsis text-lg md:text-2xl font-semibold  ${task.isComplete ? 'text-gray-400': 'text-gray-900'} `}>{task.title}</h2>
                         <p className={`overflow-hidden text-ellipsis text-sm md:text-xl ${task.isComplete ? 'text-gray-400' : 'text-gray-600' }`}>{task.description}</p>
-                        <h1 className='text-red-600 font-semibold'>{isOverdue(task.dueDate) ? 'overdue' : ''}</h1>
+                        <h1 className={`${task.isComplete ? 'text-gray-400' : 'text-red-600'} font-semibold`}>{task.isComplete ? 'Completed' : isOverdue(task.dueDate, task.dueTime) ? 'overdue' : ''}</h1>
                     
                     </HashLink>
                 </div>

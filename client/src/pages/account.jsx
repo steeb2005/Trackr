@@ -107,7 +107,7 @@ function Account(){
     };
 
 
-    const totalOverdueTasks = tasks.filter(task => isOverdue(task.dueDate) && !task.isComplete).length;
+    const totalOverdueTasks = tasks.filter(task => isOverdue(task.dueDate, task.dueTime) && !task.isComplete).length;
     const totalCompleted = tasks.filter(task => task.isComplete).length;
     const totalActiveTasks = tasks.filter(task => !task.isComplete).length;
 

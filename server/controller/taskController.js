@@ -10,6 +10,22 @@ const getTasks = async (req, res) => {
     }
 };
 
+
+const getTaskDueTime = async (req, res) => {
+    try {
+        const task = await Task.findOne(
+            { _id: req.params.id, userId: req.userId },
+            { dueTime: 1 }                          // project only what's needed
+        );
+        if (!task) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+        res.json({ dueTime: task.dueTime });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 // POST new task for logged-in user
 const createTask = async (req, res) => {
     try {
@@ -61,5 +77,6 @@ module.exports = {
     getTasks,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    getTaskDueTime
 };

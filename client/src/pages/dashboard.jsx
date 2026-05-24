@@ -15,20 +15,11 @@ import Alert from './styles/assets/alert-svgrepo-com.svg'
 import { HashLink } from 'react-router-hash-link';
 
 /*
-TODO:
-    - Fix DatePick css missing in createTask (on deployed) (Done)
-    - Fix dashboard status bar going full green despite no tasks listed (DONE)
-    - Add Notes for TaskEntry (DONE)
-    - Add Edit on TaskEntry (DONE)
-    - Be able to save notes (DONE)
-    - Finish Diary Page (DONE)
-    - Fix login/Signin for mobile (DONE)
-    - Add Login/SignIn function (DONE)
-    - Implement backend for each user (DONE)
-    
-    - Make server usable in vercel using vercels serverless function 
-        or deploy backend to railway and frontend to vercel (DONE)
+    TODO:
+    - Add a timer feature where it will show how much time left until the task is due. (mins if its less than an hour, hours if it's more than an hour)
 */
+
+
 
 
 const quotes = [
@@ -130,9 +121,6 @@ function useFormattedDate(){
 
 
 
-
-
-
 function Dashboard(){    
 
     const quote = useQuote();
@@ -210,7 +198,7 @@ function Dashboard(){
     const completedToday = tasksDueToday.filter(task => task.isComplete); 
 
 
-    const totalOverdueTasks = tasks.filter(task => isOverdue(task.dueDate) && !task.isComplete).length;
+    const totalOverdueTasks = tasks.filter(task => isOverdue(task.dueDate, task.dueTime) && !task.isComplete).length;
 
     // gets the total completed tasks
     const totalCompleted = tasks.filter(task => task.isComplete).length;
@@ -236,7 +224,28 @@ function Dashboard(){
         critical: CriticalPriority
     };
 
-    
+    const minutesToDue = (task) => {
+        if(isOverdue(task.dueDate, task.dueTime)) return 'Overdue';
+
+        const [time, meridiem] = task.dueTime.split(' ');
+        let [h, m] = time.split(':').map(Number);
+        if (meridiem === 'PM' && h !== 12) h += 12;
+        if (meridiem === 'AM' && h === 12) h = 0;    
+
+        const dueDateTime = new Date(task.dueDate);
+        dueDateTime.setHours(h, m, 0, 0);
+        
+        const now = new Date();
+        
+        const minutes = Math.floor((dueDateTime - now) / 60000);
+        if(minutes > 60){
+            return `Due: ${task.dueTime}`;
+        }else{
+            return `Due: ${minutes} mins`;
+        }
+    }
+
+
     return (
         <div className="bg-white m-0 p-0">
 
@@ -279,14 +288,17 @@ function Dashboard(){
                             <ul className='mt-1'>
                                 {todayActiveTasks.map(task => (
                                     <HashLink smooth to={`/tasklist/#${task.id}`}>
-                                        <li className='whitespace-nowrap flex flex-col mt-2 bg-gray-300 hover:bg-gray-300/80 rounded-md px-3 py-1'>
+                                        <li className='whitespace-nowrap flex flex-col mt-1 bg-gray-200 hover:bg-gray-200/80 rounded-md px-3 py-1'>
                                             <p className='w-full overflow-hidden text-ellipsis font-semibold text-md md:text-lg'>{task.title}</p>
                                             <div className='flex flex-row items-center mt-2'>
-                                                <div className='p-2 bg-gray-400/40 rounded-md items-center mr-2'>
-                                                    <div className={`w-3 h-3 ${categoryColor[task.category]} rounded-full`}></div>
-                                                </div>
-                                                <div className='p-1 bg-gray-400/40 rounded-md items-center mr-2'>
+                                                <div className='p-1 bg-gray-300 rounded-md items-center mr-2'>
                                                     <img src={priorityFlag[task.priority]} alt="priority_flag" className='w-5 h-5'/>
+                                                </div>
+                                                <div className='p-2 bg-gray-300 rounded-md items-center mr-2'>
+                                                    <div className={`w-3 h-3 ${isOverdue(task.dueDate, task.dueTime) ? 'bg-red-500' : categoryColor[task.category]} rounded-full`}></div>
+                                                </div>
+                                                <div className={`p-1 bg-gray-300 ${isOverdue(task.dueDate, task.dueTime) ? 'text-red-600' : ''} rounded-md text-md font-semibold items-center mr-2`}>
+                                                    {minutesToDue(task)}
                                                 </div>
                                             </div>
                                         </li>    

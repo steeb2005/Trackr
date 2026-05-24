@@ -104,7 +104,7 @@ function TaskEntry({
                         <h2 className={`break-words overflow-hidden text-xl md:text-2xl font-bold ${isComplete ? 'text-gray-500' : 'text-gray-900 '}`}>{title}</h2>
                         <p className="break-words text-gray-600 text-xl">{description}</p>
                         <div className={`inline-block bg-gray-300 text-gray-600 text-sm p-2 mt-2 rounded-full items-center`}>
-                            <p className={`${isOverdue ? 'font-semibold text-red-600' : ''}`}>{isOverdue ? 'Overdue: ' : 'Due: '}{dueDate}</p>
+                            <p className={`${isComplete ? 'font-semibold text-gray-500' : isOverdue ? 'font-semibold text-red-600' : ''}`}>{isComplete ? 'Completed ' : isOverdue ? 'Overdue: ' : 'Due: '}{dueDate} {task.dueTime}</p>
                         </div>
 
                         {/* Add icons for these */}
@@ -196,17 +196,28 @@ function TaskList(){
     const totalActiveTaskCount = tasks.filter(task => !task.isComplete).length;
     const totalCompletedTaskCount = tasks.filter(task => task.isComplete).length;
 
+    // Sets the priority order
+    const priorityOrder = {
+        critical: 4,
+        high: 3,
+        medium: 2,
+        low: 1
+    };
+    // Sorts the tasks by priority descending
+    const sortedTasks = tasks.sort((a, b) => {
+        return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
 
     {/* Filters the tasks */}
 
     const getFilteredTasks = () => {
         if(isClicked == 'Active'){
-            return tasks.filter(task => !task.isComplete);
+            return sortedTasks.filter(task => !task.isComplete);
         }
         if(isClicked == 'Done'){
-            return tasks.filter(task => task.isComplete)
+            return sortedTasks.filter(task => task.isComplete)
         }
-        return tasks;
+        return sortedTasks;
     }
 
     const completedTask = tasks.filter(task => task.isComplete).length;
@@ -219,7 +230,6 @@ function TaskList(){
     const handleEdit = (task) => {
         navigate('/createtask', { state: {taskToEdit: task}});
     };
-
 
 
     return(    
@@ -315,7 +325,7 @@ function TaskList(){
                                 onDelete={() => handleDeleteTask(task.id)}
                                 category={task.category}
                                 priority={task.priority}
-                                isOverdue={isOverdue(task.dueDate)}
+                                isOverdue={isOverdue(task.dueDate, task.dueTime)}
                                 onEdit={() => handleEdit(task)}
                                 onNotesClick={() => openTaskNotes(task)}
                                 existingNotes={taskNotes[task.id] || []}
@@ -332,29 +342,4 @@ function TaskList(){
     )
 }
 
-
 export default TaskList
-
-
-/*
-{tasks.length === 0 ? (
-    <div className="flex justify-center text-center text-black text-xl h-screen">
-        <h1 className="text-gray-600 text-2xl font-semibold mt-20">No Tasks Created</h1>
-    </div>
-) : (filteredTasks.map(task => (
-        <TaskEntry
-            key={task.id}
-            title={task.title}
-            description={task.description}
-            isComplete={task.isComplete}
-            onToggleComplete = {() => toggleTaskComplete(task.id)}
-            dueDate={task.dueDate}
-            onDelete={() => deleteTask(task.id)}
-            category={task.category}
-            priority={task.priority}
-            isOverdue={isOverdue(task.dueDate)}
-            onEdit={() => handleEdit(task)}
-            onNotesClick={() => openTaskNotes(task)}
-        />
-)))}
-*/

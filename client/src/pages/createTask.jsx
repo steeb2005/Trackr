@@ -20,8 +20,10 @@ import { useLocation } from "react-router-dom";
 function CreateTask(){
     const { isOpen, openSidebar, closeSidebar } = useSidebar();
     const [startDate, setStartDate] = useState(new Date());
-    const [priority, SetPriority] = useState('low');
+    const [priority, setPriority] = useState('low');
 
+
+    const [dueTime, setDueTime] = useState(null);
     /*
     const year = startDate.getFullYear();
     const month = startDate.getMonth() + 1;
@@ -52,7 +54,7 @@ function CreateTask(){
             setDescription(task.description);
             setStartDate(new Date(task.dueDate));
             setSelectedCategory(task.category);
-            SetPriority(task.priority);
+            setPriority(task.priority);
             setIsEditing(true);
             setEditingTaskId(task.id);
         }
@@ -75,6 +77,14 @@ function CreateTask(){
             year:'numeric',
             month:'numeric',
             day:'numeric'
+        });
+    }
+
+    const formatTime = (time) => {
+        return time.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
         });
     }
 
@@ -103,6 +113,7 @@ function CreateTask(){
             title: title.trim(),
             description: description.trim() || '', // optional field
             dueDate: formatDate(startDate),
+            dueTime: dueTime ? formatTime(dueTime) : '11:59 PM',
             priority: priority,
             category: selectedCategory,
             isComplete: false,
@@ -136,12 +147,21 @@ function CreateTask(){
 
 
 
+    const [dropDown, setDropDown] = useState(false);
+    const handleDropDown = () => {
+        setDropDown(!dropDown);
+    }
 
+    const handlePrioritySelect = (priority) => {
+        setPriority(priority);
+    }
 
-
-
-
-
+    const priorityFlag = {
+        low: Low,
+        medium: Medium,
+        high: High,
+        critical: Critical
+    };
 
 
     return(
@@ -152,7 +172,7 @@ function CreateTask(){
 
             <div className="main-container h-screen overflow-auto pt-23 px-5">
                 <div className="header flex items-center">
-                    <div className="back border border-[#097204] rounded-xl shadow-md p-3">
+                    <div className="back border border-layout-primary rounded-xl shadow-md p-3">
                         <Link to={'/tasklist'}>
                             <img src={Back} alt="back_svg" className="h-10" />
                         </Link>
@@ -197,13 +217,20 @@ function CreateTask(){
                         
                         <DatePicker
                             selected={startDate}
-                            onChange={(date) => setStartDate(date)}
+                            onChange={(date) => {
+                                setStartDate(date);
+                                setDueTime(date);
+                            }}
                             className="outline-none -z-10" 
+                            showTimeInput
+                            timeIntervals={15}
+                            dateFormat="MM/dd/yyyy h:mm aa" 
                         />
                       
                     </div>
                 </div>
-
+                
+                {/* 
                 <div className="priority mt-5">
                     <h1 className="text-2xl font-bold text-gray-900 mb-3">Set Priority</h1>
                     <select 
@@ -218,6 +245,37 @@ function CreateTask(){
                         <option value="critical" className="text-xs p-0">Critical</option>
                     </select>
                 </div>
+                */}
+
+                <div className="mt-5">
+                    <h1 className="text-2xl font-bold text-gray-900 mb-3">Set Priority</h1>
+                    <div 
+                        className="bg-gray-100 text-xl w-full py-5 px-8 border border-gray-600 rounded-xl appearance-none cursor-pointer"
+                        onClick={handleDropDown}
+                    >
+                        <div className="flex items-center">
+                            <img src={priorityFlag[priority]} alt='priority_svg' className="h-5 w-5 mr-2" /> {priority}
+                        </div>
+                    </div>
+                    {dropDown && (
+                        <div className="sticky w-full mt-2 bg-white border  border-gray-300 rounded-xl shadow-lg max-h-60">
+                            <div onClick={() => handlePrioritySelect('low')} value="low" className={`flex items-center px-8 py-3 cursor-pointer ${priority === 'low' && 'bg-gray-300'}`}>
+                                <img src={Low} alt="low_svg" className="h-5 w-5 mr-5"/> Low
+                            </div>
+                            <div onClick={() => handlePrioritySelect('medium')} value="medium" className={`flex items-center px-8 py-3 cursor-pointer ${priority === 'medium' && 'bg-gray-300'}`}>
+                                <img src={Medium} alt="medium_svg" className="h-5 w-5 mr-5"/> Medium
+                            </div>
+                            <div onClick={() => handlePrioritySelect('high')} value="high" className={`flex items-center px-8 py-3 cursor-pointer ${priority === 'high' && 'bg-gray-300'}`}>
+                                <img src={High} alt="high_svg" className="h-5 w-5 mr-5"/> High
+                            </div>
+                            <div onClick={() => handlePrioritySelect('critical')} value="critical" className={`flex items-center px-8 py-3 cursor-pointer ${priority === 'critical' && 'bg-gray-300'}`}>
+                                <img src={Critical} alt="critical_svg" className="h-5 w-5 mr-5"/> Critical
+                            </div>
+                                
+                        </div>
+                    )}
+                    
+                </div>
 
                
                 <div className={`grid-container grid grid-cols-3 mt-5 gap-3 ${errors.category ? 'border-2 border-red-600 rounded-xl' : ''}`}>
@@ -225,7 +283,7 @@ function CreateTask(){
                     {categories.map((category) => (
                         <button
                             key={category.id}
-                            className={`hover:ring-green-700 hover:ring-2 ${selectedCategory === category.id ? 'ring-green-700 ring-2 border-none' : ''} hover:cursor-pointer hover:border-none w-full items-center flex flex-col justify-center border border-gray-600 rounded-xl p-5`}
+                            className={`hover:ring-green-700 hover:ring-2 ${selectedCategory === category.id ? 'ring-green-700 ring-2 border-none transform scale-102' : ''} hover:cursor-pointer hover:border-none w-full items-center flex flex-col justify-center border border-gray-600 rounded-xl p-5 duration-100`}
                             onClick={() => {
                                 setSelectedCategory(category.id);
                                 setErrors(prev => ({...prev, category: undefined})); // clears error upon clicking
@@ -259,35 +317,3 @@ function CreateTask(){
 
 export default CreateTask
 
-
-/* Original setCreateTask before editTask
-    const handleCreateTask = () => {
-        if(!validateForm()){
-            return;
-        }
-
-        const newTask = {
-            id: Date.now(),
-            title: title.trim(),
-            description: description.trim() || '', // optional field
-            dueDate: formatDate(startDate),
-            priority: priority,
-            category: selectedCategory,
-            isComplete: false,
-            createdAt: new Date().toISOString(),
-            completedAt: null
-        }
-
-        // TEST {console.log(newTask.title, newTask.description, newTask.dueDate, newTask.createdAt, newTask.category)}
-
-        Test to see if tasks is stored
-        setTasks([...tasks, newTask]);
-        console.log(newTask); 
-        
-
-        addTask(newTask);
-
-
-        navigate('/tasklist');
-    };
-*/

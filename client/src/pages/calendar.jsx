@@ -225,7 +225,7 @@ function Calendar(){
                                     {hasTasks && (
                                         <div className='flex gap-1'>
                                             {dayTasks.slice(0, 3).map((task) => (
-                                                <div key={task.id} className={`w-2 h-2 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate) ?  'bg-[#FF3538]' : categoryColor[task.category]} rounded-full`}></div>
+                                                <div key={task.id} className={`w-2 h-2 ${task.isComplete ? 'bg-gray-600' : isOverdue(task.dueDate, task.dueTime) ?  'bg-[#FF3538]' : categoryColor[task.category]} rounded-full`}></div>
                                             ))}
                                         </div>
                                     )}
