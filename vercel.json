@@ -8,6 +8,6 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "env": {
-    "VITE_API_URL": "https://trackr-4aru.onrender.com"
+    "VITE_API_URL": "https://trackr-f4ww.onrender.com"
   }
 }
