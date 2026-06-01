@@ -122,9 +122,9 @@ function Account(){
 
     if(isLoading) {
         return (
-            <div className="flex overflow-hidden justify-center flex-col items-center bg-[#097204] min-h-screen">
+            <div className="flex overflow-hidden justify-center flex-col items-center bg-layout-primary min-h-screen">
                 <div className="bg-white p-8 rounded-lg w-full max-w-md text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#097204] mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-layout-primary mx-auto mb-4"></div>
                     <p className="text-gray-700">Redirecting you to login...</p>
                 </div>
             </div>
@@ -250,7 +250,7 @@ function Account(){
                 <h1 className="font-bold text-2xl ml-2 mb-2">Edit personal info</h1>
 
                 <form id="editinfo" onSubmit={handleSubmit}>   
-                    <fieldset className="border border-gray-300 mt-5 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
+                    <fieldset className="border border-gray-300 mt-5 rounded-md p-3 mb-4 focus-within:border-layout-primary transition-colors">
                         <legend className="text-sm md:text-md font-semibold text-gray-600 px-1">Name</legend>
                         <input 
                             name="name"
@@ -261,7 +261,7 @@ function Account(){
                             placeholder="Enter your name"
                         ></input>
                     </fieldset>
-                    <fieldset className="border border-gray-300 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
+                    <fieldset className="border border-gray-300 rounded-md p-3 mb-4 focus-within:border-layout-primary transition-colors">
                         <legend className="text-sm md:text-md font-semibold text-gray-600 px-1">Email</legend>
                         <input 
                             name="email"
@@ -273,7 +273,7 @@ function Account(){
                             
                         ></input>
                     </fieldset>
-                    <fieldset className="border flex border-gray-300 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
+                    <fieldset className="border flex border-gray-300 rounded-md p-3 mb-4 focus-within:border-layout-primary transition-colors">
                         <legend className="text-sm md:text-md font-semibold text-gray-600 px-1">Password</legend>
                         <input 
                             name="password"
@@ -285,7 +285,7 @@ function Account(){
                         ></input>
                     </fieldset>
 
-                    <fieldset className="border flex border-gray-300 rounded-md p-3 mb-4 focus-within:border-[#097204] transition-colors">
+                    <fieldset className="border flex border-gray-300 rounded-md p-3 mb-4 focus-within:border-layout-primary transition-colors">
                         <legend className="text-sm md:text-md font-semibold text-gray-600 px-1">Confirm password</legend>
                         <input 
                             name="confirmPassword"

@@ -8,6 +8,7 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "env": {
-    "VITE_API_URL": "trackr-production-02c9.up.railway.app"
+    "VITE_API_URL": "trackr-production-02c9.up.railway.app",
+    "RENDER_API_URL": "https://trackr-d8xc.onrender.com"
   }
 }

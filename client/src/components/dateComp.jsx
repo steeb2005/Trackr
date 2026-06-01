@@ -167,7 +167,7 @@ function DateComponent( {year, month, day, onClose, onSaveNote, existingNotes = 
                         onChange={(e) => setNewNote(e.target.value)}/>
                     <div className='flex justify-center mt-5'>
                         <button 
-                            className='text-white text-md px-21 py-2 bg-[#097204] rounded-4xl hover:cursor-pointer hover:bg-[#097204]/70'
+                            className='text-white text-md px-21 py-2 bg-layout-primary rounded-4xl hover:cursor-pointer hover:bg-layout-primary/70'
                             onClick={handleAddNote}>Add Note</button>
                     </div>
                 </div>

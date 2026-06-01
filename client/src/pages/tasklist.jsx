@@ -279,9 +279,9 @@ function TaskList(){
                 <div 
                     className="white-body md:text-2xl text-lg font-bold rounded-xl p-3 bg-gray-100 shadow-md/20 flex justify-around mt-5 mb-5"
                 >
-                    <button onClick={() => handleClick('All')} className={`duration-100 hover:bg-[#097204] ${isClicked === 'All' ? 'bg-[#097204]' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>All ({totalTaskCount})</button>
-                    <button onClick={() => handleClick('Active')} className={`duration-100 hover:bg-[#097204] ${isClicked === 'Active' ? 'bg-[#097204]' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>Active ({totalActiveTaskCount})</button>
-                    <button onClick={() => handleClick('Done')} className={`duration-100 hover:bg-[#097204] ${isClicked === 'Done' ? 'bg-[#097204]' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>Done ({totalCompletedTaskCount})</button>
+                    <button onClick={() => handleClick('All')} className={`duration-100 hover:bg-layout-primary ${isClicked === 'All' ? 'bg-layout-primary' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>All ({totalTaskCount})</button>
+                    <button onClick={() => handleClick('Active')} className={`duration-100 hover:bg-layout-primary ${isClicked === 'Active' ? 'bg-layout-primary' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>Active ({totalActiveTaskCount})</button>
+                    <button onClick={() => handleClick('Done')} className={`duration-100 hover:bg-layout-primary ${isClicked === 'Done' ? 'bg-layout-primary' : ''} hover:cursor-pointer px-3 py-2 items-center rounded-xl`}>Done ({totalCompletedTaskCount})</button>
                 </div>
 
                 {/* Tasks display Section */}

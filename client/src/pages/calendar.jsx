@@ -212,7 +212,7 @@ function Calendar(){
                                     className={`
                                         text-md w-11 h-12 md:w-13 md:h-14 xl:w-16 xl:h-16 xl:text-2xl border rounded-xl shadow-md/20 flex justify-center flex-col items-center 
                                         ${day ? 'border-gray-400  bg-white hover:cursor-pointer hover:bg-gray-100' : 'bg-gray-200 border-0'}
-                                        ${isCurrentDay ? 'ring-2 ring-[#097204]' : ''}
+                                        ${isCurrentDay ? 'ring-2 ring-layout-primary' : ''}
                                         ${hasNotes ? 'border-yellow-400 border-2' : ''}
                                         `}  
                                 >
